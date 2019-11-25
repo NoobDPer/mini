@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>登录</title>
+    <link href="css/login.css" type="text/css" rel="stylesheet">
+    <style type="text/css">
+    </style>
+</head>
+<body>
+
+<div class="login">
+    <div class="logo">
+        <img src="img/logo/logo.png" style="width: 200px;height: 180px">
+    </div>
+
+    <div class="message">极简主义</div>
+    <div id="darkbannerwrap"></div>
+
+    <form id="login-form" method="post" onsubmit="return false;">
+        <!--<input id="username" name="username" placeholder="用户名" type="text"-->
+        <!--autocomplete="off">-->
+        <!--<hr class="hr15">-->
+        <input id="username" name="username" placeholder="用户名" type="text"
+               autocomplete="off">
+        <hr class="hr15">
+        <input id="password" name="password" placeholder="密码" type="password"
+                   autocomplete="off">
+        <hr class="hr15">
+        <!--<input id="password" name="password" placeholder="密码" type="password"-->
+        <!--autocomplete="off">-->
+        <hr class="hr15">
+        <button style="width: 100%;" type="submit"
+                onclick="login(this)">登录
+        </button>
+        <hr class="hr20">
+        <!--<span id="register" style="color: grey"><a href="sign.html">免费注册</a></span>-->
+        <span id="info" style="color: red"></span>
+    </form>
+
+
+</div>
+
+</body>
+<script src="js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="./layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use(['layer', 'util'], function () {
+        var layer = layui.layer;
+        var util = layui.util;
+
+        if (top !== self) {
+            top.location.href = '/login.html';
+        }
+
+        var token = localStorage.getItem("token");
+        token && loginByToken(token);
+    });
+
+
+    function loginByToken(token) {
+        $.ajax({
+            type: 'get',
+            url: '/users/current?token=' + token,
+            success: function (data) {
+                localStorage.setItem('user', JSON.stringify(data));
+                location.href = '/index.html';
+            },
+            error: function (xhr) {
+                var msg = xhr.responseText;
+                var response = JSON.parse(msg);
+                var code = response.code;
+                if (+code === 401) {
+                    localStorage.removeItem("token");
+                }
+            }
+        });
+    }
+
+    function login(obj) {
+        $(obj).prop("disabled", true);
+
+        var username = $.trim($('#username').val());
+        var password = $.trim($('#password').val());
+        if (!username || !password) {
+            layer.msg('用户名/密码不能为空');
+            $(obj).prop("disabled", false);
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '/login',
+                data: $("#login-form").serialize(),
+                success: function (data) {
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("userId", data.userId);
+                    loginByToken(data.token);
+                },
+                error: function (xhr) {
+                    var msg = xhr.responseText;
+                    var response = JSON.parse(msg);
+                    layer.msg(response.message);
+                    $(obj).prop("disabled", false);
+                }
+            });
+        }
+    }
+
+
+</script>
+</html>

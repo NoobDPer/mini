@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>设置账套数据</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/vg.css">
+    <link rel="stylesheet" type="text/css" href="../../css/font-awesome/css/font-awesome.css" media="all"/>
+    <style type="text/css">
+        .bookset-data-label-width {
+            width: 95px;
+        }
+
+        .upload-data-package span {
+            padding-left: 5px;
+        }
+
+        .fa-files-o {
+            size: 15px;
+        }
+
+        /*.download-data-package {
+            display: inline-block;
+            width: 100%;
+            margin: 9px 0;
+            line-height: 20px;
+            color: #01AAED !important;
+            text-overflow: ellipsis;
+            overflow-x: hidden;
+            white-space: nowrap;
+        }*/
+    </style>
+</head>
+<body class="vg-body">
+<div class="layui-card">
+    <div class="layui-card-header">企业基本信息</div>
+    <div class="layui-card-body">
+        <form class="layui-form" id="form-show-company" lay-filter="form-filter-show-company">
+            <input type="hidden" name="id">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">纳税人名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="taxpayerName" disabled
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">纳税人识别号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="taxpayerCode" disabled
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">账套编码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="booksetCode" disabled
+                               class="layui-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">适用会计制度</label>
+                    <div class="layui-input-inline">
+                        <select name="applicableAccountingType"
+                                lay-filter="select-filter-accounting" disabled>
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">纳税人资格</label>
+                    <div class="layui-input-inline">
+                        <select name="taxpayerSeniorityType"
+                                lay-filter="select-filter-taxpayer-seniority" disabled>
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">启用期间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="startDate" disabled>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-card">
+    <div class="layui-card-header">账套数据包标签</div>
+    <div class="layui-card-body">
+        <form class="layui-form" id="form-data-package" lay-filter="form-filter-data-package">
+            <input type="hidden" name="id">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required bookset-data-label-width">账套数据类型</label>
+                    <div class="layui-input-inline">
+                        <select name="booksetType" lay-verify="required"
+                                lay-filter="select-filter-bookset-type">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required bookset-data-label-width">申报期类型</label>
+                    <div class="layui-input-inline">
+                        <select name="reportPeriodType" lay-verify="required"
+                                lay-filter="select-filter-report-teriod-type">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required bookset-data-label-width">所属账期</label>
+                    <div class="layui-input-inline">
+                        <select name="booksetMonth" lay-verify="required"
+                                lay-filter="select-filter-bookset-month">
+                            <option value="">请选择</option>
+                            <option value="1">2019年1月</option>
+                            <option value="2">2019年2月</option>
+                            <option value="3">2019年3月</option>
+                            <option value="4">2019年4月</option>
+                            <option value="5">2019年5月</option>
+                            <option value="6">2019年6月</option>
+                            <option value="7">2019年7月</option>
+                            <option value="8">2019年8月</option>
+                            <option value="9">2019年9月</option>
+                            <option value="10">2019年10月</option>
+                            <option value="11">2019年11月</option>
+                            <option value="12">2019年12月</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required bookset-data-label-width">适用行业</label>
+                    <div class="layui-input-inline">
+                        <select name="applicableIndustry" lay-verify="required"
+                                lay-filter="select-filter-applicable-industry">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required bookset-data-label-width">存货核算</label>
+                    <div class="layui-input-inline">
+                        <select name="stockAccounting" lay-verify="required"
+                                lay-filter="select-filter-stock-accounting">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">进项发票</label>
+                    <div class="layui-input-inline">
+                        <input type="text" placeholder="输入进项发票数" class="layui-input" name="inputInvoice">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">销项发票</label>
+                    <div class="layui-input-inline">
+                        <input type="text" placeholder="输入销项发票数" class="layui-input" name="outputInvoice">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">费用票据</label>
+                    <div class="layui-input-inline">
+                        <input type="text" placeholder="输入费用票据数" class="layui-input" name="costInvoice">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">银行账单</label>
+                    <div class="layui-input-inline">
+                        <input type="text" placeholder="输入银行账单数" class="layui-input" name="bankBill">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">账套难度</label>
+                    <div class="layui-input-inline">
+                        <select name="difficultyLevel"
+                                lay-filter="select-filter-difficulty-level">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label bookset-data-label-width">账套数据包</label>
+                    <div class="layui-input-inline upload-data-package-btn-group">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block vg-text-align-right">
+                    <button class="layui-btn" lay-filter="submit-filter-bookset-data" lay-submit>保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-card">
+    <div class="layui-card-header">设置税表答案</div>
+    <div class="layui-card-body">
+        <table id="table-bookset-tax-table"></table>
+    </div>
+</div>
+
+<script id="laytpl-table-ops" type="text/html">
+    <div class="layui-btn-group">
+        {{# if(d.setStatusId === '1'){ }}
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-edit"
+                data-id="{{ d.modelId }}" data-editable="true" data-tax-table-model-id="{{ d.taxTableModelId }}"
+                data-tab-title="编辑税表数据" data-tab-id="tab-id-set-tax-table"
+                title="编辑">
+            <i class="layui-icon">&#xe642;</i>
+        </button>
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-clear"
+                data-id="{{ d.modelId }}" data-tax-table-model-id="{{ d.taxTableModelId }}"
+                title="清空税表数据">
+            <i class="layui-icon">&#xe666;</i>
+        </button>
+        {{# } else { }}
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-import"
+                data-id="{{ d.modelId }}" data-tax-table-model-id="{{ d.taxTableModelId }}"
+                title="导入">
+            <i class="layui-icon">&#xe67c;</i>
+        </button>
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-set"
+                data-id="{{ d.modelId }}" data-editable="true" data-tax-table-model-id="{{ d.taxTableModelId }}"
+                data-tab-id="tab-id-set-tax-table" data-tab-title="设置税表数据"
+                title="设置">
+            <i class="layui-icon">&#xe614;</i>
+        </button>
+        {{# } }}
+    </div>
+</script>
+
+<script id="laytpl-table-show-ops" type="text/html">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-show"
+                data-id="{{ d.modelId }}" data-editable="false" data-tax-table-model-id="{{ d.taxTableModelId }}"
+                data-tab-title="查看税表数据" data-tab-id="tab-id-show-tax-table"
+                title="查看详情">
+            <i class="layui-icon">&#xe615;</i>
+        </button>
+    </div>
+</script>
+
+<script id="laytpl-upload-data-package" type="text/html">
+        {{# if (d.url) { }}
+            <div class="layui-btn-group">
+                <button type="button" class="layui-btn layui-btn-primary download-data-package" title="下载"
+                        data-url="{{ d.url }}" vg-download>
+                    <i class="layui-icon">&#xe601;</i>
+                </button>
+                <button type="button" class="layui-btn layui-btn-primary copy-data-package-url" title="复制连接"
+                        data-clipboard-text="{{ d.url }}">
+                    <i class="fa fa-files-o" aria-hidden="true"></i>
+                </button>
+                {{# if (d.editable) { }}
+                    <button type="button" class="layui-btn layui-btn-primary upload-data-package" title="重新上传">
+                        <i class="layui-icon">&#xe67c;</i>
+                    </button>
+                {{# } }}
+            </div>
+        {{# } else { }}
+            {{# if (d.editable) { }}
+                <div class="layui-btn-group">
+                    <button type="button" class="layui-btn layui-btn-primary upload-data-package" title="上传">
+                        <i class="layui-icon">&#xe67c;</i>
+                    </button>
+                </div>
+            {{# }}}
+        {{# } }}
+</script>
+</body>
+
+<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/libs/clipboard.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript" src="../../js/my/bookset-data/save.js"></script>
+</html>

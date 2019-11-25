@@ -1,0 +1,12 @@
+package {beanPackageName};
+
+{import}
+
+/**
+ * @author auto-generate
+ */
+public class {beanName} extends BaseEntity<Long> {
+
+{filelds}
+{getset}
+}

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>学生账号管理</title>
+	<link rel="stylesheet" href="../../layui/css/layui.css"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="../../css/vg.css">
+	<style type="text/css">
+		.dz-user-label-width {
+			width: 110px;
+		}
+
+		.selected-count-label {
+			line-height: 36px;
+		}
+
+		.vg-layer-btn-group {
+			padding: 10px 10px 0 10px;
+		}
+
+		.vg-layer-btn-group button {
+			height: 28px;
+			line-height: 28px;
+			padding: 0 15px;
+		}
+
+		.vg-layer-btn-group button.btn0 {
+			border-color: #1E9FFF;
+			background-color: #1E9FFF;
+			color: #fff;
+		}
+
+		#user-counts-tip {
+			display: none;
+		}
+	</style>
+</head>
+<body class="vg-body">
+<div class="layui-row">
+	<div class="layui-row">
+		<div class="layui-col-md12">
+			<blockquote class="layui-elem-quote vg-hide" id="capacity-text"></blockquote>
+		</div>
+	</div>
+	<div class="layui-col-md8">
+		<form class="layui-form vg-table-filter" lay-filter="form-filter-dz-user">
+			<div class="layui-input-inline vg-search-inline">
+				<input type="text" name="condition" placeholder="学生登录账号"
+					   class="layui-input vg-search">
+				<i class="vg-search-icon layui-icon">&#xe615;</i>
+			</div>
+			<div class="layui-input-inline" data-vg-check-role="3">
+				<select name="status" lay-filter="select-filter-status">
+					<option value="">账号状态</option>
+					<option value="1">启用</option>
+					<option value="2">关闭</option>
+				</select>
+			</div>
+			<div class="layui-input-inline" data-vg-check-role="-1, 1, 2">
+				<select name="createUsername" lay-filter="select-filter-create-username">
+					<option value="">创建人</option>
+				</select>
+			</div>
+		</form>
+	</div>
+
+	<div class="layui-col-md4 vg-text-align-right">
+		<button type="button" class="layui-btn" id="btn-add-dz-user" data-vg-check-role="2,3">新增</button>
+		<button type="button" class="layui-btn" id="btn-batch-del-dz-user" data-vg-check-role="-1,2,3">删除</button>
+		<button type="button" class="layui-btn" id="btn-batch-edit-dz-user" data-vg-check-role="-1,2,3">账号设置</button>
+	</div>
+
+	<div class="layui-row">
+		<table id="table-dz-user"></table>
+	</div>
+</div>
+
+<div class="vg-hide vg-padding-10" id="layer-batch-edit-dz-suer">
+	<form class="layui-form" lay-filter="form-filter-batch-edit-dz-suer">
+		<div class="layui-form-item">
+			<label class="layui-form-label vg-required dz-user-label-width">所选账号数</label>
+			<div class="layui-input-inline">
+				<span class="selected-count-label">40</span>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label vg-required dz-user-label-width">登录密码</label>
+			<div class="layui-input-inline">
+				<input type="text" name="password" class="layui-input" placeholder="输入账号密码" value="123456"
+					   required lay-verify="required|regex"
+					   data-vg-verify-regex="^[A-Za-z0-9]{6,16}$"
+					   data-vg-verify-msg="所设密码须为6-16位的数字或字母组合">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label dz-user-label-width vg-required">账号状态</label>
+			<div class="layui-input-inline">
+				<input type="radio" name="availableStatus" value="1" title="启用" checked>
+				<input type="radio" name="availableStatus" value="2" title="关闭">
+			</div>
+		</div>
+
+		<div class="layui-row vg-text-align-right vg-layer-btn-group">
+			<button class="layui-btn btn0" type="button" lay-submit lay-filter="submit-filter-edit-dz-user">保存
+			</button>
+			<button class="layui-btn layui-btn-primary btn1" type="button">取消</button>
+		</div>
+	</form>
+</div>
+
+<div class="vg-hide vg-padding-10" id="layer-batch-save-dz-user">
+	<form class="layui-form" lay-filter="form-filter-save-dz-user">
+		<input type="hidden" name="id">
+		<div class="layui-form-item">
+			<label class="layui-form-label vg-required dz-user-label-width">学生登录标识</label>
+			<div class="layui-input-inline">
+				<input type="text" name="loginCode" class="layui-input" placeholder="输入账号编码标识"
+					   required lay-verify="required|regex"
+					   data-vg-verify-regex="^[A-Za-z0-9]{1,8}$"
+					   data-vg-verify-msg="学生登录标识应为8位及其以下的字母或数字">
+				<label class="vg-tip">
+					<i class="layui-icon">&#xe60b;</i>
+					<span>学生登录账号为：账号标识+账号编码（0001-账号数）</span>
+				</label>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label vg-required dz-user-label-width">账号数</label>
+			<div class="layui-input-inline">
+				<input type="text" name="userCounts" class="layui-input" placeholder="输入账号数"
+					   required lay-verify="required|number">
+				<label class="vg-tip" id="user-counts-tip">
+					<i class="layui-icon">&#xe60b;</i>
+					<span></span>
+				</label>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label vg-required dz-user-label-width">登录密码</label>
+			<div class="layui-input-inline">
+				<input type="text" name="password" class="layui-input" placeholder="输入账号密码"
+                       required lay-verify="required|regex"
+					   data-vg-verify-regex="^[A-Za-z0-9]{6,16}$"
+					   data-vg-verify-msg="请设置6~16位数字、字母组合的密码">
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label dz-user-label-width vg-required">账号状态</label>
+			<div class="layui-input-inline">
+				<input type="radio" name="availableStatus" lay-filter="lay-filter-available-status-enable" value="1" title="启用">
+				<input type="radio" name="availableStatus" value="2" title="关闭" checked>
+			</div>
+		</div>
+
+		<div class="layui-row vg-text-align-right vg-layer-btn-group">
+			<button class="layui-btn btn0" type="button" lay-submit lay-filter="submit-filter-save-dz-user">保存
+			</button>
+			<button class="layui-btn layui-btn-primary btn1" type="button">取消</button>
+		</div>
+	</form>
+</div>
+
+<script id="laytpl-table-ops" type="text/html">
+	<div class="layui-btn-group">
+		<button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-dz-user-status"
+				data-id="{{ d.id }}" data-status="{{ d.status }}" title="{{ d.status === '1' ? '关闭' : '启用' }}">
+			<i class="layui-icon {{ d.status === '1' ? 'layui-icon-close' : 'layui-icon-ok' }}"></i>
+		</button>
+	</div>
+</script>
+</body>
+
+<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/libs/dayjs.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript" src="../../js/my/dz-user/dz-user.js"></script>
+</html>

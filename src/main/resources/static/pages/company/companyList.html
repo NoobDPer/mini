@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>企业信息配置</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/vg.css">
+    <style type="text/css">
+        /*解决下拉框出现滚动条*/
+        #layer-id-batch-add {
+            overflow: visible;
+        }
+
+        #layer-id-batch-add td {
+            padding: 0;
+        }
+
+        #layer-id-batch-add td input {
+            border: 0;
+        }
+
+        #layer-id-batch-add td > input[type=text] {
+            box-sizing: border-box;
+            padding: 9px 15px;
+            width: 100%;
+            height: 100%;
+        }
+
+        #layer-id-batch-add td.ops {
+            width: 60px;
+            border: 0;
+            padding-left: 10px;
+            background-color: white;
+        }
+
+        #layer-id-batch-add .btn-batch-add {
+            padding: 10px 10px 0 10px;
+        }
+
+        #layer-id-batch-add .btn-batch-add button {
+            height: 28px;
+            line-height: 28px;
+            padding: 0 15px;
+        }
+
+        #layer-id-batch-add .btn-batch-add button.btn0 {
+            border-color: #1E9FFF;
+            background-color: #1E9FFF;
+            color: #fff;
+        }
+
+        /* 表格中错误红色边框 */
+        #layer-id-batch-add td .layui-form-danger+.layui-form-select .layui-input,
+        #layer-id-batch-add td .layui-form-danger:focus {
+            border-width: 1px;
+            border-style: solid;
+        }
+    </style>
+</head>
+<body class="vg-body">
+<div class="layui-row">
+    <div class="layui-col-md8">
+        <form class="layui-form vg-table-filter" lay-filter="form-filter-company">
+            <div class="layui-input-inline vg-search-inline">
+                <input type="text" name="condition" placeholder="账套编码/纳税人名称/纳税识别号"
+                       class="layui-input vg-search">
+                <i class="vg-search-icon layui-icon">&#xe615;</i>
+            </div>
+            <div class="layui-input-inline">
+                <select name="taxpayerSeniorityType" id="select-taxpayer-seniority"
+                        lay-filter="select-filter-taxpayer-seniority">
+                    <option value="">纳税人资格</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="applicableAccountingType" id="select-accounting"
+                        lay-filter="select-filter-accounting">
+                    <option value="">会计制度</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" name="startDate" placeholder="启用期间">
+                <input type="hidden" name="startYear">
+                <input type="hidden" name="startMonth">
+            </div>
+        </form>
+    </div>
+
+    <div class="layui-col-md4 vg-text-align-right">
+        <button type="button" class="layui-btn" id="btn-add-company">新增企业</button>
+        <button type="button" class="layui-btn" id="btn-batch-add-company">批量新增</button>
+        <button type="button" class="layui-btn" id="btn-batch-delete-company">批量删除</button>
+    </div>
+</div>
+
+<div class="layui-row">
+    <table id="table-company"></table>
+</div>
+
+<div class="vg-hide vg-padding-10" id="layer-batch-add">
+    <form class="layui-form" lay-filter="form-filter-batch-add">
+        <table class="layui-table" id="table-batch-add">
+            <thead>
+            <tr>
+                <th style="width: 150px">纳税人名称</th>
+                <th style="width: 150px">纳税人识别号</th>
+                <th style="width: 100px">账套编码</th>
+                <th>纳税人资格</th>
+                <th>会计制度</th>
+                <th>启用期间</th>
+                <th class="vg-hide"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <div class="layui-row vg-text-align-right btn-batch-add">
+            <button class="layui-btn btn0" type="button" lay-submit lay-filter="submit-filter-batch-add">保存</button>
+            <button class="layui-btn layui-btn-primary btn1" type="button">取消</button>
+        </div>
+    </form>
+</div>
+
+<script id="laytpl-table-tr" type="text/html">
+    <tr>
+        <td>
+            <input name="taxpayerName" type="text"
+                   lay-verify="required|regex" required
+                   data-vg-verify-regex="^\S{0,30}$"
+                   data-vg-verify-msg="纳税人名称不能超过30位">
+        </td>
+        <td>
+            <input name="taxpayerCode" type="text"
+                   required lay-verify="required|regex"
+                   data-vg-verify-regex="^[A-Za-z0-9]{15}$|^[A-Za-z0-9]{18}$|^[A-Za-z0-9]{20}$"
+                   data-vg-verify-msg="纳税人识别号应为15、18、20位">
+        </td>
+        <td>
+            <input name="booksetCode" type="text"
+                   lay-verify="required|regex" required
+                   data-vg-verify-regex="^\S{0,15}$"
+                   data-vg-verify-msg="账套编码不能超过15位">
+        </td>
+        <td>
+            <select name="taxpayerSeniorityType" lay-verify="required">
+                <option value="">请选择</option>
+            </select>
+        </td>
+        <td>
+            <select name="applicableAccountingType" lay-verify="required">
+                <option value="">请选择</option>
+            </select>
+        </td>
+        <td>
+            <input type="text" class="layui-input" name="startDate" lay-verify="required">
+        </td>
+        <td class="ops">
+            <a href="javascript:void(0)" class="vg-hide a-ops-add"><i class="layui-icon">&#xe654;</i></a>
+            <a href="javascript:void(0)" class="vg-hide a-ops-del"><i class="layui-icon">&#xe640;</i></a>
+        </td>
+    </tr>
+</script>
+
+<script id="laytpl-table-ops" type="text/html">
+    {{# if (d.editable) { }}
+        <div class="layui-btn-group">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-company-edit" title="编辑"
+                    data-id="{{ d.id }}" data-editable="{{ d.editable}}"
+                    data-tab-title="编辑企业" data-tab-id="tab-id-edit-company">
+                <i class="layui-icon">&#xe642;</i>
+            </button>
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-company-del"
+                    data-id="{{ d.id }}" title="删除">
+                <i class="layui-icon">&#xe640;</i>
+            </button>
+        </div>
+    {{# } else { }}
+        <div class="layui-btn-group">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-company-show" title="查看"
+                    data-id="{{ d.id }}" data-editable="{{ d.editable}}"
+                    data-tab-title="查看企业" data-tab-id="tab-id-show-company">
+                <i class="layui-icon">&#xe615;</i>
+            </button>
+        </div>
+    {{# } }}
+</script>
+</body>
+
+<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/libs/dayjs.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript" src="../../js/my/company/company.js"></script>
+</html>

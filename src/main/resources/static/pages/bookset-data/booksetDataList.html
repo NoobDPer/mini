@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>企业信息配置</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/vg.css">
+    <link rel="stylesheet" type="text/css" href="../../css/font-awesome/css/font-awesome.css" media="all"/>
+</head>
+<body class="vg-body">
+<div class="layui-row">
+    <div class="layui-col-md10">
+        <form class="layui-form vg-table-filter" lay-filter="form-filter-bookset-data">
+            <div class="layui-input-inline vg-search-inline">
+                <input type="text" name="condition" placeholder="账套编码/纳税人名称"
+                       class="layui-input vg-search">
+                <i class="vg-search-icon layui-icon">&#xe615;</i>
+            </div>
+            <div class="layui-input-inline">
+                <select name="booksetType"
+                        lay-filter="select-filter-bookset-type">
+                    <option value="">账套数据类型</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="reportPeriodType"
+                        lay-filter="select-filter-report-teriod-type">
+                    <option value="">申报期类型</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="applicableIndustry"
+                        lay-filter="select-filter-applicable-industry">
+                    <option value="">适用行业</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="difficultyLevel"
+                        lay-filter="select-filter-difficulty-level">
+                    <option value="">账套难度</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="stockAccounting"
+                        lay-filter="select-filter-stock-accounting">
+                    <option value="">存货核算</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="status"
+                        lay-filter="select-filter-status">
+                    <option value="">税表已设比例</option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="layui-col-md2 vg-text-align-right">
+        <button type="button" class="layui-btn" id="btn-clear-bookset-data">清空账套数据</button>
+    </div>
+</div>
+<div class="layui-row">
+    <table id="table-bookset-data"></table>
+</div>
+
+<script id="laytpl-table-ops" type="text/html">
+    <div class="layui-btn-group">
+        {{# if(d.status !== '未设置'){ }}
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-bookset-data-edit"
+                data-id="{{ d.id }}" data-company-id="{{ d.companyId }}" data-editable="true"
+                data-tab-title="编辑账套数据" data-tab-id="tab-id-set-bookset-data"
+                title="编辑账套数据">
+            <i class="layui-icon">&#xe642;</i>
+        </button>
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-bookset-data-del"
+                data-id="{{ d.id }}" title="清空账套数据">
+            <i class="layui-icon">&#xe666;</i>
+        </button>
+        {{# } else { }}
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-bookset-data-set"
+                data-id="{{ d.id }}" data-company-id="{{ d.companyId }}" data-editable="true"
+                data-tab-title="设置账套数据" data-tab-id="tab-id-set-bookset-data"
+                title="设置账套数据">
+            <i class="layui-icon">&#xe614;</i>
+        </button>
+        {{# } }}
+    </div>
+</script>
+
+<script id="laytpl-table-show-ops" type="text/html">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-bookset-data-show"
+                data-id="{{ d.id }}" data-company-id="{{ d.companyId }}" data-editable="false"
+                data-tab-title="查看账套数据" data-tab-id="tab-id-show-bookset-data"
+                title="查看详情">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+    </div>
+</script>
+
+<script id="laytpl-table-upload-data-package" type="text/html">
+        {{# if (d.dataPackageUrl) { }}
+            <div class="layui-btn-group">
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-xs download-data-package" title="下载"
+                        data-url="{{ d.dataPackageUrl }}" vg-download>
+                    <i class="layui-icon">&#xe601;</i>
+                </button>
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-xs copy-data-package-url" title="复制连接"
+                        data-clipboard-text="{{ d.dataPackageUrl }}">
+                    <i class="fa fa-files-o" aria-hidden="true"></i>
+                </button>
+                {{# if (d.editable) { }}
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-xs upload-data-package" title="重新上传"
+                            data-id="{{ d.id }}">
+                        <i class="layui-icon">&#xe67c;</i>
+                    </button>
+                {{# } }}
+            </div>
+        {{# } else { }}
+            {{# if (d.editable) { }}
+                <div class="layui-btn-group">
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-xs upload-data-package" title="上传"
+                            data-id="{{ d.id }}">
+                        <i class="layui-icon">&#xe67c;</i>
+                    </button>
+                </div>
+            {{# } else { }}
+            --
+            {{# } }}
+        {{# } }}
+
+</script>
+
+
+</body>
+
+<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/libs/clipboard.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript" src="../../js/my/bookset-data/bookset-data.js"></script>
+</html>

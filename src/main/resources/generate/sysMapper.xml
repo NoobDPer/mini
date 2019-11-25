@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="{daoPackageName}.{daoName}">
+
+    <resultMap id="BaseDTOResultMap" type="{dtoPackageName}.{dtoName}">
+{resultMapper}
+    </resultMap>
+
+    <select id="listAll" resultMap="BaseDTOResultMap">
+		select * from {table_name} t
+	</select>
+
+</mapper>

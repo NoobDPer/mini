@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户数据统计</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/vg.css">
+    <style type="text/css">
+        .layui-form[lay-filter=form-filter-metric-user] .layui-form-item {
+            margin-bottom: 0 !important;
+        }
+
+        .metric-user-date-range-inline {
+            width: 300px!important;
+        }
+
+        .metric-user-date-range-inline input {
+            width: 180px!important;
+        }
+    </style>
+</head>
+<body class="vg-body">
+
+<div class="layui-row">
+    <div class="layui-col-md10">
+        <form class="layui-form vg-table-filter" lay-filter="form-filter-metric-user">
+            <div class="layui-form-item">
+                <div class="layui-input-inline vg-search-inline">
+                    <input type="text" name="condition" placeholder="学生登录名/当前使用者"
+                           class="layui-input vg-search">
+                    <i class="vg-search-icon layui-icon">&#xe615;</i>
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="order" lay-filter="select-filter-sort">
+                        <option value="">排序规则</option>
+                        <option value="finishCount desc">按完成账套数</option>
+                        <option value="avgMinutes asc">按单账套平均完成时间</option>
+                    </select>
+                </div>
+
+                <div class="layui-input-inline metric-user-date-range-inline">
+                    <label class="layui-form-label">时间段筛选</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="dateRange" class="layui-input" lay-verify="required">
+                        <input type="hidden" name="startTime">
+                        <input type="hidden" name="finishTime">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="layui-col-md2 vg-text-align-right">
+        <button type="button" class="layui-btn" id="btn-show-history">查看历史记录</button>
+    </div>
+</div>
+
+<div class="layui-row">
+    <table id="table-metric-user"></table>
+</div>
+
+<script id="laytpl-table-ops" type="text/html">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-bookset-finished"
+                data-user-id="{{ d.userId }}" title="查看完成账套">
+            <i class="layui-icon">&#xe615;</i>
+        </button>
+    </div>
+</script>
+
+</body>
+
+<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript" src="../../js/my/metric/user.js"></script>
+</html>

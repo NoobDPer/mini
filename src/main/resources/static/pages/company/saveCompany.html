@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>企业信息</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/vg.css">
+    <style type="text/css">
+        .company-label-width {
+            width: 95px;
+        }
+
+        /*解决下拉框出现滚动条*/
+        #layer-id-szjd {
+            overflow: visible;
+        }
+
+        #layer-id-szjd .btn-save-szjd {
+            padding: 10px 10px 0 10px;
+        }
+
+        #layer-id-szjd .btn-save-szjd button {
+            height: 28px;
+            line-height: 28px;
+            padding: 0 15px;
+        }
+
+        #layer-id-szjd .btn-save-szjd button.btn0 {
+            border-color: #1E9FFF;
+            background-color: #1E9FFF;
+            color: #fff;
+        }
+
+        #layer-id-szjd .company-label-width {
+            width: 80px;
+        }
+
+        #layer-id-szjd .layui-input-inline {
+            width: 230px;
+        }
+
+        /* 提示信息漂浮 */
+        #form-save-company .vg-tip {
+            position: absolute;
+            display: none;
+        }
+    </style>
+</head>
+<body class="vg-body">
+<div class="layui-card">
+    <div class="layui-card-header">企业基本信息</div>
+    <div class="layui-card-body">
+        <form class="layui-form" id="form-save-company" lay-filter="form-filter-save-company">
+            <input type="hidden" name="id">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required company-label-width">纳税人名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="taxpayerName" class="layui-input"
+                               lay-verify="required|regex" required
+                               data-vg-verify-regex="^\S{0,30}$"
+                               data-vg-verify-msg="纳税人名称不能超过30位">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required company-label-width">纳税人识别号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="taxpayerCode" class="layui-input"
+                               required lay-verify="required|regex"
+                               data-vg-verify-regex="^[A-Za-z0-9]{15}$|^[A-Za-z0-9]{18}$|^[A-Za-z0-9]{20}$"
+                               data-vg-verify-msg="纳税人识别号应为15、18、20位">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required company-label-width">账套编码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="booksetCode" class="layui-input"
+                               lay-verify="required|regex" required
+                               data-vg-verify-regex="^\S{0,15}$"
+                               data-vg-verify-msg="账套编码不能超过15位">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required company-label-width">适用会计制度</label>
+                    <div class="layui-input-inline">
+                        <select name="applicableAccountingType" lay-filter="select-filter-accounting"
+                                lay-verify="required" data-change-msg="修改会计制度将会重置账套，需要重设税种鉴定和账套数据！">
+                            <option value="">请选择</option>
+                        </select>
+                        <label class="vg-tip">
+                            <span>注：修改会计准则将会删除税种鉴定和账套数据！</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required company-label-width">纳税人资格</label>
+                    <div class="layui-input-inline">
+                        <select name="taxpayerSeniorityType" lay-filter="select-filter-taxpayer-seniority"
+                                lay-verify="required" data-change-msg="修改纳税人资格将会重置账套，需要重设税种鉴定和账套数据！">
+                            <option value="">请选择</option>
+                        </select>
+                        <label class="vg-tip">
+                            <span>注：修改纳税人资格将会删除税种鉴定和账套数据！</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label vg-required company-label-width">启用期间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="startDate" data-change-msg="修改启用期间将会重置账套，需要重设税种鉴定和账套数据！">
+                        <label class="vg-tip">
+                            <span>注：修改启用期间会删除税种鉴定和账套数据！</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block vg-text-align-right">
+                    <button class="layui-btn" id="btn-save-company-form" lay-filter="btn-filter-save-company" lay-submit>保存</button>
+                    <button class="layui-btn vg-hide" id="btn-enable-form">编辑</button>
+                    <button class="layui-btn" id="btn-update-info">完善登记信息</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-card">
+    <div class="layui-card-header">税种鉴定信息</div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote layui-quote-nm">从税表模板配置中选择已有的表套模板，若不存在，则需到税表模板配置中新增税表表套模板</blockquote>
+        <div class="layui-row">
+            <button type="button" class="layui-btn" id="btn-add-szjd">新增税种鉴定</button>
+        </div>
+        <table id="table-szjd"></table>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12 vg-text-align-right">
+        <button class="layui-btn" id="btn-set-zt-data">设置账套数据</button>
+    </div>
+</div>
+
+<div id="layer-save-szjd" class="vg-hide vg-padding-10">
+    <form class="layui-form" lay-filter="form-filter-save-szjd" id="form-save-szjd">
+        <input type="hidden" name="id">
+        <input type="hidden" name="companyId">
+        <div class="layui-form-item">
+            <label class="layui-form-label vg-required company-label-width">税种</label>
+            <div class="layui-input-inline">
+                <select name="taxKindId" lay-filter="select-filter-save-szjd-kind" lay-verify="required">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label vg-required company-label-width">税目</label>
+            <div class="layui-input-inline">
+                <select name="taxSubjectId" lay-filter="select-filter-save-szjd-subject" lay-verify="required"
+                        data-vg-required-dp="taxKindId" data-vg-req-method="getTaxSubjects">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label vg-required company-label-width">纳税期限</label>
+            <div class="layui-input-inline">
+                <select name="taxPeriodId" lay-filter="select-filter-save-szjd-tax-pay-period"
+                        lay-verify="required" >
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label vg-required company-label-width">税表名称</label>
+            <div class="layui-input-inline">
+                <select name="taxTableModelId"
+                        lay-filter="select-filter-save-szjd-tax-table" lay-verify="required"
+                        data-vg-required-dp="companyId,taxKindId,taxSubjectId,taxPeriodId" data-vg-req-method="getTaxIdentify">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label vg-required company-label-width">有效期起</label>
+            <div class="layui-input-inline">
+                <input type="text" name="taxValidPeriodStart" value="2019-01" lay-verify="required" class="layui-input"
+                       disabled>
+            </div>
+        </div>
+        <div class="layui-row vg-text-align-right btn-save-szjd">
+            <button class="layui-btn btn0" type="button" lay-submit lay-filter="submit-filter-save-szjd">保存
+            </button>
+            <button class="layui-btn layui-btn-primary btn1" type="button">取消</button>
+        </div>
+    </form>
+</div>
+
+<script id="laytpl-table-ops" type="text/html">
+    {{# if (d.editable) { }}
+        <div class="layui-btn-group">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-szjd-edit"
+                    data-id="{{ d.id }}" title="编辑">
+                <i class="layui-icon">&#xe642;</i>
+            </button>
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-szjd-del"
+                    data-id="{{ d.id }}" title="删除">
+                <i class="layui-icon">&#xe640;</i>
+            </button>
+        </div>
+    {{# } else { }}
+        --
+    {{# } }}
+</script>
+</body>
+
+<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/libs/dayjs.min.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../js/my/company/save.js"></script>
+</html>

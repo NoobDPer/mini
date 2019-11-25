@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>账套数据统计</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/vg.css">
+    <style type="text/css">
+        .layui-form[lay-filter=form-filter-metric-bookset] .layui-form-item {
+            margin-bottom: 0 !important;
+        }
+
+        .metric-bookset-date-range-inline {
+            width: 300px!important;
+        }
+
+        .metric-bookset-date-range-inline input {
+            width: 180px!important;
+        }
+    </style>
+</head>
+<body class="vg-body">
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <form class="layui-form vg-table-filter" lay-filter="form-filter-metric-bookset">
+            <div class="layui-form-item">
+                <div class="layui-input-inline vg-search-inline">
+                    <input type="text" name="condition" placeholder="账套编码"
+                           class="layui-input vg-search">
+                    <i class="vg-search-icon layui-icon">&#xe615;</i>
+                </div>
+
+                <div class="layui-input-inline">
+                    <select name="applicableIndustry"
+                            lay-filter="select-filter-applicable-industry">
+                        <option value="">适用行业</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="stockAccounting"
+                            lay-filter="select-filter-stock-accounting">
+                        <option value="">存货核算</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="difficultyLevel"
+                            lay-filter="select-filter-difficulty-level">
+                        <option value="">账套难度</option>
+                    </select>
+                </div>
+
+                <div class="layui-input-inline metric-bookset-date-range-inline">
+                    <label class="layui-form-label">时间段筛选</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="dateRange" class="layui-input" lay-verify="required">
+                        <input type="hidden" name="startTime">
+                        <input type="hidden" name="finishTime">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-row">
+    <table id="table-metric-bookset"></table>
+</div>
+
+</body>
+
+<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript" src="../../js/my/metric/bookset.js"></script>
+</html>

@@ -1,0 +1,21 @@
+package {daoPackageName};
+
+import {dtoPackageName}.{dtoName};
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**
+ * @author auto-generate
+ */
+@Mapper
+@Repository
+public interface {daoName} {
+
+    /**
+     * 查询所有
+     * @return list
+     */
+    List<{dtoName}> listAll();
+}

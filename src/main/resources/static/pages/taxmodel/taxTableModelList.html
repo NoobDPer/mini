@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>企业信息配置</title>
+    <link rel="stylesheet" href="../../layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/vg.css">
+    <style type="text/css">
+        /*解决下拉框出现滚动条*/
+        /*#layer-id-add-tax-model {
+            overflow: visible;
+        }*/
+
+        #layer-id-add-tax-model .btn-save-tax-model {
+            padding: 10px 10px 0 10px;
+        }
+
+        #layer-id-add-tax-model .btn-save-tax-model button {
+            height: 28px;
+            line-height: 28px;
+            padding: 0 15px;
+        }
+
+        #layer-id-add-tax-model .btn-save-tax-model button.btn0 {
+            border-color: #1E9FFF;
+            background-color: #1E9FFF;
+            color: #fff;
+        }
+
+        #layer-save-tax-model .tax-model-label-width {
+            width: 110px;
+        }
+
+        #layer-save-tax-model .layui-input-inline {
+            width: 350px;
+        }
+
+        .upload-file-name {
+            display: inline-block;
+            padding-left: 5px;
+            width: 210px;
+            height: 38px;
+            overflow: hidden;
+            line-height: 38px;
+            vertical-align: middle;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body class="vg-body">
+<div class="layui-row">
+    <div class="layui-col-md10">
+        <form class="layui-form vg-table-filter" lay-filter="form-filter-tax-model">
+            <div class="layui-input-inline vg-search-inline">
+                <input type="text" name="condition" placeholder="税表名称"
+                       class="layui-input vg-search">
+                <i class="vg-search-icon layui-icon">&#xe615;</i>
+            </div>
+            <div class="layui-input-inline">
+                <select name="taxpayerSeniorityType"
+                        lay-filter="select-filter-taxpayer-seniority">
+                    <option value="">纳税人资格</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="taxKindId"
+                        lay-filter="select-filter-tax-kind">
+                    <option value="">税种</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="taxPayPeriod"
+                        lay-filter="select-filter-tax-pay-period">
+                    <option value="">纳税期限</option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="layui-col-md2 vg-text-align-right">
+        <button type="button" class="layui-btn" id="btn-save-tax-model">新增税表模板</button>
+    </div>
+
+    <div class="vg-hide vg-padding-10" id="layer-save-tax-model">
+        <form class="layui-form" lay-filter="form-filter-save-tax-model">
+            <input type="hidden" name="id">
+            <input type="hidden" name="booksetCount">
+            <div class="layui-form-item">
+                <label class="layui-form-label vg-required tax-model-label-width">行政划分</label>
+                <div class="layui-input-inline">
+                    <select name="areaId" lay-verify="required" disabled>
+                        <option value="32">江苏</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label vg-required tax-model-label-width">纳税人资格类型</label>
+                <div class="layui-input-inline">
+                    <select name="taxpayerSeniorityType"
+                            lay-filter="select-filter-save-taxpayer-seniority" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label vg-required tax-model-label-width">会计制度</label>
+                <div class="layui-input-inline">
+                    <select name="applicableAccountingType"
+                            lay-filter="select-filter-save-accounting" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label vg-required tax-model-label-width">税种</label>
+                <div class="layui-input-inline">
+                    <select name="taxKindId" lay-filter="select-filter-save-tax-kind" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label vg-required tax-model-label-width">包含税目</label>
+                <div class="layui-input-inline">
+                    <select name="taxSubjectId" lay-filter="select-filter-save-tax-subject" lay-verify="required"
+                            data-vg-required-dp="taxKindId" data-vg-req-method="getTaxSubjects">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label vg-required tax-model-label-width">纳税期限</label>
+                <div class="layui-input-inline">
+                    <select name="taxPayPeriod" lay-filter="select-filter-save-tax-pay-period" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label vg-required tax-model-label-width">模板文件</label>
+                <div class="layui-input-inline">
+                    <div>
+                        <button type="button" class="layui-btn" id="btn-upload-model-file">
+                            <i class="layui-icon">&#xe67c;</i><span>上传</span>
+                        </button>
+                        <span class="upload-file-name"></span>
+                        <input type="hidden" name="fileId" lay-verify="required" class="layui-input">
+                    </div>
+                    <label class="vg-tip">
+                        <i class="layui-icon">&#xe60b;</i>
+                        <span>请务必在模板中用“#”标记出需要校验的结果数据</span>
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label vg-required tax-model-label-width">税表模版名称</label>
+                <div class="layui-input-inline">
+                    <select type="text" name="taxTableName" lay-filter="select-filter-save-tax-table-name"
+                            lay-verify="required"
+                            data-vg-required-dp="taxpayerSeniorityType,taxKindId,taxPayPeriod"
+                            data-vg-req-method="getTaxTableNames">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label vg-required tax-model-label-width">有效期起</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="validPeriodStart" value="2019-01" lay-verify="required" class="layui-input" disabled>
+                </div>
+            </div>
+            <div class="layui-row vg-text-align-right btn-save-tax-model">
+                <button class="layui-btn btn0" type="button" lay-submit lay-filter="submit-filter-save-tax-model">保存
+                </button>
+                <button class="layui-btn layui-btn-primary btn1" type="button">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-row">
+    <table id="table-tax-model"></table>
+</div>
+
+<script id="laytpl-table-ops" type="text/html">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-tax-model-edit"
+                data-id="{{ d.id }}" data-bookset-count="{{ d.booksetCount }}">
+            <i class="layui-icon">&#xe642;</i>
+        </button>
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-tax-model-del"
+                data-id="{{ d.id }}" data-bookset-count="{{ d.booksetCount }}">
+            <i class="layui-icon">&#xe640;</i>
+        </button>
+    </div>
+</script>
+</body>
+
+<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/libs/dayjs.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript" src="../../js/my/taxmodel/taxModel.js"></script>
+</html>

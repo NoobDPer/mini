@@ -1,0 +1,60 @@
+package {serviceImplPackageName};
+
+import com.yzf.id.tool.core.IdTemplate;
+import {daoPackageName}.{daoName};
+import {beanPackageName}.{beanName};
+import {servicePackageName}.{serviceName};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author auto-generate
+ */
+@Service
+@Transactional(rollbackFor = Exception.class)
+public class {serviceImplName} implements {serviceName} {
+    private final {daoName} {daoParamName};
+
+    @Autowired
+    public {serviceImplName}({daoName} {daoParamName}) {
+        this.{daoParamName} = {daoParamName};
+    }
+
+    @Override
+    public {beanName} save{beanName}({beanName} {beanParamName}) {
+
+        {beanParamName}.setId(IdTemplate.nextId());
+        {daoParamName}.save({beanParamName});
+        return {beanParamName};
+    }
+
+    @Override
+    public {beanName} getById(Long id) {
+        return {daoParamName}.getById(id);
+    }
+
+    @Override
+    public {beanName} update({beanName} {beanParamName}) {
+        {daoParamName}.update({beanParamName});
+        return {beanParamName};
+    }
+
+    @Override
+    public void delete(Long id) {
+        {daoParamName}.delete(id);
+    }
+
+    @Override
+    public int count(Map<String, Object> params) {
+        return {daoParamName}.count(params);
+    }
+
+    @Override
+    public List<{beanName}> list(Map<String, Object> params, Integer offset, Integer limit) {
+        return {daoParamName}.list(params, offset, limit);
+    }
+}

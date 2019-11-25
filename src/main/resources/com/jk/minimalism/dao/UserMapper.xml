@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.minimalism.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.jk.minimalism.bean.entity.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="USERNAME" jdbcType="VARCHAR" property="username"/>
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
+        <result column="NICKNAME" jdbcType="VARCHAR" property="nickname"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="UPDATE_BY" jdbcType="BIGINT" property="updateBy"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="CREATE_BY" jdbcType="BIGINT" property="createBy"/>
+        <result column="STATE" jdbcType="INTEGER" property="state"/>
+    </resultMap>
+
+    <sql id="where">
+        <where>
+            <if test="params.username != null and params.username != ''">
+                and t.username like concat('%', #{params.username}, '%')
+            </if>
+            <if test="params.nickname != null and params.nickname != ''">
+                and t.nickname like concat('%', #{params.nickname}, '%')
+            </if>
+            <if test="params.status != null and params.status != ''">
+                and t.status = #{params.status}
+            </if>
+        </where>
+    </sql>
+
+    <select id="count" resultType="int">
+        select count(1) from sys_user t
+        <include refid="where" />
+    </select>
+
+    <select id="list" resultType="com.jk.minimalism.bean.entity.User">
+        select * from sys_user t
+        <include refid="where" />
+        ORDER BY CREATETIME ASC
+        limit #{offset}, #{limit}
+    </select>
+
+    <update id="updatePassword">
+        UPDATE sys_user
+        SET PASSWORD = #{newPassword},
+        UPDATE_BY = #{updateUserId},
+        UPDATE_TIME = NOW()
+        WHERE ID IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND STATE = 1
+    </update>
+
+    <update id="updateStates">
+        UPDATE sys_user
+        SET STATE = #{state},
+        UPDATE_BY = #{updateUserId},
+        UPDATE_TIME = NOW()
+        WHERE ID IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="existsWithUsername" resultType="java.lang.Boolean">
+        SELECT COUNT(*) > 0
+        FROM sys_user
+        WHERE BINARY USERNAME = #{username}
+    </select>
+
+    <select id="existsWithUsernameWithoutId" resultType="java.lang.Boolean">
+        SELECT COUNT(*) > 0
+        FROM sys_user
+        WHERE ID != #{id}
+          AND BINARY USERNAME = #{username}
+    </select>
+
+    <select id="existsDisabled" resultType="java.lang.Boolean">
+        SELECT COUNT(*) > 0 FROM sys_user WHERE ID IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND STATE = 0
+    </select>
+
+    <select id="selectUserNamesByIds" resultType="java.lang.String">
+        SELECT USERNAME FROM sys_user WHERE ID IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND STATE = 0
+    </select>
+
+    <select id="selectByIds" resultMap="BaseResultMap">
+        SELECT * FROM sys_user
+        WHERE ID IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <update id="updateLoginTime">
+        UPDATE sys_user
+        SET LAST_LOGIN_TIME    = CURRENT_LOGIN_TIME,
+            CURRENT_LOGIN_TIME = NOW()
+        WHERE ID = #{id}
+    </update>
+
+</mapper>

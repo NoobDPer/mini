@@ -1,0 +1,91 @@
+.vg-body {
+    padding: 10px;
+    background-color: #f2f2f2;
+}
+
+.vg-float-right {
+    float: right;
+}
+
+.vg-text-align-right {
+    text-align: right;
+}
+
+.vg-hide {
+    display: none;
+}
+
+.vg-padding-10 {
+    padding: 10px;
+}
+
+.vg-warn-color {
+    color: #F7A834;
+}
+
+.vg-required::before {
+    content: "*";
+    color: red;
+    margin-right: 2px;
+    vertical-align: middle;
+}
+
+.vg-search {
+    padding-right: 25px
+}
+
+.vg-search-icon {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+
+.vg-search-icon:hover {
+    cursor: pointer;
+    color: #01AAED;
+}
+
+.layui-input-inline .vg-tip {
+    display: block;
+    padding-top: 5px;
+}
+
+.layui-input-inline .vg-tip i {
+    color: #FF5722;
+}
+
+.layui-input-inline .vg-tip span {
+    color: #F7A86F;
+}
+
+/* 不可用样式 */
+[disabled] .layui-icon {
+    color: #d2d2d2 !important;
+}
+
+.layui-input[disabled] {
+    color: #d2d2d2 !important;
+}
+
+/* 表格筛选条件 */
+.vg-table-filter .layui-input-inline.vg-search-inline {
+    width: 250px;
+}
+
+.vg-table-filter .layui-input-inline {
+    width: 150px;
+}
+
+/* 角色验证 */
+[data-vg-check-role] {
+    display: none;
+}
+
+/* 减少下拉框的高度, 防止在弹窗中出现滚动条 */
+.layui-form-select dl {
+    max-height: 160px;
+}
+
+.vg-text-indent-2 {
+    text-indent: 2em;
+}

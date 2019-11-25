@@ -1,0 +1,75 @@
+/* 头部 */
+.vg-layout-admin .layui-main {
+    margin: 0 15px 0 0;
+}
+
+.vg-admin-header-shrink .layui-logo span {
+    display: none;
+}
+
+/* 头部左侧 */
+.vg-admin-nav-left {
+    padding: 0;
+}
+
+.vg-admin-nav-left .layui-nav-item a {
+    padding: 0 15px;
+}
+
+.vg-admin-nav-left .layui-nav-item a i {
+    color: #333;
+}
+
+.vg-layui-tab .vg-admin-tab-title {
+    background-color: #f2f2f2 !important;
+}
+
+.vg-layui-tab .vg-admin-tab-title .vg-admin-tab-home {
+    min-width: 0;
+}
+
+.vg-layui-tab .vg-admin-tab-title .vg-admin-tab-home .layui-tab-close {
+    display: none;
+}
+
+/* 头部右侧 */
+
+.vg-admin-nav-right .layui-nav-item a i {
+    color: #333;
+}
+
+.vg-admin-nav-right .layui-nav-item a span {
+    color: #333;
+}
+
+.vg-admin-nav-right .layui-nav-item a .layui-nav-more {
+    border-top-color: #666;
+}
+
+.vg-admin-nav-right .layui-nav-item a .layui-nav-mored {
+    border-color: transparent transparent #666;
+}
+
+.vg-admin-nv-item .layui-nav-child dd {
+    margin-left: 0 !important;
+}
+
+/* 头部颜色 */
+.vg-admin-header {
+    background-color: #f2f2f2 !important;
+}
+
+.vg-admin-header .layui-logo {
+    background-color: #393D49;
+}
+
+/* body */
+.vg-admin-body {
+    bottom: 0 !important;
+}
+
+/* tab content */
+.vg-admin-tab-content .layui-tab-item {
+    width: 100%;
+    height: 100%;
+}

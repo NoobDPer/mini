@@ -1,0 +1,17 @@
+package {dtoPackageName};
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * @author auto-generate
+ */
+@Data
+public class {dtoName} implements Serializable {
+
+{filelds}
+
+}
