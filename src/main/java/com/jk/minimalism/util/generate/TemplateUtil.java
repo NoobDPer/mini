@@ -27,8 +27,11 @@ public class TemplateUtil {
         String path = input.getPath();
         String beanPackageName = input.getBeanPackageName();
         String beanName = input.getBeanName();
+        String tableName = input.getTableName();
         List<String> beanFieldName = input.getBeanFieldName();
         List<String> beanFieldType = input.getBeanFieldType();
+        List<String> columnNames = input.getColumnNames();
+        List<String> beanComments = input.getBeanComment();
 
         String text = getTemplete("java.txt");
         text = text.replace("{beanPackageName}", beanPackageName).replace("{beanName}", beanName);
@@ -42,25 +45,33 @@ public class TemplateUtil {
         }
 
         text = text.replace("{import}", imports);
-        String filelds = getFields(beanFieldName, beanFieldType);
+        text = text.replace("{tableName}", tableName);
+        String filelds = getFields(beanFieldName, beanFieldType, columnNames, beanComments);
         text = text.replace("{filelds}", filelds);
-        text = text.replace("{getset}", getset(beanFieldName, beanFieldType));
+
 
         FileUtil.saveTextFile(text, path + File.separator + getPackagePath(beanPackageName) + beanName + ".java");
         log.debug("生成java model：{}模板", beanName);
     }
 
-    private static String getFields(List<String> beanFieldName, List<String> beanFieldType) {
+    private static String getFields(List<String> beanFieldName, List<String> beanFieldType, List<String> beanColumnName, List<String> beanComments) {
         StringBuilder buffer = new StringBuilder();
         int size = beanFieldName.size();
         for (int i = 0; i < size; i++) {
             String name = beanFieldName.get(i);
-            if ("id".equals(name) || "createTime".equals(name) || "updateTime".equals(name)) {
-                continue;
-            }
+//            if ("id".equals(name) || "createTime".equals(name) || "updateTime".equals(name)) {
+//                continue;
+//            }
             String type = beanFieldType.get(i);
+            String columnName = beanColumnName.get(i);
+            String beanComment = beanComments.get(i);
+            buffer.append("\t/**\n").append("\t* ").append(beanComment).append("\n\t*/\n");
+            if ("id".equals(name)) {
+                buffer.append("\t@Id\n");
+            }
+            buffer.append("\t@Column(name = \"").append(columnName).append("\")\n");
             buffer.append("\tprivate ").append(type).append(" ").append(name);
-            buffer.append(";\n");
+            buffer.append(";\n\n");
         }
 
         return buffer.toString();

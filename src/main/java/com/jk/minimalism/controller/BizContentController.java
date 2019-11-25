@@ -1,4 +1,4 @@
-package {controllerPkgName};
+package com.jk.minimalism.controller;
 
 import java.util.Map;
 
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jk.minimalism.bean.page.PageTableRequest;
 import com.jk.minimalism.bean.page.PageTableHandler;
 import com.jk.minimalism.bean.page.PageTableResponse;
-import {servicePackageName}.{serviceName};
-import {daoPackageName}.{daoName};
-import {beanPackageName}.{beanName};
+import com.jk.minimalism.service.BizContentService;
+import com.jk.minimalism.dao.BizContentDao;
+import com.jk.minimalism.bean.entity.BizContent;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -26,41 +26,41 @@ import io.swagger.annotations.ApiOperation;
  * @author auto-generate
  */
 @RestController
-@RequestMapping("/{beanParamName}s")
-public class {controllerName} {
+@RequestMapping("/bizcontents")
+public class BizContentController {
 
     @Autowired
-    private {serviceName} {serviceParamName};
+    private BizContentService bizcontentservice;
 
     @PostMapping
     @ApiOperation(value = "保存")
-    public {beanName} save(@RequestBody {beanName} {beanParamName}) {
-        {serviceParamName}.save{beanName}({beanParamName});
+    public BizContent save(@RequestBody BizContent bizcontent) {
+        bizcontentservice.saveBizContent(bizcontent);
 
-        return {beanParamName};
+        return bizcontent;
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "根据id获取")
-    public {beanName} get(@PathVariable Long id) {
-        return {serviceParamName}.getById(id);
+    public BizContent get(@PathVariable Long id) {
+        return bizcontentservice.getById(id);
     }
 
     @PutMapping
     @ApiOperation(value = "修改")
-    public {beanName} update(@RequestBody {beanName} {beanParamName}) {
-        {serviceParamName}.update({beanParamName});
+    public BizContent update(@RequestBody BizContent bizcontent) {
+        bizcontentservice.update(bizcontent);
 
-        return {beanParamName};
+        return bizcontent;
     }
 
     @GetMapping
     @ApiOperation(value = "列表")
     public PageTableResponse list(PageTableRequest request) {
-        return new PageTableHandler(countRequest -> {serviceParamName}.count(countRequest.getParams()),
-              listRequest -> {serviceParamName}.list(listRequest.getParams(), listRequest.getOffset(), listRequest.getLimit()),
+        return new PageTableHandler(countRequest -> bizcontentservice.count(countRequest.getParams()),
+              listRequest -> bizcontentservice.list(listRequest.getParams(), listRequest.getOffset(), listRequest.getLimit()),
               orderRequest -> {
-                  Map<String,String> map = MapperColumnUtil.getColumnPro({daoName}.class, "BaseResultMap");
+                  Map<String,String> map = MapperColumnUtil.getColumnPro(BizContentDao.class, "BaseResultMap");
                   String orderBy = MapperColumnUtil.pro2Column(orderRequest, map);
                   orderRequest.getParams().put("orderBy", orderBy);
                   return orderRequest;
@@ -70,6 +70,6 @@ public class {controllerName} {
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除")
     public void delete(@PathVariable Long id) {
-        {serviceParamName}.delete(id);
+        bizcontentservice.delete(id);
     }
 }

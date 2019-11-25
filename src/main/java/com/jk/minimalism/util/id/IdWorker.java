@@ -4,7 +4,7 @@ package com.jk.minimalism.util.id;
  * @author admin-jk
  * @date 19-11-15
  */
-public class IdWorker{
+public class IdWorker {
 
     private long workerId;
     private long datacenterId;
@@ -47,15 +47,15 @@ public class IdWorker{
 
     private long lastTimestamp = -1L;
 
-    public long getWorkerId(){
+    public long getWorkerId() {
         return workerId;
     }
 
-    public long getDatacenterId(){
+    public long getDatacenterId() {
         return datacenterId;
     }
 
-    public long getTimestamp(){
+    public long getTimestamp() {
         return System.currentTimeMillis();
     }
 
@@ -92,7 +92,7 @@ public class IdWorker{
         return timestamp;
     }
 
-    private long timeGen(){
+    private long timeGen() {
         return System.currentTimeMillis();
     }
 

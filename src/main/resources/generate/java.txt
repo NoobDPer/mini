@@ -1,12 +1,19 @@
 package {beanPackageName};
 
+import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 {import}
 
 /**
  * @author auto-generate
  */
-public class {beanName} extends BaseEntity<Long> {
+@Data
+@Table(name = "{tableName}")
+public class {beanName} {
 
 {filelds}
-{getset}
+
 }

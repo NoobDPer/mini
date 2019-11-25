@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.minimalism.dao.BizContentDao">
+
+	<resultMap id="BaseResultMap" type="com.jk.minimalism.bean.entity.BizContent">
+		<id column="ID" property="id"/>
+		<result column="TYPE" property="type"/>
+		<result column="CONTENT_CN" property="contentCn"/>
+		<result column="CONTENT_EN" property="contentEn"/>
+		<result column="COMMIT_QQ" property="commitQq"/>
+		<result column="SHOW_QQ_STATE" property="showQqState"/>
+		<result column="SOURCE" property="source"/>
+		<result column="CONFIRM_STATE" property="confirmState"/>
+		<result column="CONFIRM_USER" property="confirmUser"/>
+		<result column="CONFIRM_TIME" property="confirmTime"/>
+		<result column="CREATE_TIME" property="createTime"/>
+		<result column="CREATE_USER" property="createUser"/>
+		<result column="UPDATE_TIME" property="updateTime"/>
+		<result column="UPDATE_USER" property="updateUser"/>
+
+	</resultMap>
+
+	<sql id="where">
+		<where>
+			<if test="params.id != null and params.id != ''">
+				and ID = #{params.id} 
+			</if>
+			<if test="params.type != null and params.type != ''">
+				and TYPE = #{params.type} 
+			</if>
+			<if test="params.contentCn != null and params.contentCn != ''">
+				and CONTENT_CN = #{params.contentCn} 
+			</if>
+			<if test="params.contentEn != null and params.contentEn != ''">
+				and CONTENT_EN = #{params.contentEn} 
+			</if>
+			<if test="params.commitQq != null and params.commitQq != ''">
+				and COMMIT_QQ = #{params.commitQq} 
+			</if>
+			<if test="params.showQqState != null and params.showQqState != ''">
+				and SHOW_QQ_STATE = #{params.showQqState} 
+			</if>
+			<if test="params.source != null and params.source != ''">
+				and SOURCE = #{params.source} 
+			</if>
+			<if test="params.confirmState != null and params.confirmState != ''">
+				and CONFIRM_STATE = #{params.confirmState} 
+			</if>
+			<if test="params.confirmUser != null and params.confirmUser != ''">
+				and CONFIRM_USER = #{params.confirmUser} 
+			</if>
+			<if test="params.confirmTime != null and params.confirmTime != ''">
+				and CONFIRM_TIME = #{params.confirmTime} 
+			</if>
+			<if test="params.createTime != null and params.createTime != ''">
+				and CREATE_TIME = #{params.createTime} 
+			</if>
+			<if test="params.createUser != null and params.createUser != ''">
+				and CREATE_USER = #{params.createUser} 
+			</if>
+			<if test="params.updateTime != null and params.updateTime != ''">
+				and UPDATE_TIME = #{params.updateTime} 
+			</if>
+			<if test="params.updateUser != null and params.updateUser != ''">
+				and UPDATE_USER = #{params.updateUser} 
+			</if>
+		
+		</where>
+	</sql>
+
+	<select id="count" resultType="int">
+		select count(1) from biz_content t
+		<include refid="where" />
+	</select>
+
+	<select id="list" resultType="com.jk.minimalism.bean.entity.BizContent">
+		select * from biz_content t
+		<include refid="where" />
+		${params.orderBy}
+		limit #{offset}, #{limit}
+	</select>
+
+	<update id="update">
+		update biz_content t
+		<set>
+			<if test="id != null">
+				ID = #{id}, 
+			</if>
+			<if test="type != null">
+				TYPE = #{type}, 
+			</if>
+			<if test="contentCn != null">
+				CONTENT_CN = #{contentCn}, 
+			</if>
+			<if test="contentEn != null">
+				CONTENT_EN = #{contentEn}, 
+			</if>
+			<if test="commitQq != null">
+				COMMIT_QQ = #{commitQq}, 
+			</if>
+			<if test="showQqState != null">
+				SHOW_QQ_STATE = #{showQqState}, 
+			</if>
+			<if test="source != null">
+				SOURCE = #{source}, 
+			</if>
+			<if test="confirmState != null">
+				CONFIRM_STATE = #{confirmState}, 
+			</if>
+			<if test="confirmUser != null">
+				CONFIRM_USER = #{confirmUser}, 
+			</if>
+			<if test="confirmTime != null">
+				CONFIRM_TIME = #{confirmTime}, 
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime}, 
+			</if>
+			<if test="createUser != null">
+				CREATE_USER = #{createUser}, 
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime}, 
+			</if>
+			<if test="updateUser != null">
+				UPDATE_USER = #{updateUser}, 
+			</if>
+
+		</set>
+
+		where t.id = #{id}
+	</update>
+
+</mapper>

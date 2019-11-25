@@ -1,6 +1,6 @@
 package {serviceImplPackageName};
 
-import com.yzf.id.tool.core.IdTemplate;
+import com.jk.minimalism.util.IdUtils;
 import {daoPackageName}.{daoName};
 import {beanPackageName}.{beanName};
 import {servicePackageName}.{serviceName};
@@ -27,7 +27,7 @@ public class {serviceImplName} implements {serviceName} {
     @Override
     public {beanName} save{beanName}({beanName} {beanParamName}) {
 
-        {beanParamName}.setId(IdTemplate.nextId());
+        {beanParamName}.setId(IdUtils.nextId());
         {daoParamName}.save({beanParamName});
         return {beanParamName};
     }
