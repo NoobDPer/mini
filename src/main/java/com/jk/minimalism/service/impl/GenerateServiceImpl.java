@@ -84,7 +84,7 @@ public class GenerateServiceImpl implements GenerateService {
         map.put("varchar", String.class.getSimpleName());
         map.put("text", String.class.getSimpleName());
         map.put("longtext", String.class.getSimpleName());
-
+        map.put("bigint", Long.class.getSimpleName());
     }
 
     @Override

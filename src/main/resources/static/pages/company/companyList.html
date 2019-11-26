@@ -50,7 +50,7 @@
         }
 
         /* 表格中错误红色边框 */
-        #layer-id-batch-add td .layui-form-danger+.layui-form-select .layui-input,
+        #layer-id-batch-add td .layui-form-danger + .layui-form-select .layui-input,
         #layer-id-batch-add td .layui-form-danger:focus {
             border-width: 1px;
             border-style: solid;
@@ -164,25 +164,25 @@
 
 <script id="laytpl-table-ops" type="text/html">
     {{# if (d.editable) { }}
-        <div class="layui-btn-group">
-            <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-company-edit" title="编辑"
-                    data-id="{{ d.id }}" data-editable="{{ d.editable}}"
-                    data-tab-title="编辑企业" data-tab-id="tab-id-edit-company">
-                <i class="layui-icon">&#xe642;</i>
-            </button>
-            <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-company-del"
-                    data-id="{{ d.id }}" title="删除">
-                <i class="layui-icon">&#xe640;</i>
-            </button>
-        </div>
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-company-edit" title="编辑"
+                data-id="{{ d.id }}" data-editable="{{ d.editable}}"
+                data-tab-title="编辑企业" data-tab-id="tab-id-edit-company">
+            <i class="layui-icon">&#xe642;</i>
+        </button>
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-company-del"
+                data-id="{{ d.id }}" title="删除">
+            <i class="layui-icon">&#xe640;</i>
+        </button>
+    </div>
     {{# } else { }}
-        <div class="layui-btn-group">
-            <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-company-show" title="查看"
-                    data-id="{{ d.id }}" data-editable="{{ d.editable}}"
-                    data-tab-title="查看企业" data-tab-id="tab-id-show-company">
-                <i class="layui-icon">&#xe615;</i>
-            </button>
-        </div>
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-company-show" title="查看"
+                data-id="{{ d.id }}" data-editable="{{ d.editable}}"
+                data-tab-title="查看企业" data-tab-id="tab-id-show-company">
+            <i class="layui-icon">&#xe615;</i>
+        </button>
+    </div>
     {{# } }}
 </script>
 </body>
