@@ -30,12 +30,12 @@ import io.swagger.annotations.ApiOperation;
 public class BizContentController {
 
     @Autowired
-    private BizContentService bizcontentservice;
+    private BizContentService bizContentService;
 
     @PostMapping
     @ApiOperation(value = "保存")
     public BizContent save(@RequestBody BizContent bizcontent) {
-        bizcontentservice.saveBizContent(bizcontent);
+        bizContentService.saveBizContent(bizcontent);
 
         return bizcontent;
     }
@@ -43,13 +43,13 @@ public class BizContentController {
     @GetMapping("/{id}")
     @ApiOperation(value = "根据id获取")
     public BizContent get(@PathVariable Long id) {
-        return bizcontentservice.getById(id);
+        return bizContentService.getById(id);
     }
 
     @PutMapping
     @ApiOperation(value = "修改")
     public BizContent update(@RequestBody BizContent bizcontent) {
-        bizcontentservice.update(bizcontent);
+        bizContentService.update(bizcontent);
 
         return bizcontent;
     }
@@ -57,19 +57,19 @@ public class BizContentController {
     @GetMapping
     @ApiOperation(value = "列表")
     public PageTableResponse list(PageTableRequest request) {
-        return new PageTableHandler(countRequest -> bizcontentservice.count(countRequest.getParams()),
-              listRequest -> bizcontentservice.list(listRequest.getParams(), listRequest.getOffset(), listRequest.getLimit()),
-              orderRequest -> {
-                  Map<String,String> map = MapperColumnUtil.getColumnPro(BizContentDao.class, "BaseResultMap");
-                  String orderBy = MapperColumnUtil.pro2Column(orderRequest, map);
-                  orderRequest.getParams().put("orderBy", orderBy);
-                  return orderRequest;
-              }).handle(request);
+        return new PageTableHandler(countRequest -> bizContentService.count(countRequest.getParams()),
+                listRequest -> bizContentService.list(listRequest.getParams(), listRequest.getOffset(), listRequest.getLimit()),
+                orderRequest -> {
+                    Map<String, String> map = MapperColumnUtil.getColumnPro(BizContentDao.class, "BaseResultMap");
+                    String orderBy = MapperColumnUtil.pro2Column(orderRequest, map);
+                    orderRequest.getParams().put("orderBy", orderBy);
+                    return orderRequest;
+                }).handle(request);
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "删除")
     public void delete(@PathVariable Long id) {
-        bizcontentservice.delete(id);
+        bizContentService.delete(id);
     }
 }

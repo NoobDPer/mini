@@ -313,7 +313,10 @@ public class TemplateUtil {
     }
 
     private static String lowerFirstChar(String beanName) {
-        String name = StrUtil.str2hump(beanName);
+        String name = beanName;
+        if (beanName.contains("_")) {
+            name = StrUtil.str2hump(beanName);
+        }
         String firstChar = name.substring(0, 1);
         name = name.replaceFirst(firstChar, firstChar.toLowerCase());
 

@@ -35,4 +35,6 @@ public interface BizContentDao {
     int count(@Param("params") Map<String, Object> params);
 
     List<BizContent> list(@Param("params") Map<String, Object> params, @Param("offset") Integer offset, @Param("limit") Integer limit);
+
+    int batchUpdateState(@Param("ids") List<Long> ids, @Param("state") String state, @Param("updateUser") Long updateUser);
 }

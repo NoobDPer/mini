@@ -132,4 +132,24 @@
 		where t.id = #{id}
 	</update>
 
+
+	<update id="batchUpdateState">
+		UPDATE biz_content
+		SET
+		CONFIRM_STATE = #{state},
+		UPDATE_TIME = NOW(),
+		UPDATE_USER = #{updateUser}
+		WHERE ID
+		<choose>
+			<when test="ids.size() == 1">
+				= #{ids[0]}
+			</when>
+			<otherwise>
+				IN
+				<foreach collection="ids" item="id" open="(" close=")" separator=",">
+					#{id}
+				</foreach>
+			</otherwise>
+		</choose>
+	</update>
 </mapper>
