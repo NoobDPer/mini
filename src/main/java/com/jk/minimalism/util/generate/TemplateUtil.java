@@ -319,7 +319,6 @@ public class TemplateUtil {
         }
         String firstChar = name.substring(0, 1);
         name = name.replaceFirst(firstChar, firstChar.toLowerCase());
-
         return name;
     }
 

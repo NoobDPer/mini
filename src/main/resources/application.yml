@@ -64,9 +64,9 @@ token:
   jwt-secret: (JI\:)_$^11244^%$_(JIAN\:)_@@++--(ZHU\:)_++++_.sds_(YI\:)
   expire:
     seconds: 129600
-mybatis:
-  mapper-locations: classpath\:/mybatis-mappers/*
-  type-aliases-package: com.jk.minimalism.bean.entity
+#mybatis:
+#  mapper-locations: classpath\:/mybatis-mappers/*
+#  type-aliases-package: com.jk.minimalism.bean.entity
 
 minimalism:
   enable-swagger: true

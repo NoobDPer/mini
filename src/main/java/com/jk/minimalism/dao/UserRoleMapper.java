@@ -1,7 +1,7 @@
 package com.jk.minimalism.dao;
 
 import com.jk.minimalism.bean.entity.UserRole;
-import com.jk.minimalism.dao.base.BaseMapper;
+import com.jk.minimalism.base.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository

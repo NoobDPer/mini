@@ -2,7 +2,7 @@ package com.jk.minimalism.dao;
 
 
 import com.jk.minimalism.bean.entity.Role;
-import com.jk.minimalism.dao.base.BaseMapper;
+import com.jk.minimalism.base.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;

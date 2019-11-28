@@ -1,30 +1,26 @@
 package com.jk.minimalism.dao;
 
-import java.util.List;
-import java.util.Map;
-
+import com.jk.minimalism.base.mapper.BaseMapper;
+import com.jk.minimalism.bean.entity.BizContent;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
-import com.jk.minimalism.bean.entity.BizContent;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author auto-generate
  */
-@Mapper
-@Repository
-public interface BizContentDao {
+public interface BizContentMapper extends BaseMapper<BizContent> {
 
     @Select("select * from biz_content t where t.id = #{id}")
     BizContent getById(Long id);
 
     @Delete("delete from biz_content where id = #{id}")
-    int delete(Long id);
+    int deleteById(Long id);
 
     int update(BizContent bizcontent);
     

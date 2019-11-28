@@ -1,7 +1,7 @@
 package com.jk.minimalism.dao;
 
 import com.jk.minimalism.bean.entity.Permission;
-import com.jk.minimalism.dao.base.BaseMapper;
+import com.jk.minimalism.base.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Set;
 
-@Repository
 public interface PermissionMapper extends BaseMapper<Permission> {
 
     /**

@@ -15,7 +15,7 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
     var tableLns = table.render(LayuiTools.extendTableDefaultParams({
         id: tableId,
         elem: '#table-content',
-        url: '/bizcontents', //数据接口
+        url: '/contents', //数据接口
         cols: [[ //表头
             {type: 'checkbox', fixed: 'left'},
             {field: 'contentCn', title: '中文内容', minWidth: 105},
@@ -80,20 +80,18 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
     //     }
     // });
 
-    // 新增企业
+    // 新增内容
     $('#btn-add-content').click(function () {
-        // todo
-        alert("建设中...");
-        // adminTab.del('tab-id-add-company');
-        // adminTab.add({
-        //     layId: 'tab-id-add-company',
-        //     title: '新增企业',
-        //     url: 'pages/company/saveCompany.html',
-        //     icon: 'fa-university'
-        // });
+        adminTab.del('tab-id-add-content');
+        adminTab.add({
+            layId: 'tab-id-add-content',
+            title: '新增内容',
+            url: 'pages/content/saveBizContent.html',
+            icon: 'fa-university'
+        });
     });
 
-    // 删除企业
+    // 审核通过
     var $body = $('body');
     $body.on('click', '.table-btn-content-confirm', function () {
         var id = $(this).data('id');
@@ -103,7 +101,7 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
             loadingMonitor(function () {
                 return $.ajax({
                     type: 'post',
-                    url: '/contents/' + id + "?state=2"
+                    url: '/contents/' + id + "/state/2"
                 });
             })().done(function () {
                 layer.msg("通过成功！");
@@ -142,7 +140,7 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
             return row.id
         });
         if (!ids || ids.length === 0) {
-            layer.msg("请先选择需要通过的企业！");
+            layer.msg("请先选择需要通过的内容！");
             return;
         }
 
@@ -151,7 +149,7 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
         }, function () {
             loadingMonitor(function () {
                 return $.ajax({
-                    url: '/contents/batch?state=2',
+                    url: '/contents/state/batch/2',
                     contentType: 'application/json',
                     type: 'POST',
                     data: JSON.stringify(ids)

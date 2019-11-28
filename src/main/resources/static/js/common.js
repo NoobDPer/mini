@@ -197,8 +197,7 @@ var userTools = function () {
     }
 }();
 
-var VgReq = (function () {
-
+var miniReq = (function () {
     function convert(ajaxD, fn) {
         var d = $.Deferred();
         ajaxD.done(function () {
@@ -208,7 +207,6 @@ var VgReq = (function () {
         });
         return d;
     }
-
     function keyValueConverter(data) {
         return $.map(data, function (key, value) {
             return {
@@ -217,232 +215,38 @@ var VgReq = (function () {
             }
         });
     }
-
     return {
         /**
-         * 获取会计制度
+         * 获取审核状态对应关系
          * @returns {$.Deferred}
          */
-        getAccounting: function () {
+        getConfirmStatus: function () {
             return convert($.get({
-                url: '/common/applicable-accounting',
+                url: '/common/confirm-status',
                 dataType: 'json'
             }), function (data) {
-                return $.map(data, function (row) {
+                return $.map(data.result, function (row) {
                     return {
-                        text: row.applicableAccounting,
-                        val: row.id,
+                        text: row.data,
+                        val: row.code,
                         data: row
                     }
                 })
             });
         },
         /**
-         * 获取纳税人资格
+         * 获取内容类型对应关系
          * @returns {$.Deferred}
          */
-        getTaxpayerSeniority: function () {
+        getContentTypes: function () {
             return convert($.get({
-                url: '/common/taxpayer-seniority',
+                url: '/common/content-types',
                 dataType: 'json'
             }), function (data) {
-                return $.map(data, function (row) {
+                return $.map(data.result, function (row) {
                     return {
-                        text: row.taxpayerSeniority,
-                        val: row.taxpayerSeniorityCode,
-                        data: row
-                    }
-                })
-            })
-        },
-        /**
-         * 获取账套数据类型
-         * @returns {$.Deferred}
-         */
-        getBooksetType: function () {
-            return convert($.get({
-                url: '/common/bookset-data-type',
-                dataType: 'json'
-            }), keyValueConverter)
-        },
-        /**
-         * 获取申报期类型
-         * @returns {$.Deferred}
-         */
-        getReportPeriodType: function () {
-            return convert($.get({
-                url: '/common/declare-type',
-                dataType: 'json'
-            }), keyValueConverter)
-        },
-        /**
-         * 获取适用行业
-         * @returns {$.Deferred}
-         */
-        getApplicableIndustry: function () {
-            return convert($.get({
-                url: '/common/applicable-industry',
-                dataType: 'json'
-            }), keyValueConverter)
-        },
-        /**
-         * 获取账套难度等级
-         * @returns {$.Deferred}
-         */
-        getDifficultyLevel: function () {
-            return convert($.get({
-                url: '/common/difficulty-level',
-                dataType: 'json'
-            }), keyValueConverter)
-        },
-        /**
-         * 获取存货核算
-         * @returns {$.Deferred}
-         */
-        getStockAccounting: function () {
-            return convert($.get({
-                url: '/common/stock-accounting',
-                dataType: 'json'
-            }), keyValueConverter)
-        },
-        /**
-         * 获取账套数据设置状态
-         * @returns {$.Deferred}
-         */
-        getTaxTableStatus: function () {
-            return convert($.get({
-                url: '/common/tax-table-status',
-                dataType: 'json'
-            }), keyValueConverter)
-        },
-        /**
-         * 获取税种列表
-         * @returns {$.Deferred}
-         */
-        getTaxKinds: function (data) {
-            return convert($.get({
-                url: '/common/tax-kinds',
-                data: data || {},
-                dataType: 'json'
-            }), function (data) {
-                return $.map(data, function (row) {
-                    return {
-                        text: row.kSzmc,
-                        val: row.kSzid,
-                        data: row
-                    }
-                })
-            })
-        },
-        /**
-         * 纳税期限列表
-         * @returns {$.Deferred}
-         */
-        getTaxPeriods: function () {
-            return convert($.get({
-                url: '/common/tax-periods',
-                dataType: 'json'
-            }), function (data) {
-                return $.map(data, function (row) {
-                    return {
-                        text: row.taxPeriodName,
-                        val: row.taxPeriodCode,
-                        data: row
-                    }
-                })
-            })
-        },
-        /**
-         * 税目列表
-         * @returns {$.Deferred}
-         */
-        getTaxSubjects: function (param) {
-            return convert($.get({
-                url: '/common/tax-subjects',
-                dataType: 'json',
-                data: param
-            }), function (data) {
-                return $.map(data, function (row) {
-                    return {
-                        text: row.kSmmc,
-                        val: row.kSmid,
-                        data: row
-                    }
-                })
-            })
-        },
-        /**
-         * 获取代账表套信息
-         * @returns {$.Deferred}
-         */
-        getTaxTableNames: function (param) {
-            return convert($.get({
-                url: '/common/tax-tables-dz',
-                dataType: 'json',
-                data: param
-            }), function (data) {
-                return $.map(data, function (row) {
-                    return {
-                        text: row.ksbszmc,
-                        val: row.ksbszmc,
-                        data: row
-                    }
-                })
-            })
-        },
-        /**
-         * 查询税种鉴定信息
-         * @returns {$.Deferred}
-         */
-        getTaxIdentify: function (param) {
-            var url = '/taxTableModels/company/' + param.companyId +
-                '/kind/' + param.taxKindId +
-                '/subject/' + param.taxSubjectId +
-                '/period/' + param.taxPeriodId;
-            return convert($.get({
-                url: url,
-                dataType: 'json'
-            }), function (data) {
-                return $.map(data, function (row) {
-                    return {
-                        text: row.taxTableName,
-                        val: row.id,
-                        data: row
-                    }
-                })
-            })
-        },
-        /**
-         * 查询所有角色
-         * @returns {$.Deferred}
-         */
-        getRoles: function () {
-            return convert($.get({
-                url: '/roles/all',
-                dataType: 'json'
-            }), function (data) {
-                return $.map(data, function (row) {
-                    return {
-                        text: row.description,
-                        val: row.id,
-                        data: row
-                    }
-                })
-            })
-        },
-        /**
-         * 查询创建人
-         * @returns {$.Deferred}
-         */
-        getCreators: function (params) {
-            return convert($.get({
-                url: '/users/creators/type/' + params.type,
-                dataType: 'json'
-            }), function (data) {
-                return $.map(data, function (row) {
-                    return {
-                        text: row.username,
-                        val: row.id,
+                        text: row.data,
+                        val: row.code,
                         data: row
                     }
                 })

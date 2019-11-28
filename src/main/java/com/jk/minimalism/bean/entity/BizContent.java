@@ -113,12 +113,12 @@ public class BizContent {
         /**
          * 1-待定
          */
-        String TO_CONFIRM = "";
+        String TO_CONFIRM = "1";
 
         /**
          * 2-通过
          */
-        String PASSED = "";
+        String PASSED = "2";
     }
 
 }

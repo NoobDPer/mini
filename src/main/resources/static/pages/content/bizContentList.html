@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>毒鸡汤</title>
+    <!--<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">-->
+    <!--<link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">-->
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/mini.css">
+    <style type="text/css">
+        /*解决下拉框出现滚动条*/
+        #layer-id-batch-add {
+            overflow: visible;
+        }
+
+        #layer-id-batch-add td {
+            padding: 0;
+        }
+
+        #layer-id-batch-add td input {
+            border: 0;
+        }
+
+        #layer-id-batch-add td > input[type=text] {
+            box-sizing: border-box;
+            padding: 9px 15px;
+            width: 100%;
+            height: 100%;
+        }
+
+        #layer-id-batch-add td.ops {
+            width: 60px;
+            border: 0;
+            padding-left: 10px;
+            background-color: white;
+        }
+
+        #layer-id-batch-add .btn-batch-add {
+            padding: 10px 10px 0 10px;
+        }
+
+        #layer-id-batch-add .btn-batch-add button {
+            height: 28px;
+            line-height: 28px;
+            padding: 0 15px;
+        }
+
+        #layer-id-batch-add .btn-batch-add button.btn0 {
+            border-color: #1E9FFF;
+            background-color: #1E9FFF;
+            color: #fff;
+        }
+
+        /* 表格中错误红色边框 */
+        #layer-id-batch-add td .layui-form-danger + .layui-form-select .layui-input,
+        #layer-id-batch-add td .layui-form-danger:focus {
+            border-width: 1px;
+            border-style: solid;
+        }
+    </style>
+</head>
+<body class="mini-body">
+<div class="layui-col-md8">
+    <form class="layui-form mini-table-filter" lay-filter="form-filter-content">
+        <div class="layui-input-inline mini-search-inline">
+            <input type="text" name="condition" placeholder="中文内容/英文内容"
+                   class="layui-input mini-search">
+            <i class="mini-search-icon layui-icon">&#xe615;</i>
+        </div>
+        <!--<div class="layui-input-inline">-->
+            <!--<select name="taxpayerSeniorityType" id="select-taxpayer-seniority"-->
+                    <!--lay-filter="select-filter-taxpayer-seniority">-->
+                <!--<option value="">纳税人资格</option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<select name="applicableAccountingType" id="select-accounting"-->
+                    <!--lay-filter="select-filter-accounting">-->
+                <!--<option value="">会计制度</option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<input type="text" class="layui-input" name="startDate" placeholder="启用期间">-->
+            <!--<input type="hidden" name="startYear">-->
+            <!--<input type="hidden" name="startMonth">-->
+        <!--</div>-->
+    </form>
+</div>
+
+<div class="layui-col-md4 mini-text-align-right">
+    <button type="button" class="layui-btn" id="btn-add-content">新增内容</button>
+    <!--<button type="button" class="layui-btn" id="btn-batch-add-content">批量新增</button>-->
+    <button type="button" class="layui-btn" id="btn-batch-confirm-content">批量通过</button>
+</div>
+</div>
+
+<div class="layui-row">
+    <table id="table-content"></table>
+</div>
+<script id="laytpl-table-ops" type="text/html">
+    <div class="layui-btn-group">
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-content-confirm"
+                data-id="{{ d.id }}" title="审核通过">
+            <i class="layui-icon">&#x1005;</i>
+        </button>
+    </div>
+</script>
+
+</body>
+</html>
+
+<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../js/libs/dayjs.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript" src="../../js/my/content/content.js"></script>

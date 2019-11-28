@@ -1,4 +1,4 @@
-package com.jk.minimalism.dao.base;
+package com.jk.minimalism.base.mapper;
 
 import tk.mybatis.mapper.common.Mapper;
 
@@ -9,6 +9,6 @@ import tk.mybatis.mapper.common.Mapper;
  * @date 2018/11/06
  */
 @tk.mybatis.mapper.annotation.RegisterMapper
-public interface BaseMapper<T> extends Mapper<T> {
+public interface BaseMapper<T> extends Mapper<T>, BaseInsertListMapper<T> {
 
 }

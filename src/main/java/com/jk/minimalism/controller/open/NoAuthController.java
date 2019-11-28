@@ -23,19 +23,4 @@ public class NoAuthController {
     @Autowired
     private BizContentService bizContentService;
 
-    @PostMapping
-    @ApiOperation(value = "/contents/batch/state")
-    public AjaxResult batchConfirmBizContent(@RequestBody List<Long> ids,
-                           @RequestParam(value = "state") @ApiParam("审核状态") String state) {
-        bizContentService.batchConfirmBizContent(ids, state);
-        return new AjaxResult().success();
-    }
-
-    @PostMapping
-    @ApiOperation(value = "/contents/state")
-    public AjaxResult confirmBizContent(@RequestParam(value = "id") @ApiParam("ID") Long id,
-                                        @RequestParam(value = "state") @ApiParam("审核状态") String state) {
-        bizContentService.confirmBizContent(id, state);
-        return new AjaxResult().success();
-    }
 }
