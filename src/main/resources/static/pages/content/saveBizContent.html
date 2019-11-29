@@ -37,28 +37,46 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label mini-required content-label-width">中文内容</label>
                 <div class="layui-input-block">
-                    <input type="textarea" name="contentCn" class="layui-textarea" placeholder="请输入内容"
+                    <textarea name="contentCn" class="layui-textarea" placeholder="请输入内容"
                            required lay-verify="required"
-                           data-mini-verify-msg="内容不能为空">
+                              data-mini-verify-msg="内容不能为空"></textarea>
                 </div>
             </div>
 
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label content-label-width">英文内容</label>
                 <div class="layui-input-block">
-                    <input type="textarea" name="contentEn" class="layui-textarea" placeholder="选填">
-                    </div>
+                    <textarea name="contentEn" class="layui-textarea" placeholder="选填"></textarea>
+                </div>
             </div>
 
+
+            <!--<div class="layui-form-item">-->
+                <!--<div class="layui-inline">-->
+                    <!--<label class="layui-form-label mini-required content-label-width">审核状态</label>-->
+                    <!--<div class="layui-input-inline">-->
+                        <!--<select name="confirmState" lay-filter="select-filter-confirm-state"-->
+                                <!--lay-verify="required">-->
+                            <!--<option value="">请选择</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
 
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label mini-required content-label-width">审核状态</label>
                     <div class="layui-input-inline">
-                        <select name="confirmState" lay-filter="select-filter-confirm-state"
-                                lay-verify="required">
-                            <option value="">请选择</option>
-                        </select>
+                        <input type="checkbox" lay-skin='primary' name='confirmState' lay-filter='checkbox-filter-confirm-state' title="不通过" value="99"/>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" lay-skin='primary' name='confirmState' lay-filter='checkbox-filter-confirm-state' title="未审核" value="0"/>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" lay-skin='primary' name='confirmState' lay-filter='checkbox-filter-confirm-state' title="待定" value="1"/>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="checkbox" lay-skin='primary' name='confirmState' lay-filter='checkbox-filter-confirm-state' title="通过" value="2" checked/>
                     </div>
                 </div>
             </div>

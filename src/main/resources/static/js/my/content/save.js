@@ -128,6 +128,13 @@ layui.use(['layer', 'table', 'laytpl', 'form', 'laydate'], function () {
         });
     }
 
+    form.on('checkbox(checkbox-filter-confirm-state)', function(data){
+        $("input[name='confirmState']").prop("checked", false);   //全部取消选中
+        $(this).prop("checked", true);                          //勾选当前选中的选择框     
+        form.render('checkbox');
+    });
+    form.render('checkbox');
+
     // 监听保存内容表单提交
     form.on('submit(btn-filter-save-content)', function (data) {
         saveContent(data.field);

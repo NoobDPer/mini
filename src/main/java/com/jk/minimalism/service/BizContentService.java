@@ -1,5 +1,7 @@
 package com.jk.minimalism.service;
 
+import com.jk.minimalism.bean.dto.BizContentDTO;
+import com.jk.minimalism.bean.dto.BizContentOpenDTO;
 import com.jk.minimalism.bean.entity.BizContent;
 
 import java.util.List;
@@ -10,7 +12,14 @@ import java.util.Map;
  */
 public interface BizContentService {
 
-    BizContent saveBizContent(BizContent bizcontent);
+    /**
+     * 保存内容
+     * @param bizContentDTO 内容对象
+     * @return 保存完的内容
+     */
+    BizContent saveBizContent(BizContentDTO bizContentDTO);
+
+    void saveBizContent4forOpen(BizContentOpenDTO bizContentOpenDTO);
 
     BizContent getById(Long id);
 

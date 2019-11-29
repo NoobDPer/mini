@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jk.minimalism.bean.common.AjaxResult;
+import com.jk.minimalism.bean.dto.BizContentDTO;
 import com.jk.minimalism.util.MapperColumnUtil;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,8 @@ public class BizContentController {
 
     @PostMapping
     @ApiOperation(value = "保存")
-    public BizContent save(@RequestBody BizContent bizcontent) {
-        bizContentService.saveBizContent(bizcontent);
-
-        return bizcontent;
+    public BizContent save(@RequestBody BizContentDTO bizcontent) {
+        return bizContentService.saveBizContent(bizcontent);
     }
 
     @GetMapping("/{id}")

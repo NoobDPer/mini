@@ -1,17 +1,26 @@
 package com.jk.minimalism.service.impl;
 
+import com.jk.minimalism.bean.dto.BizContentDTO;
+import com.jk.minimalism.bean.dto.BizContentOpenDTO;
+import com.jk.minimalism.bean.enums.ConfirmStatus;
+import com.jk.minimalism.bean.enums.ContentSource;
+import com.jk.minimalism.util.BeanFillUtils;
 import com.jk.minimalism.util.IdUtils;
 import com.jk.minimalism.dao.BizContentMapper;
 import com.jk.minimalism.bean.entity.BizContent;
 import com.jk.minimalism.service.BizContentService;
 import com.jk.minimalism.util.UserUtil;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author auto-generate
@@ -19,19 +28,45 @@ import java.util.Map;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class BizContentServiceImpl implements BizContentService {
+
     private final BizContentMapper bizContentMapper;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public BizContentServiceImpl(BizContentMapper bizContentMapper) {
+    public BizContentServiceImpl(BizContentMapper bizContentMapper,@Lazy ModelMapper modelMapper) {
         this.bizContentMapper = bizContentMapper;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public BizContent saveBizContent(BizContent bizcontent) {
+    public BizContent saveBizContent(BizContentDTO bizContentDTO) {
+        BizContent bizContent = modelMapper.map(bizContentDTO, BizContent.class);
+        long userId = UserUtil.getUserId();
+        Date now = new Date();
+        bizContent.setConfirmUser(userId);
+        bizContent.setConfirmTime(now);
+        if (Objects.nonNull(bizContent.getId())) {
+            // 更新
+            BeanFillUtils.setUpdateAttr(bizContent, userId);
+            bizContentMapper.updateByPrimaryKey(bizContent);
+        } else {
+            // 新增
+            bizContent.setId(IdUtils.nextId());
+            bizContent.setSource(ContentSource.WEB_BACK.getSource());
+            BeanFillUtils.setCreateAttr(bizContent, userId);
+            bizContentMapper.insertSelective(bizContent);
+        }
+        // TODO SAVE CONFIRM LOGS
+        return bizContent;
+    }
 
-        bizcontent.setId(IdUtils.nextId());
-        bizContentMapper.save(bizcontent);
-        return bizcontent;
+    @Override
+    public void saveBizContent4forOpen(BizContentOpenDTO bizContentOpenDTO) {
+        BizContent bizContent = modelMapper.map(bizContentOpenDTO, BizContent.class);
+        bizContent.setConfirmState(ConfirmStatus.NOT_CONFIRMED.getCode());
+        BeanFillUtils.setCreateAttr(bizContent);
+        bizContentMapper.insertSelective(bizContent);
     }
 
     @Override

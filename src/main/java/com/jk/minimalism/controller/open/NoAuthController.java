@@ -1,6 +1,8 @@
 package com.jk.minimalism.controller.open;
 
 import com.jk.minimalism.bean.common.AjaxResult;
+import com.jk.minimalism.bean.dto.BizContentDTO;
+import com.jk.minimalism.bean.dto.BizContentOpenDTO;
 import com.jk.minimalism.bean.entity.BizContent;
 import com.jk.minimalism.service.BizContentService;
 import io.swagger.annotations.Api;
@@ -22,5 +24,11 @@ public class NoAuthController {
 
     @Autowired
     private BizContentService bizContentService;
+
+    @PostMapping
+    @ApiOperation(value = "保存")
+    public void save(@RequestBody BizContentOpenDTO bizcontent) {
+        bizContentService.saveBizContent4forOpen(bizcontent);
+    }
 
 }

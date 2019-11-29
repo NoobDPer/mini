@@ -139,7 +139,7 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
     // 初始化select
     var initSelects = [
         {data: getRoles(), $ele: [$filterForm.find('select[name=roleId]')]},
-        {fn: VgReq.getCreators, $ele: $filterForm.find('select[name=createUser]'), param: {type: 2}}
+        {fn: VgReq.getCreators, $ele: $filterForm.find('select[name=createBy]'), param: {type: 2}}
     ];
     $.each(initSelects, function (i, row) {
         VgReq.initSelect.call(This, row);

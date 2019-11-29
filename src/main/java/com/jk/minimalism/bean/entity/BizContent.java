@@ -1,10 +1,12 @@
 package com.jk.minimalism.bean.entity;
 
+import com.jk.minimalism.bean.common.UserAndTimeAttrAdapter;
 import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +14,7 @@ import java.util.Date;
  */
 @Data
 @Table(name = "biz_content")
-public class BizContent {
+public class BizContent implements UserAndTimeAttrAdapter, Serializable {
 
     /**
      * ID
@@ -67,7 +69,7 @@ public class BizContent {
      * 审核人
      */
     @Column(name = "CONFIRM_USER")
-    private String confirmUser;
+    private Long confirmUser;
 
     /**
      * 审核时间
@@ -84,8 +86,8 @@ public class BizContent {
     /**
      * 创建人
      */
-    @Column(name = "CREATE_USER")
-    private String createUser;
+    @Column(name = "CREATE_BY")
+    private Long createBy;
 
     /**
      * 更新时间
@@ -96,8 +98,8 @@ public class BizContent {
     /**
      * 更新人
      */
-    @Column(name = "UPDATE_USER")
-    private String updateUser;
+    @Column(name = "UPDATE_BY")
+    private Long updateBy;
 
     public interface CONFIRM_STATE {
         /**

@@ -5,17 +5,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Date;
 
 /**
- * @author auto-generate
+ * @author admin-jk
+ * @date 19-11-29
  */
 @Data
-public class BizContentDTO implements Serializable {
-
-    @ApiModelProperty(value = "ID")
-    private Long id;
+public class BizContentOpenDTO {
 
     @ApiModelProperty(value = "类型")
     @NotNull
@@ -39,10 +35,5 @@ public class BizContentDTO implements Serializable {
     @NotNull
     @VStringIn(in = {"0", "1", "2",})
     private String source;
-
-    @ApiModelProperty(value = "审核状态 99-不通过 0-未审核 1-待定 2-通过 ")
-    @NotNull
-    @VStringIn(in = {"99", "0", "1", "2"})
-    private String confirmState;
 
 }

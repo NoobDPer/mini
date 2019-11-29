@@ -15,9 +15,9 @@
         <result column="CONFIRM_USER" property="confirmUser"/>
         <result column="CONFIRM_TIME" property="confirmTime"/>
         <result column="CREATE_TIME" property="createTime"/>
-        <result column="CREATE_USER" property="createUser"/>
+        <result column="CREATE_BY" property="createBy"/>
         <result column="UPDATE_TIME" property="updateTime"/>
-        <result column="UPDATE_USER" property="updateUser"/>
+        <result column="UPDATE_BY" property="updateBy"/>
 
     </resultMap>
 
@@ -56,14 +56,14 @@
             <if test="params.createTime != null and params.createTime != ''">
                 and CREATE_TIME = #{params.createTime}
             </if>
-            <if test="params.createUser != null and params.createUser != ''">
-                and CREATE_USER = #{params.createUser}
+            <if test="params.createBy != null and params.createBy != ''">
+                and CREATE_BY = #{params.createBy}
             </if>
             <if test="params.updateTime != null and params.updateTime != ''">
                 and UPDATE_TIME = #{params.updateTime}
             </if>
-            <if test="params.updateUser != null and params.updateUser != ''">
-                and UPDATE_USER = #{params.updateUser}
+            <if test="params.updateBy != null and params.updateBy != ''">
+                and UPDATE_BY = #{params.updateBy}
             </if>
 
         </where>
@@ -118,13 +118,13 @@
                 CREATE_TIME = #{createTime},
             </if>
             <if test="createUser != null">
-                CREATE_USER = #{createUser},
+                CREATE_BY = #{createBy},
             </if>
             <if test="updateTime != null">
                 UPDATE_TIME = #{updateTime},
             </if>
             <if test="updateUser != null">
-                UPDATE_USER = #{updateUser},
+                UPDATE_BY = #{updateBy},
             </if>
 
         </set>
@@ -138,7 +138,7 @@
         SET
         CONFIRM_STATE = #{state},
         UPDATE_TIME = NOW(),
-        UPDATE_USER = #{updateUser}
+        UPDATE_BY = #{updateBy}
         WHERE ID
         <choose>
             <when test="ids.size() == 1">
