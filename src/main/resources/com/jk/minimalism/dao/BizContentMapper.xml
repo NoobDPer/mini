@@ -74,7 +74,7 @@
         <include refid="where"/>
     </select>
 
-    <select id="list" resultType="com.jk.minimalism.bean.entity.BizContent">
+    <select id="list" resultMap="BaseResultMap">
         select * from biz_content t
         <include refid="where"/>
         ${params.orderBy}
@@ -152,4 +152,12 @@
             </otherwise>
         </choose>
     </update>
+
+    <select id="countByType" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM biz_content WHERE `TYPE` = #{type} AND CONFIRM_STATE = '2'
+    </select>
+
+    <select id="getByTypeAndLimit" resultMap="BaseResultMap">
+        SELECT * FROM biz_content WHERE `TYPE` = #{type} AND CONFIRM_STATE = '2' LIMIT #{offset}, 1
+    </select>
 </mapper>

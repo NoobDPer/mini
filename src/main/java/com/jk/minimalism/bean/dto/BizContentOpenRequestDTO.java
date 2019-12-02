@@ -1,6 +1,7 @@
 package com.jk.minimalism.bean.dto;
 
 import com.jk.minimalism.constraint.VStringIn;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,7 +12,8 @@ import javax.validation.constraints.NotNull;
  * @date 19-11-29
  */
 @Data
-public class BizContentOpenDTO {
+@ApiModel(value = "外部接口内容保存请求对象")
+public class BizContentOpenRequestDTO {
 
     @ApiModelProperty(value = "类型")
     @NotNull

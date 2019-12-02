@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public User insert(User user, Integer roleId) {
         if (userMapper.existsWithUsername(user.getUsername())) {
-            throw new MinimalismBizRuntimeException(ResultCode.PROVIDER_USER_USERNAME_EXISTS_ERROR, String.format("用户名已经存在: username: [%s]", user.getUsername()));
+            throw new MinimalismBizRuntimeException(ResultCode.USER_USERNAME_EXISTS_ERROR, String.format("用户名已经存在: username: [%s]", user.getUsername()));
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public User update(User user) {
         if (userMapper.existsWithUsernameWithoutId(user.getUsername(), user.getId())) {
-            throw new MinimalismBizRuntimeException(ResultCode.PROVIDER_USER_USERNAME_EXISTS_ERROR, String.format("用户名已经存在: username: [%s]", user.getUsername()));
+            throw new MinimalismBizRuntimeException(ResultCode.USER_USERNAME_EXISTS_ERROR, String.format("用户名已经存在: username: [%s]", user.getUsername()));
         }
 
         if (StringUtils.isNotEmpty(user.getPassword())) {
@@ -96,10 +96,10 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(Long id, String oldPassword, String newPassword) {
         User user = userMapper.selectByPrimaryKey(id);
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new MinimalismBizRuntimeException(ResultCode.PROVIDER_USER_PASSWORD_ERROR, String.format("更新密码失败, 密码错误: oldPassword:[%s]", oldPassword));
+            throw new MinimalismBizRuntimeException(ResultCode.USER_PASSWORD_ERROR, String.format("更新密码失败, 密码错误: oldPassword:[%s]", oldPassword));
         }
         if (passwordEncoder.matches(newPassword, user.getPassword())) {
-            throw new MinimalismBizRuntimeException(ResultCode.PROVIDER_USER_NEW_PASSWORD_REPEATED_ERROR);
+            throw new MinimalismBizRuntimeException(ResultCode.USER_NEW_PASSWORD_REPEATED_ERROR);
         }
 
         User updateParam = new User();
@@ -163,16 +163,16 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public void updateUsername(long id, String username) {
         if (userMapper.existsWithUsernameWithoutId(username, id)) {
-            throw new MinimalismBizRuntimeException(ResultCode.PROVIDER_USER_USERNAME_EXISTS_ERROR, String.format("用户名已经存在: username: [%s]", username));
+            throw new MinimalismBizRuntimeException(ResultCode.USER_USERNAME_EXISTS_ERROR, String.format("用户名已经存在: username: [%s]", username));
         }
 
         User user = userMapper.selectByPrimaryKey(id);
         if (null == user) {
-            throw new MinimalismBizRuntimeException(ResultCode.PROVIDER_NOT_OPEN_ERROR);
+            throw new MinimalismBizRuntimeException(ResultCode.USER_NOT_EXISTS_ERROR);
         }
 
         if (user.getState() == User.Status.DISABLED) {
-            throw new MinimalismBizRuntimeException(ResultCode.PROVIDER_USER_DISABLED_ERROR);
+            throw new MinimalismBizRuntimeException(ResultCode.USER_DISABLED_ERROR);
         }
 
         user.setUsername(username);

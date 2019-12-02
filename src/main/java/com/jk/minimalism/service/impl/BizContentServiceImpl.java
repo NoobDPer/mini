@@ -1,9 +1,11 @@
 package com.jk.minimalism.service.impl;
 
 import com.jk.minimalism.bean.dto.BizContentDTO;
-import com.jk.minimalism.bean.dto.BizContentOpenDTO;
+import com.jk.minimalism.bean.dto.BizContentOpenRequestDTO;
 import com.jk.minimalism.bean.enums.ConfirmStatus;
 import com.jk.minimalism.bean.enums.ContentSource;
+import com.jk.minimalism.bean.enums.ResultCode;
+import com.jk.minimalism.exception.MinimalismBizRuntimeException;
 import com.jk.minimalism.util.BeanFillUtils;
 import com.jk.minimalism.util.IdUtils;
 import com.jk.minimalism.dao.BizContentMapper;
@@ -62,8 +64,8 @@ public class BizContentServiceImpl implements BizContentService {
     }
 
     @Override
-    public void saveBizContent4forOpen(BizContentOpenDTO bizContentOpenDTO) {
-        BizContent bizContent = modelMapper.map(bizContentOpenDTO, BizContent.class);
+    public void saveBizContent4forOpen(BizContentOpenRequestDTO bizContentOpenRequestDTO) {
+        BizContent bizContent = modelMapper.map(bizContentOpenRequestDTO, BizContent.class);
         bizContent.setConfirmState(ConfirmStatus.NOT_CONFIRMED.getCode());
         BeanFillUtils.setCreateAttr(bizContent);
         bizContentMapper.insertSelective(bizContent);
@@ -105,5 +107,15 @@ public class BizContentServiceImpl implements BizContentService {
     public void confirmBizContent(Long id, String state) {
         bizContentMapper.batchUpdateState(Collections.singletonList(id), state, UserUtil.getUserId());
         // TODO SAVE CONFIRM LOGS
+    }
+
+    @Override
+    public BizContent randomOneBizContent(String type) {
+        int totalCount = bizContentMapper.countByType(type);
+        if (totalCount < 1) {
+            throw new MinimalismBizRuntimeException(ResultCode.NO_DATA_TO_SHOW_ERROR);
+        }
+        int offset = (int) (Math.random()*(totalCount));
+        return bizContentMapper.getByTypeAndLimit(type, offset);
     }
 }

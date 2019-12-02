@@ -1,7 +1,7 @@
 package com.jk.minimalism.service;
 
 import com.jk.minimalism.bean.dto.BizContentDTO;
-import com.jk.minimalism.bean.dto.BizContentOpenDTO;
+import com.jk.minimalism.bean.dto.BizContentOpenRequestDTO;
 import com.jk.minimalism.bean.entity.BizContent;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public interface BizContentService {
      */
     BizContent saveBizContent(BizContentDTO bizContentDTO);
 
-    void saveBizContent4forOpen(BizContentOpenDTO bizContentOpenDTO);
+    void saveBizContent4forOpen(BizContentOpenRequestDTO bizContentOpenRequestDTO);
 
     BizContent getById(Long id);
 
@@ -46,5 +46,11 @@ public interface BizContentService {
      * @param state 审核状态 99-不通过 0-未审核 1-待定 2-通过
      */
     void confirmBizContent(Long id, String state);
+
+    /**
+     * 根据类型随机一条内容数据
+     * @param type 内容类型 com.jk.minimalism.bean.enums.BizContentType
+     */
+    BizContent randomOneBizContent(String type);
 
 }

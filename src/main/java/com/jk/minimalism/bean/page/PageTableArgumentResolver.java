@@ -40,8 +40,18 @@ public class PageTableArgumentResolver implements HandlerMethodArgumentResolver 
 			tableRequest.setOffset(Integer.parseInt(request.getParameter("start")));
 		}
 
+		if (param.containsKey("page")) {
+			int page = Integer.parseInt(request.getParameter("page"));
+			int limit = Integer.parseInt(request.getParameter("limit"));
+			tableRequest.setOffset((page - 1) * limit);
+		}
+
 		if (param.containsKey("length")) {
 			tableRequest.setLimit(Integer.parseInt(request.getParameter("length")));
+		}
+
+		if (param.containsKey("limit")) {
+			tableRequest.setLimit(Integer.parseInt(request.getParameter("limit")));
 		}
 
 		Map<String, Object> map = Maps.newHashMap();

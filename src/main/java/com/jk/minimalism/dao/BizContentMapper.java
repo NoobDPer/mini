@@ -27,4 +27,8 @@ public interface BizContentMapper extends BaseMapper<BizContent> {
     List<BizContent> list(@Param("params") Map<String, Object> params, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
     int batchUpdateState(@Param("ids") List<Long> ids, @Param("state") String state, @Param("updateBy") Long updateUser);
+
+    int countByType(@Param("type") String type);
+
+    BizContent getByTypeAndLimit(@Param("type") String type, @Param("offset") Integer offset);
 }

@@ -1,17 +1,15 @@
 package com.jk.minimalism.controller.open;
 
 import com.jk.minimalism.bean.common.AjaxResult;
-import com.jk.minimalism.bean.dto.BizContentDTO;
-import com.jk.minimalism.bean.dto.BizContentOpenDTO;
+import com.jk.minimalism.bean.dto.BizContentOpenRequestDTO;
+import com.jk.minimalism.bean.dto.BizContentOpenResponseDTO;
 import com.jk.minimalism.bean.entity.BizContent;
 import com.jk.minimalism.service.BizContentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 无权限接口
@@ -25,10 +23,24 @@ public class NoAuthController {
     @Autowired
     private BizContentService bizContentService;
 
-    @PostMapping
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @PostMapping("/content")
     @ApiOperation(value = "保存")
-    public void save(@RequestBody BizContentOpenDTO bizcontent) {
+    public void save(@RequestBody BizContentOpenRequestDTO bizcontent) {
         bizContentService.saveBizContent4forOpen(bizcontent);
+    }
+
+    @GetMapping("/content/type/{type}/random")
+    @ApiOperation(value = "随机一条内容")
+    public AjaxResult<BizContentOpenResponseDTO> randomOneContent(@PathVariable("type") String type) {
+        BizContent bizContent = bizContentService.randomOneBizContent(type);
+        BizContentOpenResponseDTO result = modelMapper.map(bizContent, BizContentOpenResponseDTO.class);
+        if ("0".equals(bizContent.getShowQqState())) {
+            result.setCommitQq("");
+        }
+        return new AjaxResult<>(result).success();
     }
 
 }
