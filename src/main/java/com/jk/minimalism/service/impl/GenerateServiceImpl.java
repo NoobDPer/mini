@@ -109,8 +109,8 @@ public class GenerateServiceImpl implements GenerateService {
             TemplateUtil.saveJavaDTO(input);
             TemplateUtil.saveJavaDao(input);
             TemplateUtil.saveJavaService(input);
-            TemplateUtil.saveController(input);
-            TemplateUtil.saveHtmlList(input);
+//            TemplateUtil.saveController(input);
+//            TemplateUtil.saveHtmlList(input);
         }
     }
 

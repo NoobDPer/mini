@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.minimalism.dao.BizConfirmLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.jk.minimalism.bean.entity.BizConfirmLog">
+        <id column="ID" property="id"/>
+        <result column="CONTENT_ID" property="contentId"/>
+        <result column="CONFIRM_USER" property="confirmUser"/>
+        <result column="CONFIRM_TIME" property="confirmTime"/>
+        <result column="CONFIRM_STATE_ORIGIN" property="confirmStateOrigin"/>
+        <result column="CONFIRM_STATE_NEW" property="confirmStateNew"/>
+
+    </resultMap>
+
+    <sql id="where">
+        <where>
+            <if test="params.id != null and params.id != ''">
+                and ID = #{params.id}
+            </if>
+            <if test="params.contentId != null and params.contentId != ''">
+                and CONTENT_ID = #{params.contentId}
+            </if>
+            <if test="params.confirmUser != null and params.confirmUser != ''">
+                and CONFIRM_USER = #{params.confirmUser}
+            </if>
+            <if test="params.confirmTime != null and params.confirmTime != ''">
+                and CONFIRM_TIME = #{params.confirmTime}
+            </if>
+            <if test="params.confirmStateOrigin != null and params.confirmStateOrigin != ''">
+                and CONFIRM_STATE_ORIGIN = #{params.confirmStateOrigin}
+            </if>
+            <if test="params.confirmStateNew != null and params.confirmStateNew != ''">
+                and CONFIRM_STATE_NEW = #{params.confirmStateNew}
+            </if>
+
+        </where>
+    </sql>
+
+    <select id="count" resultType="int">
+        select count(1) from biz_confirm_log t
+        <include refid="where"/>
+    </select>
+
+    <select id="list" resultType="com.jk.minimalism.bean.entity.BizConfirmLog">
+        select * from biz_confirm_log t
+        <include refid="where"/>
+        ${params.orderBy}
+        limit #{offset}, #{limit}
+    </select>
+
+
+</mapper>

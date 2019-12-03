@@ -5,6 +5,7 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
     var table = layui.table;
     var adminTab = parent.adminTab || top.adminTab;
     var form = layui.form;
+    var laytpl = layui.laytpl;
     // 筛选表单
     var $filterForm = $('form[lay-filter=form-filter-content]');
 
@@ -18,15 +19,28 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
         url: '/contents', //数据接口
         cols: [[ //表头
             {type: 'checkbox', fixed: 'left'},
-            {field: 'contentCn', title: '中文内容', minWidth: 105},
+            {field: 'contentCn', title: '中文内容', minWidth: 300},
             {field: 'contentEn', title: '英文内容', width: 185, minWidth: 185},
-            {field: 'commitQq', title: '提交人', width: 155, minWidth: 155},
-            {field: 'showQqState', title: '同意展示', width: 160, minWidth: 160},
-            {field: 'source', title: '来源', width: 200, minWidth: 200},
-            {field: 'confirmUser', title: '审核人', width: 200, minWidth: 200},
-            {field: 'confirmState', title: '审核状态', width: 200, minWidth: 200},
+            {field: 'commitQq', title: '提交人', width: 75, minWidth: 75},
+            {field: 'showQqState', title: '同意展示', width: 100, minWidth: 100, templet: '#laytpl-table-show-state-icon'
+                    },
+            {field: 'source', title: '来源', width: 60, minWidth: 60, templet: function (d) {
+                    switch (d.source) {
+                        case '0' :
+                            return "后台";
+                        case '1' :
+                            return "WEB";
+                        case '2' :
+                            return "小程序";
+                        default :
+                            return "--";
+                    }
+                }
+            },
+            {field: 'confirmUsername', title: '审核人', width: 75, minWidth: 75},
+            {field: 'confirmState', title: '审核状态', width: 100, minWidth: 100, templet: '#laytpl-table-confirm-state-icon'},
             {
-                title: '审核时间', width: 155, minWidth: 155, templet: function (d) {
+                title: '审核时间', width: 165, minWidth: 165, templet: function (d) {
                     return dayjs(d.confirmTime).format('YYYY-MM-DD HH:mm:ss');
                 }
             },

@@ -31,4 +31,6 @@ public interface BizContentMapper extends BaseMapper<BizContent> {
     int countByType(@Param("type") String type);
 
     BizContent getByTypeAndLimit(@Param("type") String type, @Param("offset") Integer offset);
+
+    List<BizContent> listByIds(@Param("ids") List<Long> ids);
 }

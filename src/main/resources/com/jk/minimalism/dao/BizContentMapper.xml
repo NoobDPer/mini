@@ -23,6 +23,12 @@
 
     <sql id="where">
         <where>
+            <if test="params.condition != null and params.condition !=''">
+                AND (
+                    CONTENT_CN LIKE CONCAT('%', #{params.condition}, '%')
+                    OR CONTENT_EN LIKE CONCAT('%', #{params.condition}, '%')
+                )
+            </if>
             <if test="params.id != null and params.id != ''">
                 and ID = #{params.id}
             </if>
@@ -159,5 +165,20 @@
 
     <select id="getByTypeAndLimit" resultMap="BaseResultMap">
         SELECT * FROM biz_content WHERE `TYPE` = #{type} AND CONFIRM_STATE = '2' LIMIT #{offset}, 1
+    </select>
+
+    <select id="listByIds" resultMap="BaseResultMap">
+        SELECT * FROM biz_content WHERE ID
+        <choose>
+            <when test="ids.size() == 1">
+                = #{ids[0]}
+            </when>
+            <otherwise>
+                IN
+                <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                    #{id}
+                </foreach>
+            </otherwise>
+        </choose>
     </select>
 </mapper>

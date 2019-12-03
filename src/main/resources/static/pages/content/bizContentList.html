@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>毒鸡汤</title>
-    <!--<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">-->
-    <!--<link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">-->
     <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
     <link rel="stylesheet" type="text/css" media="screen" href="../../css/mini.css">
+    <link rel="stylesheet" type="text/css" href="../../css/font-awesome/css/font-awesome.css" media="all"/>
     <style type="text/css">
         /*解决下拉框出现滚动条*/
         #layer-id-batch-add {
@@ -67,23 +66,6 @@
                    class="layui-input mini-search">
             <i class="mini-search-icon layui-icon">&#xe615;</i>
         </div>
-        <!--<div class="layui-input-inline">-->
-            <!--<select name="taxpayerSeniorityType" id="select-taxpayer-seniority"-->
-                    <!--lay-filter="select-filter-taxpayer-seniority">-->
-                <!--<option value="">纳税人资格</option>-->
-            <!--</select>-->
-        <!--</div>-->
-        <!--<div class="layui-input-inline">-->
-            <!--<select name="applicableAccountingType" id="select-accounting"-->
-                    <!--lay-filter="select-filter-accounting">-->
-                <!--<option value="">会计制度</option>-->
-            <!--</select>-->
-        <!--</div>-->
-        <!--<div class="layui-input-inline">-->
-            <!--<input type="text" class="layui-input" name="startDate" placeholder="启用期间">-->
-            <!--<input type="hidden" name="startYear">-->
-            <!--<input type="hidden" name="startMonth">-->
-        <!--</div>-->
     </form>
 </div>
 
@@ -97,6 +79,32 @@
 <div class="layui-row">
     <table id="table-content"></table>
 </div>
+<script id="laytpl-table-show-state-icon" type="text/html">
+        <span>
+            {{# if (d.showQqState=="1") { }}
+            <i class="layui-icon layui-icon-ok" style="font-size: 15px; color: #00B83F;" title="同意展示"></i>
+            {{# } else { }}
+            <i class="layui-icon layui-icon-close" style="font-size: 15px; color: #c82333;" title="不同意展示"></i>
+            {{# } }}
+        </span>
+</script>
+
+
+<script id="laytpl-table-confirm-state-icon" type="text/html">
+    <span>
+            {{# if (d.confirmState=="99") { }}
+            <i class="fa fa-times-circle-o" style="font-size: 15px; color: #c82333;" aria-hidden="true" title="不通过"></i>
+            {{# } else if (d.confirmState=="0") { }}
+            <i class="fa fa-minus-circle" style="font-size: 15px; color: #0000FF;" aria-hidden="true" title="未审核"></i>
+            {{# } else if (d.confirmState=="1") { }}
+            <i class="fa fa-question-circle-o" style="font-size: 15px; color: #FFB800;" aria-hidden="true" title="待定"></i>
+            {{# } else if (d.confirmState=="2") { }}
+            <i class="fa fa-check-circle" style="font-size: 15px; color: #00B83F;" aria-hidden="true" title="通过"></i>
+            {{# } }}
+        </span>
+</script>
+
+
 <script id="laytpl-table-ops" type="text/html">
     <div class="layui-btn-group">
         <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-content-confirm"

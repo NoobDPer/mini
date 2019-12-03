@@ -2,6 +2,7 @@ package com.jk.minimalism.service;
 
 import com.jk.minimalism.bean.dto.BizContentDTO;
 import com.jk.minimalism.bean.dto.BizContentOpenRequestDTO;
+import com.jk.minimalism.bean.dto.BizContentResponseDTO;
 import com.jk.minimalism.bean.entity.BizContent;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public interface BizContentService {
 
     int count(Map<String, Object> params);
 
-    List<BizContent> list(Map<String, Object> params, Integer offset, Integer limit);
+    List<BizContentResponseDTO> list(Map<String, Object> params, Integer offset, Integer limit);
 
     /**
      * 批量更改审核状态
