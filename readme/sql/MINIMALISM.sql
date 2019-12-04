@@ -1422,6 +1422,12 @@ INSERT INTO `biz_content` VALUES (1232, '1', '你妹是个好姑娘，替你妈�
 
 
 
+
+INSERT INTO `MINIMALISM`.`biz_content`(`ID`, `TYPE`, `CONTENT_CN`, `CONTENT_EN`, `COMMIT_QQ`, `SHOW_QQ_STATE`, `SOURCE`, `CONFIRM_STATE`, `CONFIRM_USER`, `CONFIRM_TIME`, `CREATE_TIME`, `CREATE_BY`, `UPDATE_TIME`, `UPDATE_BY`) VALUES (1202074805071908864, '3', '🐳☀️，👴😴☠，🥚👶🍅🥦🐭👨🤴！！！', '', NULL, '0', '0', '2', -1, '2019-12-04 11:59:02', '2019-12-04 11:59:02', -1, '2019-12-04 11:59:02', -1);
+INSERT INTO `MINIMALISM`.`biz_content`(`ID`, `TYPE`, `CONTENT_CN`, `CONTENT_EN`, `COMMIT_QQ`, `SHOW_QQ_STATE`, `SOURCE`, `CONFIRM_STATE`, `CONFIRM_USER`, `CONFIRM_TIME`, `CREATE_TIME`, `CREATE_BY`, `UPDATE_TIME`, `UPDATE_BY`) VALUES (1201762169394434048, '3', '开会死🐎脸，上班死🐎脸', '', NULL, '0', '0', '2', -1, '2019-12-03 15:16:44', '2019-12-03 15:16:44', -1, '2019-12-03 15:16:44', -1);
+
+
+
 -- ----------------------------
 -- Table structure for biz_confirm_log
 -- ----------------------------
