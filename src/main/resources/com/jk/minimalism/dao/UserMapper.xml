@@ -9,6 +9,9 @@
         <result column="USERNAME" jdbcType="VARCHAR" property="username"/>
         <result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
         <result column="NICKNAME" jdbcType="VARCHAR" property="nickname"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="CURRENT_LOGIN_TIME" jdbcType="TIMESTAMP" property="currentLoginTime"/>
+        <result column="LAST_LOGIN_TIME" jdbcType="TIMESTAMP" property="lastLoginTime"/>
         <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="UPDATE_BY" jdbcType="BIGINT" property="updateBy"/>
         <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
@@ -16,31 +19,70 @@
         <result column="STATE" jdbcType="INTEGER" property="state"/>
     </resultMap>
 
+    <resultMap id="UserListResponseMap" type="com.jk.minimalism.bean.dto.UserListResponseDTO">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="USERNAME" jdbcType="VARCHAR" property="username"/>
+        <result column="NICKNAME" jdbcType="VARCHAR" property="nickname"/>
+        <result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="CURRENT_LOGIN_TIME" jdbcType="TIMESTAMP" property="currentLoginTime"/>
+        <result column="LAST_LOGIN_TIME" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="STATE" jdbcType="INTEGER" property="state"/>
+        <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName"/>
+    </resultMap>
+
+    <select id="findByUsername" resultMap="BaseResultMap">
+        SELECT * FROM sys_user WHERE BINARY USERNAME = #{username}
+    </select>
+
+    <select id="findRoleByUserId" resultType="java.lang.Integer">
+        SELECT R.ROLE_ID FROM sys_user U
+        INNER JOIN sys_user_role R ON U.ID = R.USER_ID
+        WHERE U.ID = #{id} LIMIT 1
+    </select>
+
     <sql id="where">
         <where>
-            <if test="params.username != null and params.username != ''">
-                and t.username like concat('%', #{params.username}, '%')
+            <if test="params.condition != null and params.condition != ''">
+                and (t.username like concat('%', #{params.condition}, '%')
+                or t.nickname like concat('%', #{params.condition}, '%')
+                or t.phone like concat('%', #{params.condition}, '%'))
             </if>
-            <if test="params.nickname != null and params.nickname != ''">
-                and t.nickname like concat('%', #{params.nickname}, '%')
+            <if test="params.roleId != null ">
+                and sur.ROLE_ID = #{params.roleId}
             </if>
-            <if test="params.status != null and params.status != ''">
-                and t.status = #{params.status}
+            <if test="params.state != null ">
+                and t.state = #{params.state}
             </if>
         </where>
     </sql>
 
-    <select id="count" resultType="int">
-        select count(1) from sys_user t
-        <include refid="where" />
+    <select id="list" resultMap="UserListResponseMap">
+        SELECT
+        t.ID,
+        t.USERNAME,
+        t.NICKNAME,
+        t.PHONE,
+        t.CURRENT_LOGIN_TIME,
+        t.LAST_LOGIN_TIME,
+        t.CREATE_TIME,
+        t.STATE,
+        sr.NAME ROLE_NAME
+        FROM sys_user t
+        LEFT JOIN sys_user_role sur ON t.ID = sur.USER_ID
+        LEFT JOIN sys_role sr on sur.ROLE_ID = sr.ID
+        <include refid="where"/>
+        ORDER BY t.CREATE_TIME ASC
     </select>
 
-    <select id="list" resultType="com.jk.minimalism.bean.entity.User">
-        select * from sys_user t
-        <include refid="where" />
-        ORDER BY CREATETIME ASC
-        limit #{offset}, #{limit}
-    </select>
+    <delete id="deleteUser">
+        DELETE T1, T2 FROM sys_user T1
+        INNER JOIN sys_role_user T2 ON T1.id = T2.userId
+        WHERE T1.id = #{userId}
+    </delete>
 
     <update id="updatePassword">
         UPDATE sys_user

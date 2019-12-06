@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jk.minimalism.dao.RoleMapper">
-  <resultMap id="BaseResultMap" type="com.jk.minimalism.bean.entity.Role">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="ID" jdbcType="INTEGER" property="id" />
-    <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.jk.minimalism.bean.entity.Role">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.jk.minimalism.bean.entity.Role">
+        INSERT INTO sys_role(NAME, DESCRIPTION) VALUES(#{name}, #{description})
+    </insert>
 
     <sql id="where">
         <where>
@@ -20,22 +24,50 @@
 
     <select id="count" resultType="int">
         SELECT COUNT(1) FROM sys_role T
-        <include refid="where" />
+        <include refid="where"/>
     </select>
 
     <select id="list" resultType="com.jk.minimalism.bean.entity.Role">
         SELECT * FROM sys_role T
-        <include refid="where" />
+        <include refid="where"/>
         <if test="offset != null and offset >= 0 and limit != null and limit >= 0">
             limit #{offset}, #{limit}
         </if>
     </select>
 
-    <insert id="saveRolePermission">
+    <select id="getById" resultMap="BaseResultMap">
+        SELECT * FROM sys_role T WHERE T.ID = #{id}
+    </select>
+
+    <select id="getRole" resultMap="BaseResultMap">
+        SELECT * FROM sys_role T WHERE T.NAME = #{name}
+    </select>
+
+    <update id="update" parameterType="com.jk.minimalism.bean.entity.Role">
+        UPDATE sys_role T SET T.NAME = #{name}, T.DESCRIPTION = #{description} where T.ID = #{id}
+    </update>
+
+    <select id="listByUserId" resultMap="BaseResultMap">
+        SELECT * FROM sys_role R INNER JOIN sys_role_user RU ON R.ID = RU.ROLE_ID WHERE RU.USER_ID = #{userId}
+    </select>
+
+    <delete id="deleteRolePermission">
+        DELETE FROM sys_role_permission WHERE ROLE_ID = #{roleId}
+    </delete>
+
+    <insert id="saveRolePermission" parameterType="com.jk.minimalism.bean.entity.Role">
         INSERT INTO sys_role_permission(ROLE_ID, PERMISSION_ID) VALUES
         <foreach collection="permissionIds" item="permissionId"
                  separator=",">
             (#{roleId}, #{permissionId})
         </foreach>
     </insert>
+
+    <delete id="deleteById">
+        DELETE FROM sys_role WHERE ID = #{id}
+    </delete>
+
+    <delete id="deleteRoleUser">
+        DELETE FROM sys_role_user WHERE ROLE_ID = #{roleId}
+    </delete>
 </mapper>

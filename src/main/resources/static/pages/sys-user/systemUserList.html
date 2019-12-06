@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>学生账号管理</title>
     <link rel="stylesheet" href="../../layui/css/layui.css"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="../../css/vg.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/mini.css">
     <style type="text/css">
         .sys-user-label-width {
             width: 150px;
@@ -19,17 +19,17 @@
             overflow: visible;
         }
 
-        .vg-layer-btn-group {
+        .mini-layer-btn-group {
             padding: 10px 10px 0 10px;
         }
 
-        .vg-layer-btn-group button {
+        .mini-layer-btn-group button {
             height: 28px;
             line-height: 28px;
             padding: 0 15px;
         }
 
-        .vg-layer-btn-group button.btn0 {
+        .mini-layer-btn-group button.btn0 {
             border-color: #1E9FFF;
             background-color: #1E9FFF;
             color: #fff;
@@ -54,46 +54,38 @@
         }
     </style>
 </head>
-<body class="vg-body">
+<body class="mini-body">
 <div class="layui-row">
     <div class="layui-row">
         <div class="layui-col-md12">
-            <blockquote class="layui-elem-quote vg-hide capacity-text"></blockquote>
+            <blockquote class="layui-elem-quote mini-hide capacity-text"></blockquote>
         </div>
     </div>
     <div class="layui-col-md8">
-        <form class="layui-form vg-table-filter" lay-filter="form-filter-sys-user">
-            <div class="layui-input-inline sys-user-search-inline vg-search-inline">
-                <input type="text" name="condition" placeholder="用户名/手机号/所属企业"
-                       class="layui-input vg-search">
-                <i class="vg-search-icon layui-icon">&#xe615;</i>
+        <form class="layui-form mini-table-filter" lay-filter="form-filter-sys-user">
+            <div class="layui-input-inline sys-user-search-inline mini-search-inline">
+                <input type="text" name="condition" placeholder="用户名/昵称/手机号"
+                       class="layui-input mini-search">
+                <i class="mini-search-icon layui-icon">&#xe615;</i>
             </div>
-            <div class="layui-input-inline" data-vg-check-role="-1">
+            <div class="layui-input-inline">
                 <select name="roleId"
                         lay-filter="select-filter-roleId">
                     <option value="">角色</option>
                 </select>
             </div>
-            <div class="layui-input-inline" data-vg-check-role="-1">
-                <select name="createUser"
-                        lay-filter="select-filter-createUser">
-                    <option value="">创建人</option>
-                </select>
-            </div>
             <div class="layui-input-inline">
-                <select name="expireStatus"
+                <select name="state"
                         lay-filter="select-filter-status">
                     <option value="">账号状态</option>
-                    <option value="1">开通</option>
-                    <option value="2">过期</option>
                 </select>
             </div>
         </form>
     </div>
 
-    <div class="layui-col-md4 vg-text-align-right">
+    <div class="layui-col-md4 mini-text-align-right">
         <button type="button" class="layui-btn" id="btn-add-sys-user">新增用户</button>
-        <button type="button" class="layui-btn" id="btn-batch-del-sys-user" data-vg-check-role="2">批量删除</button>
+        <!--<button type="button" class="layui-btn" id="btn-batch-del-sys-user" data-mini-check-role="2">批量删除</button>-->
     </div>
 
     <div class="layui-row">
@@ -101,36 +93,12 @@
     </div>
 </div>
 
-<div class="vg-hide vg-padding-10" id="layer-batch-edit-dz-suer">
-    <form class="layui-form" lay-filter="form-filter-batch-edit-dz-suer">
-        <div class="layui-form-item">
-            <label class="layui-form-label vg-required sys-user-label-width">所选账号</label>
-            <div class="layui-input-inline">
-                <span class="selected-count-label">40</span>
-            </div>
-        </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label vg-required sys-user-label-width">学生登录密码</label>
-            <div class="layui-input-inline">
-                <input type="text" class="layui-input" placeholder="输入账号密码" value="123456">
-            </div>
-        </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label sys-user-label-width vg-required">账号状态</label>
-            <div class="layui-input-inline">
-                <input type="radio" name="t" value="1" title="启用" checked>
-                <input type="radio" name="t" value="0" title="关闭">
-            </div>
-        </div>
-    </form>
-</div>
-
-<div class="vg-hide vg-padding-10" id="layer-distribution">
+<div class="mini-hide mini-padding-10" id="layer-distribution">
     <form class="layui-form" lay-filter="form-filter-distribution">
         <div class="layui-form-item">
-            <label class="layui-form-label vg-required sys-user-label-width">管理员</label>
+            <label class="layui-form-label mini-required sys-user-label-width">管理员</label>
             <div class="layui-input-inline">
                 <select name="newId" lay-filter="select-filter-distribution-user" lay-verify="required">
                     <option value="">请选择</option>
@@ -147,37 +115,37 @@
     </form>
 </div>
 
-<div class="vg-hide vg-padding-10" id="layer-save-sys-user">
+<div class="mini-hide mini-padding-10" id="layer-save-sys-user">
     <form class="layui-form" lay-filter="form-filter-save-sys-user">
         <input type="hidden" name="id">
 
-        <div class="layui-form-item vg-hide capacity-text">
+        <div class="layui-form-item mini-hide capacity-text">
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label vg-required sys-user-label-width">系统用户名</label>
+            <label class="layui-form-label mini-required sys-user-label-width">系统用户名</label>
             <div class="layui-input-inline">
                 <input type="text" class="layui-input" name="username" placeholder="请输入用户登录名"
                        lay-verify="required|regex" required
-                       data-vg-verify-regex="^[\u4e00-\u9fa5\w\d]{1,12}$"
-                       data-vg-verify-msg="所设用户名须为1-12位以内的中文、数字或字母组合">
+                       data-mini-verify-regex="^[\u4e00-\u9fa5\w\d]{1,12}$"
+                       data-mini-verify-msg="所设用户名须为1-12位以内的中文、数字或字母组合">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label vg-required sys-user-label-width">手机号</label>
+            <label class="layui-form-label mini-required sys-user-label-width">手机号</label>
             <div class="layui-input-inline">
                 <input type="text" class="layui-input" name="phone" placeholder="请输入用户手机号" lay-verify="required|phone">
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label vg-required sys-user-label-width">角色</label>
+            <label class="layui-form-label mini-required sys-user-label-width">角色</label>
             <div class="layui-input-inline" id="div-save-from-role-id">
             </div>
         </div>
 
-        <div class="layui-row vg-text-align-right vg-layer-btn-group btn-save-sys-user">
+        <div class="layui-row mini-text-align-right mini-layer-btn-group btn-save-sys-user">
             <button class="layui-btn btn0" type="button" lay-submit lay-filter="submit-filter-save-sys-user">保存
             </button>
             <button class="layui-btn layui-btn-primary btn1" type="button">取消</button>
@@ -185,56 +153,10 @@
     </form>
 </div>
 
-<script id="layer-dateRange" type="text/html">
-    <div class="layui-form-item" data-script-id="layer-dateRange">
-        <label class="layui-form-label vg-required sys-user-label-width">使用期限</label>
-        <div class="layui-input-inline">
-            <input type="text" name="expireDate" class="layui-input" lay-verify="required">
-        </div>
-    </div>
-</script>
 
-<script id="laytpl-input-compnay-name" type="text/html">
-    <div class="layui-form-item" data-script-id="laytpl-input-compnay-name">
-        <label class="layui-form-label vg-required sys-user-label-width">所属企业</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input" name="companyName" value="{{ d.companyName }}"
-                   placeholder="填写教育机构或企业名称"
-                   lay-verify="required|regex" required
-                   data-vg-verify-regex="^[\u4e00-\u9fa5\w\d]{2,30}$"
-                   data-vg-verify-msg="所设企业名称须为2~30位以内的中文、数字或字母组合" disabled>
-        </div>
-    </div>
-</script>
 
-<script id="laytpl-select-compnay-name" type="text/html">
-    <div class="layui-form-item" data-script-id="laytpl-select-compnay-name">
-        <label class="layui-form-label vg-required sys-user-label-width">所属企业</label>
-        <div class="layui-input-inline">
-            <select name="companyName" lay-filter="select-filter-save-company-name" lay-verify="required">
-                <option value="">请选择</option>
-            </select>
-        </div>
-    </div>
-</script>
 
-<script id="laytpl-role-relation" type="text/html">
-    <div class="layui-form-item" data-script-id="laytpl-role-relation">
-        <label class="layui-form-label vg-required sys-user-label-width">可创建账号总数上限</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input" name="maxAccountNum" placeholder="设置学生账号数"
-                   lay-verify="required|number">
-        </div>
-    </div>
 
-    <div class="layui-form-item" data-script-id="laytpl-role-relation">
-        <label class="layui-form-label vg-required sys-user-label-width">同时在线账号数上限</label>
-        <div class="layui-input-inline">
-            <input type="text" class="layui-input" name="maxOnlineNum" placeholder="设置学生账号数"
-                   lay-verify="required|number">
-        </div>
-    </div>
-</script>
 
 <script id="laytpl-table-ops" type="text/html">
     <div class="layui-btn-group">
@@ -242,12 +164,10 @@
                 data-id="{{ d.id }}" data-role-id="{{ d.roleId }}" title="编辑">
             <i class="layui-icon">&#xe642;</i>
         </button>
-        {{# if (d.deletable) { }}
         <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-sys-user-del"
-                data-id="{{ d.id }}" data-role-id="{{ d.roleId }}" title="删除">
+                data-id="{{ d.id }}" data-role-id="{{ d.roleId }}" title="冻结">
             <i class="layui-icon">&#xe640;</i>
         </button>
-        {{# } }}
     </div>
 </script>
 </body>

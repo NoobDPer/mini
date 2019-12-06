@@ -701,7 +701,7 @@ INSERT INTO `biz_content` VALUES (511, '1', '失败乃成功之母，可失败�
 INSERT INTO `biz_content` VALUES (512, '1', '失败乃成功之母，但往往失败都是，不孕不育。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
 INSERT INTO `biz_content` VALUES (513, '1', '失败的尽头是绝望，努力的终点是过劳。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
 INSERT INTO `biz_content` VALUES (514, '1', '失败不可怕，可怕的是，你还相信这句话。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
-INSERT INTO `biz_content` VALUES (515, '1', '失败并不可怕，可怕的是你还相信这句话。\\n', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
+INSERT INTO `biz_content` VALUES (515, '1', '失败并不可怕，可怕的是你还相信这句话。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
 INSERT INTO `biz_content` VALUES (516, '1', '生平最讨厌溜须拍马的人，和他们在一起，显得老子很不会做人。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
 INSERT INTO `biz_content` VALUES (517, '1', '生命中必然要放弃某些人，不是你不在乎，是他们不在乎。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
 INSERT INTO `biz_content` VALUES (518, '1', '生活中很多人喜欢小题大作，其实真的没有必要，要想想大题怎么办。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
@@ -884,7 +884,7 @@ INSERT INTO `biz_content` VALUES (694, '1', '年龄不是问题，身高不是�
 INSERT INTO `biz_content` VALUES (695, '1', '你坐过最挤的公交车是什么？只是路过，却被挤上了车。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
 INSERT INTO `biz_content` VALUES (696, '1', '你最想从母校带走的是什么？最想从母校带走的，是我的学费。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
 INSERT INTO `biz_content` VALUES (697, '1', '你走了真好。不然总担心你要留下来吃饭', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
-INSERT INTO `biz_content` VALUES (698, '1', '你走了真好，不然我总当心，你会留下来吃饭。\\n\\n', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
+INSERT INTO `biz_content` VALUES (698, '1', '你走了真好，不然我总担心，你会留下来吃饭。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
 INSERT INTO `biz_content` VALUES (699, '1', '你知道投资和投机的区别吗？一个是普通话，一个是广东话。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
 INSERT INTO `biz_content` VALUES (700, '1', '你只要不抬杠，钱真的是万能的。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
 INSERT INTO `biz_content` VALUES (701, '1', '你只需看着别人精彩，老天对你另有安排。', NULL, NULL, '0', '0', '2', -1, '2019-12-03 17:49:09', '2019-12-03 17:49:09', -1, NULL, NULL);
@@ -1422,12 +1422,12 @@ INSERT INTO `biz_content` VALUES (1232, '1', '你妹是个好姑娘，替你妈�
 
 
 
-
+--- 2019-12-04
 INSERT INTO `MINIMALISM`.`biz_content`(`ID`, `TYPE`, `CONTENT_CN`, `CONTENT_EN`, `COMMIT_QQ`, `SHOW_QQ_STATE`, `SOURCE`, `CONFIRM_STATE`, `CONFIRM_USER`, `CONFIRM_TIME`, `CREATE_TIME`, `CREATE_BY`, `UPDATE_TIME`, `UPDATE_BY`) VALUES (1202074805071908864, '3', '🐳☀️，👴😴☠，🥚👶🍅🥦🐭👨🤴！！！', '', NULL, '0', '0', '2', -1, '2019-12-04 11:59:02', '2019-12-04 11:59:02', -1, '2019-12-04 11:59:02', -1);
 INSERT INTO `MINIMALISM`.`biz_content`(`ID`, `TYPE`, `CONTENT_CN`, `CONTENT_EN`, `COMMIT_QQ`, `SHOW_QQ_STATE`, `SOURCE`, `CONFIRM_STATE`, `CONFIRM_USER`, `CONFIRM_TIME`, `CREATE_TIME`, `CREATE_BY`, `UPDATE_TIME`, `UPDATE_BY`) VALUES (1201762169394434048, '3', '开会死🐎脸，上班死🐎脸', '', NULL, '0', '0', '2', -1, '2019-12-03 15:16:44', '2019-12-03 15:16:44', -1, '2019-12-03 15:16:44', -1);
 
 
-
+--- 2019-12-05
 -- ----------------------------
 -- Table structure for biz_confirm_log
 -- ----------------------------
@@ -1441,3 +1441,12 @@ CREATE TABLE `biz_confirm_log`  (
   `CONFIRM_STATE_NEW` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '审核完成状态',
   PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+
+--- 2019-16-06
+ALTER TABLE `MINIMALISM`.`sys_user`
+MODIFY COLUMN `USERNAME` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名' AFTER `ID`,
+ADD COLUMN `PHONE` varchar(15) NULL COMMENT '手机号' AFTER `NICKNAME`;
+
+
+UPDATE `MINIMALISM`.`sys_permission` SET `HREF` = 'pages/sys-user/systemUserList.html' WHERE `ID` = 4010;

@@ -2,9 +2,7 @@ package com.jk.minimalism.dao;
 
 import com.jk.minimalism.base.mapper.BaseMapper;
 import com.jk.minimalism.bean.entity.BizContent;
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -14,11 +12,9 @@ import java.util.Map;
  */
 public interface BizContentMapper extends BaseMapper<BizContent> {
 
-    @Select("select * from biz_content t where t.id = #{id}")
-    BizContent getById(Long id);
+    BizContent getById(@Param("id") Long id);
 
-    @Delete("delete from biz_content where id = #{id}")
-    int deleteById(Long id);
+    int deleteById(@Param("id") Long id);
 
     int update(BizContent bizcontent);
     

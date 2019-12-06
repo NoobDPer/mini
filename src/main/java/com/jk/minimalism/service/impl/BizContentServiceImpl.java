@@ -141,10 +141,7 @@ public class BizContentServiceImpl implements BizContentService {
         if (CollectionUtils.isEmpty(ids)) {
             return;
         }
-        // 批量修改审核状态
         Long userId = UserUtil.getUserId();
-        bizContentMapper.batchUpdateState(ids, state, userId);
-        // 保存状态变更日志
         List<BizContent> bizContents = bizContentMapper.listByIds(ids);
         Map<Long, String> bizContentIdStateMap = bizContents.stream().collect(Collectors.toMap(BizContent::getId, BizContent::getConfirmState));
         List<BizConfirmLog> insertLogList = new ArrayList<>(ids.size());
@@ -159,6 +156,9 @@ public class BizContentServiceImpl implements BizContentService {
                     .confirmStateNew(state)
                     .build());
         }
+        // 批量修改审核状态
+        bizContentMapper.batchUpdateState(ids, state, userId);
+        // 保存状态变更日志
         bizConfirmLogMapper.insertList(insertLogList);
     }
 
@@ -167,10 +167,8 @@ public class BizContentServiceImpl implements BizContentService {
         if (Objects.isNull(id)) {
             return;
         }
-        // 修改审核状态
+
         Long userId = UserUtil.getUserId();
-        bizContentMapper.batchUpdateState(Collections.singletonList(id), state, userId);
-        // 保存状态变更日志
         BizContent originBizContent = bizContentMapper.getById(id);
         BizConfirmLog bizConfirmLog = BizConfirmLog.builder()
                 .id(IdUtils.nextId())
@@ -180,6 +178,9 @@ public class BizContentServiceImpl implements BizContentService {
                 .confirmStateOrigin(originBizContent.getConfirmState())
                 .confirmStateNew(state)
                 .build();
+        // 修改审核状态
+        bizContentMapper.batchUpdateState(Collections.singletonList(id), state, userId);
+        // 保存状态变更日志
         bizConfirmLogMapper.insertSelective(bizConfirmLog);
     }
 

@@ -1,25 +1,33 @@
 package com.jk.minimalism.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.jk.minimalism.bean.common.PageResult;
+import com.jk.minimalism.bean.dto.UserDTO;
+import com.jk.minimalism.bean.dto.UserListRequestDTO;
+import com.jk.minimalism.bean.dto.UserListResponseDTO;
 import com.jk.minimalism.bean.entity.User;
 import com.jk.minimalism.bean.entity.UserRole;
 import com.jk.minimalism.bean.enums.ResultCode;
+import com.jk.minimalism.bean.enums.UserStatus;
 import com.jk.minimalism.dao.UserMapper;
 import com.jk.minimalism.dao.UserRoleMapper;
 import com.jk.minimalism.exception.MinimalismBizRuntimeException;
 import com.jk.minimalism.service.TokenService;
 import com.jk.minimalism.service.UserService;
 import com.jk.minimalism.util.BeanFillUtils;
+import com.jk.minimalism.util.PageHandleUtils;
 import com.jk.minimalism.util.UserUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -35,21 +43,23 @@ public class UserServiceImpl implements UserService {
 
     private final UserRoleMapper userRoleMapper;
 
-
     private BCryptPasswordEncoder passwordEncoder;
 
     private TokenService tokenService;
 
+    private ModelMapper modelMapper;
 
     @Autowired
     public UserServiceImpl(UserMapper userMapper,
                            UserRoleMapper userRoleMapper,
                            BCryptPasswordEncoder passwordEncoder,
-                           TokenService tokenService) {
+                           TokenService tokenService,
+                           ModelMapper modelMapper) {
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRoleMapper = userRoleMapper;
         this.tokenService = tokenService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -133,13 +143,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer count(Map<String, Object> params) {
-        return userMapper.count(params);
-    }
-
-    @Override
-    public List<User> list(Map<String, Object> params, Integer offset, Integer limit) {
-        return userMapper.list(params, offset, limit);
+    public PageResult<UserListResponseDTO> list(UserListRequestDTO params) {
+        PageInfo<UserListResponseDTO> pageInfo = PageHelper.startPage(params.getPager().getPage(), params.getPager().getSize())
+                .doSelectPageInfo(() -> userMapper.list(params));
+        pageInfo.getList().forEach(l -> l.setStateDesc(UserStatus.getDescByState(l.getState())));
+        PageResult<UserListResponseDTO> pageResult = PageHandleUtils.convertToPageResult(pageInfo);
+        if (CollectionUtils.isNotEmpty(pageInfo.getList())) {
+            pageResult.setData(pageInfo.getList());
+        }
+        return pageResult;
     }
 
     @Override
@@ -186,11 +198,4 @@ public class UserServiceImpl implements UserService {
         userMapper.updateLoginTime(id);
     }
 
-    @Override
-    public List<User> findByIds(List<Long> ids) {
-        if (CollectionUtils.isEmpty(ids)) {
-            return new ArrayList<>();
-        }
-        return userMapper.selectByIds(ids);
-    }
 }

@@ -1,11 +1,18 @@
 var pers = checkPermission();
 
-layui.use(['layer', 'table', 'form', 'laydate'], function () {
+layui.config({
+    base: '/js/my/content/'      //自定义layui组件的目录
+}).extend({ //设定组件别名
+    dropdown: 'dropdown',
+});
+
+layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
     var This = this;
     var table = layui.table;
     var adminTab = parent.adminTab || top.adminTab;
     var form = layui.form;
-    var laytpl = layui.laytpl;
+    var dropdown = layui.dropdown;
+    dropdown.render();
     // 筛选表单
     var $filterForm = $('form[lay-filter=form-filter-content]');
 
@@ -75,25 +82,6 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
     });
     $filterForm.find('.mini-search-icon').mouseup(reloadTable);
 
-    // // 初始化 启用期限 筛选
-    // laydate.render({
-    //     elem: $filterForm.find('[name=startDate]')[0],
-    //     type: 'month',
-    //     min: '2019-01-01 00:00:00',
-    //     max: '2019-12-31 23:59:59',
-    //     done: function (value) {
-    //         if (value) {
-    //             var startDates = value.split('-');
-    //             $filterForm.find('input[name=startYear]').val(startDates[0]);
-    //             $filterForm.find('input[name=startMonth]').val(startDates[1]);
-    //         } else {
-    //             $filterForm.find('input[name=startYear]').val("");
-    //             $filterForm.find('input[name=startMonth]').val("");
-    //         }
-    //         reloadTable();
-    //     }
-    // });
-
     // 新增内容
     $('#btn-add-content').click(function () {
         adminTab.del('tab-id-add-content');
@@ -117,59 +105,64 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
                     type: 'post',
                     url: '/contents/' + id + "/state/2"
                 });
-            })().done(function () {
-                layer.msg("通过成功！");
-                tableLns.reload({
-                    page: {
-                        curr: 1
-                    }
-                });
+            })().done(function (data) {
+                if (data.code == 0) {
+                    layer.msg("通过成功！");
+                    tableLns.reload({
+                        page: {
+                            curr: 1
+                        }
+                    });
+                } else {
+                    layer.msg("Sth. must be wrong!")
+                }
             });
 
             layer.close(1);
         });
     });
 
-    // 编辑企业
-    // $body.on('click', '.table-btn-company-edit, .table-btn-company-show', function () {
-    //     var $this = $(this);
-    //     var data = $this.data();
-    //     var param = {
-    //         id: data.id,
-    //         editable: data.editable
-    //     };
-    //     adminTab.del(data['tabId']);
-    //     adminTab.add({
-    //         layId: data['tabId'],
-    //         title: data['tabTitle'],
-    //         url: 'pages/company/saveCompany.html?' + serialize(param),
-    //         icon: 'fa-university'
-    //     });
-    // });
-
     // 批量通过
     $('#btn-batch-confirm-content').on('click', function () {
+        batchAction(2);
+    });
+    $('#btn-batch-todo-content').on('click', function () {
+        batchAction(1);
+    });
+    $('#btn-batch-back-content').on('click', function () {
+        batchAction(99);
+    });
+
+    function batchAction(state) {
+
+        var alertMsg;
+        switch (state) {
+            case 99 : alertMsg = "打回";break;
+            case 1 : alertMsg = "待定";break;
+            case 2 : alertMsg = "通过";break;
+            default:
+        }
         var checkStatus = table.checkStatus(tableId);
         var ids = $.map(checkStatus.data, function (row) {
             return row.id
         });
         if (!ids || ids.length === 0) {
-            layer.msg("请先选择需要通过的内容！");
+            layer.msg("请先选择需要" + alertMsg + "的内容！");
             return;
         }
 
-        layer.confirm('<p class="vg-text-indent-2">确定批量通过所选的内容信息？</p><p class="vg-text-indent-2 vg-warn-color">注：通过后内容会被随机刷到！</p>', {
+        layer.confirm('<p class="vg-text-indent-2">确定批量' + alertMsg + '所选的内容信息？</p>', {
             btn: ['确定', '取消']
         }, function () {
             loadingMonitor(function () {
                 return $.ajax({
-                    url: '/contents/state/batch/2',
+                    url: '/contents/state/batch/' + state,
                     contentType: 'application/json',
                     type: 'POST',
                     data: JSON.stringify(ids)
                 });
             })().done(function () {
-                layer.msg("通过成功");
+                layer.msg(alertMsg + "成功");
                 tableLns.reload({
                     page: {
                         curr: 1
@@ -179,7 +172,7 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
             layer.close(1);
         });
 
-    });
+    }
 
     // 提供给外部的公共方法
     window.publicMethods = {

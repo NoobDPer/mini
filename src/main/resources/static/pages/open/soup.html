@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>有毒哦 - 壮士可要来一碗！</title>
+    <title>大郎，来喝了这碗鸡汤！</title>
     <meta name="description" content="我们精心熬制了有屎以来最毒1000多条经典毒鸡汤,句句“治愈”人心! 只为了帮你更好的看清人生认识自己，直面现实,直面惨淡的人生,不给你励志,不给你慰藉,像一根鞭猛的抽你一下,使你清醒,知道这个世界和你自己最真实的一面,是青少年手机里的必备宝典。">
     <meta name="keywords" content="有毒,有毒哦,鸡汤,毒鸡汤,馊鸡汤">
     <meta http-equiv="Cache-Control" content="no-siteapp">
@@ -13,6 +13,7 @@
     <meta property="og:description" content="我们精心熬制了有屎以来最毒1000多条经典毒鸡汤,句句“治愈”人心! 只为了帮你更好的看清人生认识自己，直面现实,直面惨淡的人生,不给你励志,不给你慰藉,像一根鞭猛的抽你一下,使你清醒,知道这个世界和你自己最真实的一面,是青少年手机里的必备宝典。" />
 
     <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../layui/css/layui.css"  media="all">
     <link rel="stylesheet" href="../../css/soup.css" />
 </head>
 <body>
@@ -21,8 +22,8 @@
         <div class="row" style="margin-top: 30px;">
             <div class="col">
                 <img src="../../img/logo/soup_logo.png">
-                <div class="float-right" style="padding-top: 0px;">
-                    <span class="btn btn-primary btn-filled btn-xs">todo</span>
+                <div class="float-right" style="padding-top: 0px;" id="div-add-sentence">
+                    <button class="layui-btn btn btn-primary btn-filled btn-xs" data-method="add" id="btn-add-a-sentence">我要投毒</button>
                 </div>
             </div>
         </div>
@@ -52,7 +53,22 @@
         <!--<img src="img/applet.jpg" alt="微信小程序">-->
     <!--</div>-->
 </div>
+<div style="padding: 15px;display: none;" id="hidden-add-div">
+    <div><span class="layui-form-label">投毒</span></div>
+    <hr/>
+    <div class="layui-form-item layui-form-text" style="margin-left: 20px">
+        <textarea placeholder="倒上你想倒的毒鸡汤..." class="layui-textarea" id="biz-content"></textarea>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">QQ</label>
+        <div class="layui-input-block">
+            <input type="text" name="title"  autocomplete="off" placeholder="QQ/E-mail (选填)"
+                   class="layui-input" id="biz-commit-user">
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
 <script src="../../js/my/open/soup.js"></script>
 </body>
 </html>

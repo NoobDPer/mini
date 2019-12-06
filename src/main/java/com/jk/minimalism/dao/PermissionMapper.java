@@ -1,13 +1,8 @@
 package com.jk.minimalism.dao;
 
-import com.jk.minimalism.bean.entity.Permission;
 import com.jk.minimalism.base.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
+import com.jk.minimalism.bean.entity.Permission;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;
@@ -27,31 +22,22 @@ public interface PermissionMapper extends BaseMapper<Permission> {
      */
     List<Permission> listByUserId(@Param("userId") Long userId);
 
-    @Select("SELECT * FROM sys_permission T WHERE T.TYPE = 1 ORDER BY T.SORT")
     List<Permission> listParents();
 
-    @Select("SELECT P.* FROM sys_permission P INNER JOIN sys_role_permission RP ON P.ID = RP.PERMISSION_ID WHERE RP.ROLE_ID = #{roleId} ORDER BY P.SORT")
-    List<Permission> listByRoleId(Long roleId);
+    List<Permission> listByRoleId(@Param("roleId") Long roleId);
 
-    @Select("SELECT * FROM sys_permission T WHERE T.ID = #{id}")
-    Permission getById(Long id);
+    Permission getById(@Param("id") Long id);
 
-    @Insert("INSERT INTO sys_permission(PARENT_ID, NAME, CSS, HREF, TYPE, PERMISSION, SORT) VALUES(#{parentId}, #{name}, #{css}, #{href}, #{type}, #{permission}, #{sort})")
     int save(Permission permission);
 
-    @Update("UPDATE sys_permission T SET PARENT_ID = #{parentId}, NAME = #{name}, CSS = #{css}, HREF = #{href}, TYPE = #{type}, PERMISSION = #{permission}, SORT = #{sort} WHERE T.ID = #{id}")
     int update(Permission permission);
 
-    @Delete("DELETE FROM sys_permission WHERE ID = #{id}")
-    int deleteById(Long id);
+    int deleteById(@Param("id") Long id);
 
-    @Delete("DELETE FROM sys_permission WHERE PARENT_ID = #{id}")
-    int deleteByParentId(Long id);
+    int deleteByParentId(@Param("id") Long id);
 
-    @Delete("DELETE FROM sys_role_permission WHERE PERMISSION_ID = #{permissionId}")
-    int deleteRolePermission(Long permissionId);
+    int deleteRolePermission(@Param("permissionId") Long permissionId);
 
-    @Select("SELECT RU.USER_ID FROM sys_role_permission RP INNER JOIN sys_role_user RU ON RU.ROLE_ID = RP.ROLE_ID WHERE RP.PERMISSION_ID = #{permissionId}")
-    Set<Long> listUserIds(Long permissionId);
+    Set<Long> listUserIds(@Param("permissionId") Long permissionId);
 
 }

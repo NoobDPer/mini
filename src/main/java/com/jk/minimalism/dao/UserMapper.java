@@ -1,10 +1,10 @@
 package com.jk.minimalism.dao;
 
-import com.jk.minimalism.bean.entity.User;
 import com.jk.minimalism.base.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Delete;
+import com.jk.minimalism.bean.dto.UserListRequestDTO;
+import com.jk.minimalism.bean.dto.UserListResponseDTO;
+import com.jk.minimalism.bean.entity.User;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,22 +19,14 @@ public interface UserMapper extends BaseMapper<User> {
      * @param username 用户名
      * @return 用户信息
      */
-    @Select("SELECT * FROM sys_user WHERE BINARY USERNAME = #{username}")
     User findByUsername(@Param("username") String username);
 
-    @Select("SELECT R.ROLE_ID FROM sys_user U " +
-            "INNER JOIN sys_user_role R ON U.ID = R.USER_ID " +
-            "WHERE U.ID = #{id} LIMIT 1")
     Integer findRoleByUserId(@Param("id") Long id);
 
-    Integer count(@Param("params") Map<String, Object> params);
+//    Integer count(@Param("params") Map<String, Object> params);
 
-    List<User> list(@Param("params") Map<String, Object> params, @Param("offset") Integer offset,
-                       @Param("limit") Integer limit);
+    List<UserListResponseDTO> list(@Param("params") UserListRequestDTO params);
 
-    @Delete("DELETE T1, T2 FROM sys_user T1 " +
-            "INNER JOIN sys_role_user T2 ON T1.id = T2.userId " +
-            "WHERE T1.id = #{userId}")
     void deleteUser(@Param("userId") Long userId);
     /**
      * 批量更新状态

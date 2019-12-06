@@ -2,13 +2,8 @@ package com.jk.minimalism.dao;
 
 import com.jk.minimalism.base.mapper.BaseMapper;
 import com.jk.minimalism.bean.entity.BizConfirmLog;
-import com.jk.minimalism.bean.entity.BizContent;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

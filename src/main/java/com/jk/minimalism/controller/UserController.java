@@ -2,6 +2,7 @@ package com.jk.minimalism.controller;
 
 import com.jk.minimalism.bean.common.AjaxResult;
 import com.jk.minimalism.bean.dto.UserDTO;
+import com.jk.minimalism.bean.dto.UserListRequestDTO;
 import com.jk.minimalism.bean.entity.User;
 import com.jk.minimalism.bean.page.PageTableHandler;
 import com.jk.minimalism.bean.page.PageTableRequest;
@@ -60,14 +61,22 @@ public class UserController {
     public void changePassword(@PathVariable Long id, String oldPassword, String newPassword) {
         userService.updatePassword(id, oldPassword, newPassword);
     }
+//
+//    @GetMapping
+//    @ApiOperation(value = "用户列表")
+//    @PreAuthorize("hasAuthority('sys:user:query')")
+//    public PageTableResponse listUsers(PageTableRequest request) {
+//        return new PageTableHandler(countRequest -> userService.count(countRequest.getParams()),
+//                listRequest -> userService.list(listRequest.getParams(), listRequest.getOffset(), listRequest.getLimit())).handle(request);
+//    }
 
     @GetMapping
     @ApiOperation(value = "用户列表")
     @PreAuthorize("hasAuthority('sys:user:query')")
-    public PageTableResponse listUsers(PageTableRequest request) {
-        return new PageTableHandler(countRequest -> userService.count(countRequest.getParams()),
-                listRequest -> userService.list(listRequest.getParams(), listRequest.getOffset(), listRequest.getLimit())).handle(request);
+    public AjaxResult listUsers(UserListRequestDTO request) {
+        return new AjaxResult<>(userService.list(request)).success();
     }
+
 
     @ApiOperation(value = "当前登录用户")
     @GetMapping("/current")

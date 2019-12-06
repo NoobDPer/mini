@@ -18,15 +18,22 @@
         <result column="CREATE_BY" property="createBy"/>
         <result column="UPDATE_TIME" property="updateTime"/>
         <result column="UPDATE_BY" property="updateBy"/>
-
     </resultMap>
+
+    <select id="getById" resultMap="BaseResultMap">
+        SELECT * FROM biz_content T WHERE T.ID = #{id}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM biz_content WHERE ID = #{id}
+    </delete>
 
     <sql id="where">
         <where>
             <if test="params.condition != null and params.condition !=''">
                 AND (
-                    CONTENT_CN LIKE CONCAT('%', #{params.condition}, '%')
-                    OR CONTENT_EN LIKE CONCAT('%', #{params.condition}, '%')
+                CONTENT_CN LIKE CONCAT('%', #{params.condition}, '%')
+                OR CONTENT_EN LIKE CONCAT('%', #{params.condition}, '%')
                 )
             </if>
             <if test="params.id != null and params.id != ''">
@@ -87,7 +94,7 @@
         limit #{offset}, #{limit}
     </select>
 
-    <update id="update">
+    <update id="update" parameterType="com.jk.minimalism.bean.entity.BizContent">
         update biz_content t
         <set>
             <if test="id != null">

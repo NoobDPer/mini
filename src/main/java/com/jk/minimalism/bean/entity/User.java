@@ -19,7 +19,7 @@ public class User implements UserAndTimeAttrAdapter {
     private Long id;
 
     /**
-     * 手机号
+     * 用户名
      */
     @Column(name = "USERNAME")
     private String username;
@@ -35,6 +35,12 @@ public class User implements UserAndTimeAttrAdapter {
      */
     @Column(name = "NICKNAME")
     private String nickname;
+
+    /**
+     * 手机号
+     */
+    @Column(name = "PHONE")
+    private String phone;
 
     /**
      * 当次登录时间

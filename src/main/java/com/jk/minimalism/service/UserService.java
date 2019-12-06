@@ -1,9 +1,12 @@
 package com.jk.minimalism.service;
 
+import com.jk.minimalism.bean.common.PageResult;
+import com.jk.minimalism.bean.dto.UserDTO;
+import com.jk.minimalism.bean.dto.UserListRequestDTO;
+import com.jk.minimalism.bean.dto.UserListResponseDTO;
 import com.jk.minimalism.bean.entity.User;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用户服务
@@ -61,9 +64,13 @@ public interface UserService {
      */
     User findUserByName(String username);
 
-    Integer count(Map<String, Object> params);
-
-    List<User> list(Map<String, Object> params, Integer offset, Integer limit);
+    /**
+     * 查询用户列表
+     *
+     * @param params 查询参数
+     * @return 用户列表分页信息
+     */
+    PageResult<UserListResponseDTO> list(UserListRequestDTO params);
 
     void deleteUser(Long id);
 
@@ -98,11 +105,4 @@ public interface UserService {
      */
     void updateLoginTime(long id);
 
-    /**
-     * 批量查询用户
-     *
-     * @param ids 用户id
-     * @return 用户
-     */
-    List<User> findByIds(List<Long> ids);
 }

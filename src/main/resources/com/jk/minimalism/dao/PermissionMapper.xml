@@ -23,4 +23,54 @@
     <select id="listAll" resultMap="BaseResultMap">
         SELECT * FROM sys_permission ORDER BY SORT
     </select>
+
+    <select id="listParents" resultMap="BaseResultMap">
+        SELECT * FROM sys_permission T WHERE T.TYPE = 1 ORDER BY T.SORT
+    </select>
+
+    <select id="listByRoleId" resultMap="BaseResultMap">
+        SELECT P.* FROM sys_permission P INNER JOIN sys_role_permission RP ON P.ID = RP.PERMISSION_ID WHERE RP.ROLE_ID = #{roleId} ORDER BY P.SORT
+    </select>
+
+    <select id="getById" resultMap="BaseResultMap">
+        SELECT * FROM sys_permission T WHERE T.ID = #{id}
+    </select>
+
+    <insert id="save" parameterType="com.jk.minimalism.bean.entity.Permission">
+        INSERT INTO
+            sys_permission (PARENT_ID, NAME, CSS, HREF, TYPE, PERMISSION, SORT)
+        VALUES (#{parentId}, #{name}, #{css}, #{href}, #{type}, #{permission}, #{sort})
+    </insert>
+
+    <update id="update" parameterType="com.jk.minimalism.bean.entity.Permission">
+        UPDATE
+            sys_permission T
+        SET
+            PARENT_ID = #{parentId},
+            NAME = #{name},
+            CSS = #{css},
+            HREF = #{href},
+            TYPE = #{type},
+            PERMISSION = #{permission},
+            SORT = #{sort}
+        WHERE
+            T.ID = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM sys_permission WHERE ID = #{id}
+    </delete>
+
+    <delete id="deleteByParentId">
+        DELETE FROM sys_permission WHERE PARENT_ID = #{id}
+    </delete>
+
+    <delete id="deleteRolePermission">
+        DELETE FROM sys_role_permission WHERE PERMISSION_ID = #{permissionId}
+    </delete>
+
+    <select id="listUserIds" resultType="java.lang.Long">
+        SELECT RU.USER_ID FROM sys_role_permission RP INNER JOIN sys_role_user RU ON RU.ROLE_ID = RP.ROLE_ID WHERE RP.PERMISSION_ID = #{permissionId}
+    </select>
+
 </mapper>

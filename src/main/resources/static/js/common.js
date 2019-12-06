@@ -252,6 +252,45 @@ var miniReq = (function () {
                 })
             })
         },
+
+        /**
+         * 获取内容类型对应关系
+         * @returns {$.Deferred}
+         */
+        getUserStatus: function () {
+            return convert($.get({
+                url: '/common/user-status',
+                dataType: 'json'
+            }), function (data) {
+                return $.map(data.result, function (row) {
+                    return {
+                        text: row.data,
+                        val: row.code,
+                        data: row
+                    }
+                })
+            })
+        },
+
+        /**
+         * 获取内容类型对应关系
+         * @returns {$.Deferred}
+         */
+        getAllRoles: function () {
+            return convert($.get({
+                url: '/roles/all',
+                dataType: 'json'
+            }), function (data) {
+                return $.map(data.result, function (row) {
+                    return {
+                        text: row.description,
+                        val: row.id,
+                        data: row
+                    }
+                })
+            })
+        },
+
         /**
          * 初始化select
          * @param options {{fn:[function], data: [{}], $ele: JQuery, param:[{}]}}

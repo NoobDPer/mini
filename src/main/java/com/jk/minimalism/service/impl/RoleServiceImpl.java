@@ -85,6 +85,11 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
+	public List<Role> listAll() {
+		return roleMapper.selectAll();
+	}
+
+	@Override
 	public Role getById(Long id) {
 		return roleMapper.getById(id);
 	}

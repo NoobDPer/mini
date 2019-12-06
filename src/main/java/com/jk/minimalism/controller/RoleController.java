@@ -1,6 +1,6 @@
 package com.jk.minimalism.controller;
 
-import com.google.common.collect.Maps;
+import com.jk.minimalism.bean.common.AjaxResult;
 import com.jk.minimalism.bean.dto.RoleDTO;
 import com.jk.minimalism.bean.entity.Role;
 import com.jk.minimalism.bean.page.PageTableHandler;
@@ -63,8 +63,8 @@ public class RoleController {
 	@GetMapping("/all")
 	@ApiOperation(value = "所有角色")
 	@PreAuthorize("hasAnyAuthority('sys:user:query','sys:role:query')")
-	public List<Role> roles() {
-		return roleService.list(Maps.newHashMap(), null, null);
+	public AjaxResult roles() {
+		return new AjaxResult(roleService.listAll()).success();
 	}
 
 	@GetMapping(params = "userId")

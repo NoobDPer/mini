@@ -17,6 +17,8 @@ public interface RoleService {
 
 	List<Role> list(Map<String, Object> params, Integer offset, Integer limit);
 
+	List<Role> listAll();
+
 	Role getById(Long id);
 
 	List<Role> listByUserId(Long userId);

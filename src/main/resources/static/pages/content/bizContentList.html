@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>毒鸡汤</title>
     <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../../layui/css/modules/dropdown/dropdown.css" media="all"/>
     <link rel="stylesheet" type="text/css" media="screen" href="../../css/mini.css">
     <link rel="stylesheet" type="text/css" href="../../css/font-awesome/css/font-awesome.css" media="all"/>
     <style type="text/css">
@@ -72,7 +73,24 @@
 <div class="layui-col-md4 mini-text-align-right">
     <button type="button" class="layui-btn" id="btn-add-content">新增内容</button>
     <!--<button type="button" class="layui-btn" id="btn-batch-add-content">批量新增</button>-->
-    <button type="button" class="layui-btn" id="btn-batch-confirm-content">批量通过</button>
+    <!--<button type="button" class="layui-btn" id="btn-batch-confirm-content">批量通过</button>-->
+    <div class="layui-dropdown">
+        <button class="layui-btn">批量操作</button>
+        <ul class="layui-anim layui-anim-upbit" style="top: 100%; bottom: auto; display: none;">
+            <li>
+                <a href="javascript:;" id="btn-batch-confirm-content"><i class="fa fa-check-circle" style="font-size: 15px; color: #00B83F;" aria-hidden="true"
+                                          ></i>通过</a>
+            </li>
+            <li>
+                <a href="javascript:;" id="btn-batch-back-content"><i class="fa fa-times-circle-o" style="font-size: 15px; color: #c82333; " aria-hidden="true"
+                                          ></i>打回</a>
+            </li>
+            <li>
+                <a href="javascript:;" id="btn-batch-todo-content"><i class="fa fa-question-circle-o" style="font-size: 15px; color: #FFB800;" aria-hidden="true"
+                                          ></i>待定</a>
+            </li>
+        </ul>
+    </div>
 </div>
 </div>
 
@@ -80,7 +98,7 @@
     <table id="table-content"></table>
 </div>
 <script id="laytpl-table-show-state-icon" type="text/html">
-        <span>
+    <span>
             {{# if (d.showQqState=="1") { }}
             <i class="layui-icon layui-icon-ok" style="font-size: 15px; color: #00B83F;" title="同意展示"></i>
             {{# } else { }}
@@ -95,9 +113,10 @@
             {{# if (d.confirmState=="99") { }}
             <i class="fa fa-times-circle-o" style="font-size: 15px; color: #c82333;" aria-hidden="true" title="不通过"></i>
             {{# } else if (d.confirmState=="0") { }}
-            <i class="fa fa-minus-circle" style="font-size: 15px; color: #0000FF;" aria-hidden="true" title="未审核"></i>
+            <i class="fa fa-circle-o-notch" style="font-size: 15px; color: #000000;" aria-hidden="true" title="未审核"></i>
             {{# } else if (d.confirmState=="1") { }}
-            <i class="fa fa-question-circle-o" style="font-size: 15px; color: #FFB800;" aria-hidden="true" title="待定"></i>
+            <i class="fa fa-question-circle-o" style="font-size: 15px; color: #FFB800;" aria-hidden="true"
+               title="待定"></i>
             {{# } else if (d.confirmState=="2") { }}
             <i class="fa fa-check-circle" style="font-size: 15px; color: #00B83F;" aria-hidden="true" title="通过"></i>
             {{# } }}
@@ -124,3 +143,4 @@
 <script type="text/javascript" src="../../js/common.js"></script>
 <script type="text/javascript" src="../../js/my/permission.js"></script>
 <script type="text/javascript" src="../../js/my/content/content.js"></script>
+<script type="text/javascript" src="../../js/my/content/dropdown.js"></script>
