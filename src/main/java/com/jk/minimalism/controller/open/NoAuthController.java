@@ -28,8 +28,9 @@ public class NoAuthController {
 
     @PostMapping("/content")
     @ApiOperation(value = "保存")
-    public void save(@RequestBody BizContentOpenRequestDTO bizcontent) {
+    public AjaxResult save(@RequestBody BizContentOpenRequestDTO bizcontent) {
         bizContentService.saveBizContent4forOpen(bizcontent);
+        return new AjaxResult<>().success();
     }
 
     @GetMapping("/content/type/{type}/random")

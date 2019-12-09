@@ -1,0 +1,33 @@
+free cdn: https://www.staticfile.org/
+
+仿站
+https://8zt.cc/soup/cccb0.html
+https://oh.guoddy.com
+http://www.nows.fun/
+
+seo相关
+https://blog.csdn.net/u014801801/article/details/53019075
+
+nginx 活跃统计相关
+根据访问URL统计PV
+awk '{print $7}' access.log | wc -l
+根据访问IP统计UV
+awk '{print $1}' access.log | sort | uniq -c | wc -l
+查询访问最频繁的URL
+awk '{print $7}' access.log | sort | uniq -c | sort -k1 -n -r | more
+查询访问最频繁的IP
+awk '{print $1}' access.log | sort | uniq -c | sort -k1 -n -r | more
+根据时间段统计查看日志
+cat access.log | sed -n '/14/Mar/2015:21/,/14/Mar/2015:22/p' | more
+统计IP访问个数（和根据访问IP统计UV一样）
+cat access.log | awk '{ips[$1]+=1} END {for(ip in ips) print ips[ip], ip}' | sort -n -r | wc -l
+查看3点-6点之间的IP访问数
+grep "2016:0[3-6]" access.log | awk '{ips[$1]+=1} END {for(ip in ips) print ips[ip],ip}' | sort -n -r | wc -l
+查看3点-6点之间的IP访问数且访问数>=200的IP
+grep '2016:0[3-12]' access.log | awk '{ips[$1]+=1} END {for(ip in ips) if(ips[ip]>=200) print ips[ip],ip}' | sort -n -r
+查看并发连接数
+netstat -nat | grep ESTABLISHED | wc -l
+获取每分钟的请求数量，并输出成CSV文件
+cat access.log | awk '{print substr(2", "$1}' > access.csv
+获取最耗时请求的请求时间、URL、耗时的前10名，可以修改后面的数字获取更多，不加则获取全部
+cat access.log | awk '{print 7, 1, 3}' | sort -k3 -n -r | head -10

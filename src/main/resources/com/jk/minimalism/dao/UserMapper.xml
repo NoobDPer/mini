@@ -51,7 +51,7 @@
                 or t.nickname like concat('%', #{params.condition}, '%')
                 or t.phone like concat('%', #{params.condition}, '%'))
             </if>
-            <if test="params.roleId != null ">
+            <if test="params.roleId != null and params.roleId !=''">
                 and sur.ROLE_ID = #{params.roleId}
             </if>
             <if test="params.state != null ">

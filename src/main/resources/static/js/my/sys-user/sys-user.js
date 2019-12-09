@@ -62,6 +62,14 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
         id: tableId,
         elem: '#table-sys-user',
         url: '/users', //数据接口
+        parseData: function (res) {
+            return {
+                code: 200,
+                msg: '',
+                count: res.result.total,
+                data: res.result.data
+            }
+        },
         cols: [[ //表头
             {type: 'checkbox', fixed: 'left'},
             {field: 'username', title: '登录名', minWidth: 100},
@@ -69,13 +77,15 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
             {field: 'nickname', title: '昵称', minWidth: 90},
             {field: 'roleName', title: '角色', width: 135, minWidth: 135},
             {field: 'currentLoginTime', title: '当前登录时间', width: 160, templet: function (d) {
-                    return dayjs(d.currentLoginTime).format('YYYY-MM-DD HH:mm:ss')
+                    return d.currentLoginTime ? dayjs(d.currentLoginTime).format('YYYY-MM-DD HH:mm:ss') : "--";
                 }
             },
             {field: 'lastLoginTime', title: '上次登录时间', width: 160, templet: function (d) {
-                    return dayjs(d.lastLoginTime).format('YYYY-MM-DD')
+                    return d.lastLoginTime ? dayjs(d.lastLoginTime).format('YYYY-MM-DD HH:mm:ss') : "--";
                 }},
-            {field: 'createTime', title: '创建时间', minWidth: 120},
+            {field: 'createTime', title: '创建时间', minWidth: 120, templet: function (d) {
+                    return d.createTime ? dayjs(d.createTime).format('YYYY-MM-DD') : "--";
+                }},
             {field: 'stateDesc', title: '账号状态', minWidth: 120},
             {
                 title: '操作',
@@ -364,24 +374,22 @@ layui.use(['layer', 'table', 'form', 'laydate'], function () {
     // }
 
 
-    // // 新增账号按钮
-    // var saveLayerIndex;
-    // $('#btn-add-sys-user').on('click', function () {
-    //     initSaveFrom();
-    //
-    //     saveLayerIndex = layer.open({
-    //         id: 'layer-id-save-sys-user',
-    //         type: 1,
-    //         title: '新增账号',
-    //         content: $('#layer-save-sys-user'),
-    //         area: '460px',
-    //         resize: false
-    //     })
-    // });
+    // 新增账号按钮
+    var saveLayerIndex;
+    $('#btn-add-sys-user').on('click', function () {
+        saveLayerIndex = layer.open({
+            id: 'layer-id-save-sys-user',
+            type: 1,
+            title: '新增账号',
+            content: $('#layer-save-sys-user'),
+            area: '460px',
+            resize: false
+        })
+    });
     // 保存弹窗取消按钮单击事件
-    // $saveForm.find('.btn-save-sys-user .btn1').on('click', function () {
-    //     layer.close(saveLayerIndex);
-    // });
+    $saveForm.find('.btn-save-sys-user .btn1').on('click', function () {
+        layer.close(saveLayerIndex);
+    });
 
     // 监听保存表单提交
     form.on('submit(submit-filter-save-sys-user)', function (data) {

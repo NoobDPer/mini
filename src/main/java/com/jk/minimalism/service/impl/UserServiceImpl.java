@@ -16,6 +16,7 @@ import com.jk.minimalism.exception.MinimalismBizRuntimeException;
 import com.jk.minimalism.service.TokenService;
 import com.jk.minimalism.service.UserService;
 import com.jk.minimalism.util.BeanFillUtils;
+import com.jk.minimalism.util.IdUtils;
 import com.jk.minimalism.util.PageHandleUtils;
 import com.jk.minimalism.util.UserUtil;
 import org.apache.commons.collections4.CollectionUtils;
@@ -75,6 +76,7 @@ public class UserServiceImpl implements UserService {
             throw new MinimalismBizRuntimeException(ResultCode.USER_USERNAME_EXISTS_ERROR, String.format("用户名已经存在: username: [%s]", user.getUsername()));
         }
 
+        user.setId(IdUtils.nextId());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         BeanFillUtils.setCreateAttr(user);
         userMapper.insertSelective(user);

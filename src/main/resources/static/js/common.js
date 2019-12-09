@@ -157,10 +157,10 @@ var userTools = function () {
          * 检查角色
          */
         checkRole: function () {
-            var $eles = $('[data-vg-check-role]');
+            var $eles = $('[data-mini-check-role]');
             $.each($eles, function (i, ele) {
                 var $ele = $(ele);
-                var roles = $ele.attr('data-vg-check-role');
+                var roles = $ele.attr('data-mini-check-role');
                 if (!roles) {
                     return false;
                 }
@@ -176,7 +176,7 @@ var userTools = function () {
                 if (!flag) {
                     $ele.empty().remove();
                 } else {
-                    $ele.removeAttr('data-vg-check-role');
+                    $ele.removeAttr('data-mini-check-role');
                 }
             });
         },
@@ -376,7 +376,7 @@ var LayuiTools = (function () {
      * @returns {string} 错误消息
      */
     LayuiTools.prototype._getErrorMsg = function (itemData, renderData) {
-        var msg = itemData['vgVerifyMsg'];
+        var msg = itemData['miniVerifyMsg'];
         if (!msg) {
             return;
         }
@@ -427,14 +427,14 @@ var LayuiTools = (function () {
                     return;
                 }
 
-                // vg-rule-length 长度限制
+                // mini-rule-length 长度限制
                 var $item = $(item);
                 var data = $item.data();
-                if (checkVerifyParams(data, ['vgVerifyLength'])) {
+                if (checkVerifyParams(data, ['miniVerifyLength'])) {
                     return;
                 }
 
-                var length = data.vgVerifyLength;
+                var length = data.miniVerifyLength;
                 if (value.length !== length) {
                     return This._getErrorMsg(data, {
                         value: value,
@@ -449,11 +449,11 @@ var LayuiTools = (function () {
 
                 var $item = $(item);
                 var data = $item.data();
-                if (checkVerifyParams(data, ['vgVerifyRegex'])) {
+                if (checkVerifyParams(data, ['miniVerifyRegex'])) {
                     return;
                 }
 
-                var regex = data.vgVerifyRegex;
+                var regex = data.miniVerifyRegex;
                 if (!new RegExp(regex).test(value)) {
                     return This._getErrorMsg(data, {
                         value: value,

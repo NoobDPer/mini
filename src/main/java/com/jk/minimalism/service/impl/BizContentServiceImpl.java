@@ -98,6 +98,7 @@ public class BizContentServiceImpl implements BizContentService {
     public void saveBizContent4forOpen(BizContentOpenRequestDTO bizContentOpenRequestDTO) {
         BizContent bizContent = modelMapper.map(bizContentOpenRequestDTO, BizContent.class);
         bizContent.setConfirmState(ConfirmStatus.NOT_CONFIRMED.getCode());
+        bizContent.setId(IdUtils.nextId());
         BeanFillUtils.setCreateAttr(bizContent);
         bizContentMapper.insertSelective(bizContent);
     }

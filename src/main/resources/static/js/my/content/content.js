@@ -31,7 +31,7 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
             {field: 'commitQq', title: '提交人', width: 75, minWidth: 75},
             {field: 'showQqState', title: '同意展示', width: 100, minWidth: 100, templet: '#laytpl-table-show-state-icon'
                     },
-            {field: 'source', title: '来源', width: 60, minWidth: 60, templet: function (d) {
+            {field: 'source', title: '来源', width: 80, minWidth: 80, templet: function (d) {
                     switch (d.source) {
                         case '0' :
                             return "后台";
@@ -48,7 +48,12 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
             {field: 'confirmState', title: '审核状态', width: 100, minWidth: 100, templet: '#laytpl-table-confirm-state-icon'},
             {
                 title: '审核时间', width: 165, minWidth: 165, templet: function (d) {
-                    return dayjs(d.confirmTime).format('YYYY-MM-DD HH:mm:ss');
+                    if (d.confirmTime) {
+                        return dayjs(d.confirmTime).format('YYYY-MM-DD HH:mm:ss');
+                    } else {
+                        return "--";
+                    }
+
                 }
             },
             {
@@ -75,6 +80,26 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
         });
     }
 
+
+    // 初始化select
+    var initSelects = [
+        // 审核状态
+        {fn: miniReq.getConfirmStatus, $ele: $filterForm.find('select[name=confirmState]')},
+        // 内容类型
+        {fn: miniReq.getContentTypes, $ele: $filterForm.find('select[name=type]')},
+    ];
+    $.each(initSelects, function (i, row) {
+        miniReq.initSelect.call(This, row);
+    });
+
+
+    // 初始化筛选select事件
+    var $selects = [$filterForm.find('select[name=confirmState]'),
+        $filterForm.find('select[name=type]')];
+    $.each($selects, function (i, $ele) {
+        onSelect($ele, reloadTable);
+    });
+
     $filterForm.find('input[name=condition]').keyup(function (event) {
         if (event.keyCode === 13) {
             reloadTable();
@@ -97,7 +122,7 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
     var $body = $('body');
     $body.on('click', '.table-btn-content-confirm', function () {
         var id = $(this).data('id');
-        layer.confirm('<p class="vg-text-indent-2">确定审核通过该内容？</p><p class="vg-warn-color">注：通过后该内容会被随机刷到！</p>', {
+        layer.confirm('<p class="mini-text-indent-2">确定审核通过该内容？</p><p class="mini-warn-color">注：通过后该内容会被随机刷到！</p>', {
             btn: ['确定', '取消']
         }, function () {
             loadingMonitor(function () {
@@ -121,6 +146,34 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
             layer.close(1);
         });
     });
+
+    $body.on('click', '.table-btn-content-refuse', function () {
+        var id = $(this).data('id');
+        layer.confirm('<p class="mini-text-indent-2">确定打回该内容？</p><p class="mini-warn-color">注：打回后该内容不会被随机刷到！</p>', {
+            btn: ['确定', '取消']
+        }, function () {
+            loadingMonitor(function () {
+                return $.ajax({
+                    type: 'post',
+                    url: '/contents/' + id + "/state/99"
+                });
+            })().done(function (data) {
+                if (data.code == 0) {
+                    layer.msg("打回成功！");
+                    tableLns.reload({
+                        page: {
+                            curr: 1
+                        }
+                    });
+                } else {
+                    layer.msg("Sth. must be wrong!")
+                }
+            });
+
+            layer.close(1);
+        });
+    });
+
 
     // 批量通过
     $('#btn-batch-confirm-content').on('click', function () {
@@ -174,6 +227,25 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
 
     }
 
+    /**
+     * 监听layui select事件
+     */
+    function onSelect($ele, fn) {
+        var filter = $ele.attr('lay-filter');
+        if (!filter) {
+            return;
+        }
+        var fns = $ele.data('selectFns') || [];
+        fns.push(fn);
+        form.on('select(' + filter + ')', function () {
+            var args = arguments;
+            var This = this;
+            $.each(fns, function (i, rowFn) {
+                rowFn.apply(This, args);
+            })
+        });
+        $ele.data('selectFns', fns);
+    }
     // 提供给外部的公共方法
     window.publicMethods = {
         // 切换到当前标签

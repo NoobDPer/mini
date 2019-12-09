@@ -13,8 +13,23 @@
     <meta property="og:description" content="我们精心熬制了有屎以来最毒1000多条经典毒鸡汤,句句“治愈”人心! 只为了帮你更好的看清人生认识自己，直面现实,直面惨淡的人生,不给你励志,不给你慰藉,像一根鞭猛的抽你一下,使你清醒,知道这个世界和你自己最真实的一面,是青少年手机里的必备宝典。" />
 
     <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="../../layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui-v2.5.4/css/layui.css"  media="all">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/soup.css" />
+    <link rel="stylesheet" href="../../css/mini.css" />
+    <style type="text/css">
+        #layer-id-save-soup .btn-save-soup button {
+            height: 28px;
+            line-height: 28px;
+            padding: 0 15px;
+        }
+
+        #layer-id-save-soup .btn-save-soup button.btn0 {
+            border-color: #333;
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
 <div class="top-wrap" style="position: absolute; top: 1vh;width: 100%;z-index: 999">
@@ -23,7 +38,7 @@
             <div class="col">
                 <img src="../../img/logo/soup_logo.png">
                 <div class="float-right" style="padding-top: 0px;" id="div-add-sentence">
-                    <button class="layui-btn btn btn-primary btn-filled btn-xs" data-method="add" id="btn-add-a-sentence">我要投毒</button>
+                    <button class="layui-btn btn btn-primary btn-filled btn-xs" data-method="add" id="btn-add-soup">我要投毒</button>
                 </div>
             </div>
         </div>
@@ -53,22 +68,29 @@
         <!--<img src="img/applet.jpg" alt="微信小程序">-->
     <!--</div>-->
 </div>
-<div style="padding: 15px;display: none;" id="hidden-add-div">
-    <div><span class="layui-form-label">投毒</span></div>
-    <hr/>
-    <div class="layui-form-item layui-form-text" style="margin-left: 20px">
-        <textarea placeholder="倒上你想倒的毒鸡汤..." class="layui-textarea" id="biz-content"></textarea>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">QQ</label>
-        <div class="layui-input-block">
-            <input type="text" name="title"  autocomplete="off" placeholder="QQ/E-mail (选填)"
-                   class="layui-input" id="biz-commit-user">
+<div class="mini-hide mini-padding-10"  id="layer-save-soup">
+    <form class="layui-form" lay-filter="form-filter-save-soup">
+        <!--<div><span class="layui-form-label">投毒</span></div>-->
+        <!--<hr/>-->
+        <div class="layui-form-item layui-form-text" style="margin-left: 20px">
+            <textarea placeholder="倒上你想倒的毒鸡汤..." class="layui-textarea" id="biz-content" lay-verify="required" name="contentCn"></textarea>
         </div>
-    </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">QQ</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" autocomplete="off" placeholder="QQ/E-mail (选填)" name="commitQq"
+                       class="layui-input" id="biz-commit-user">
+            </div>
+        </div>
+        <div class="layui-row mini-text-align-right mini-layer-btn-group btn-save-soup">
+            <button class="layui-btn btn0" type="button" lay-submit lay-filter="submit-filter-save-soup">保存
+            </button>
+            <button class="layui-btn layui-btn-primary btn1" type="button">取消</button>
+        </div>
+    </form>
 </div>
-<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.layuicdn.com/layui-v2.5.4/layui.js"></script>
 <script src="../../js/my/open/soup.js"></script>
 </body>
 </html>

@@ -9,8 +9,9 @@
     <link rel="stylesheet" type="text/css" href="../../css/font-awesome/css/font-awesome.css" media="all"/>
     <style type="text/css">
         /*解决下拉框出现滚动条*/
-        #layer-id-batch-add {
+        .layer-filter-select-remove-scroll {
             overflow: visible;
+            max-height: 300px;
         }
 
         #layer-id-batch-add td {
@@ -61,11 +62,25 @@
 </head>
 <body class="mini-body">
 <div class="layui-col-md8">
-    <form class="layui-form mini-table-filter" lay-filter="form-filter-content">
+    <form class="layui-form mini-table-filter" lay-filter="form-filter-content" id="layer-id-filter">
         <div class="layui-input-inline mini-search-inline">
             <input type="text" name="condition" placeholder="中文内容/英文内容"
                    class="layui-input mini-search">
             <i class="mini-search-icon layui-icon">&#xe615;</i>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <select name="type" lay-filter="select-filter-content-type" class="layer-filter-select-remove-scroll">
+                    <option value="">内容类型</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <select name="confirmState" lay-filter="select-filter-confirm-state" class="layer-filter-select-remove-scroll">
+                    <option value="">审核状态</option>
+                </select>
+            </div>
         </div>
     </form>
 </div>
@@ -128,7 +143,11 @@
     <div class="layui-btn-group">
         <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-content-confirm"
                 data-id="{{ d.id }}" title="审核通过">
-            <i class="layui-icon">&#x1005;</i>
+            <i class="fa fa-check-circle" style="font-size: 15px; color: #00B83F;"></i>
+        </button>
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-content-refuse"
+                data-id="{{ d.id }}" title="打回">
+            <i class="fa fa-times-circle-o" style="font-size: 15px; color: #c82333; "></i>
         </button>
     </div>
 </script>

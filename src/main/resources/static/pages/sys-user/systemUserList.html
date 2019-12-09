@@ -133,6 +133,16 @@
         </div>
 
         <div class="layui-form-item">
+            <label class="layui-form-label mini-required sys-user-label-width">密码</label>
+            <div class="layui-input-inline">
+                <input type="password" class="layui-input" name="password" placeholder="请输入密码" lay-verify="required|regex"
+                       required
+                       data-mini-verify-regex="^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)])+$).{6,20}$"
+                       data-mini-verify-msg="密码必须包含数字、英文、字符中的两种以上，长度6-20">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
             <label class="layui-form-label mini-required sys-user-label-width">手机号</label>
             <div class="layui-input-inline">
                 <input type="text" class="layui-input" name="phone" placeholder="请输入用户手机号" lay-verify="required|phone">
@@ -141,7 +151,13 @@
 
         <div class="layui-form-item">
             <label class="layui-form-label mini-required sys-user-label-width">角色</label>
-            <div class="layui-input-inline" id="div-save-from-role-id">
+            <div class="layui-input-inline">
+                <select name="roleId" class="layui-select">
+                    <option value="">--请选择--</option>
+                    <option value="-1">超级管理员</option>
+                    <option value="1">普通管理员</option>
+                    <option value="99">普通用户</option>
+                </select>
             </div>
         </div>
 

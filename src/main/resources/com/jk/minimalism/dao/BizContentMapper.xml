@@ -90,7 +90,7 @@
     <select id="list" resultMap="BaseResultMap">
         select * from biz_content t
         <include refid="where"/>
-        ${params.orderBy}
+        ORDER BY CREATE_TIME DESC
         limit #{offset}, #{limit}
     </select>
 
@@ -149,6 +149,7 @@
     <update id="batchUpdateState">
         UPDATE biz_content
         SET
+        CONFIRM_TIME = NOW(),
         CONFIRM_STATE = #{state},
         UPDATE_TIME = NOW(),
         UPDATE_BY = #{updateBy}
