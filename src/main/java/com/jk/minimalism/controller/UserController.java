@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 /**
  * 用户相关接口
  *
@@ -49,12 +51,7 @@ public class UserController {
     @ApiOperation(value = "保存用户")
     @PreAuthorize("hasAuthority('sys:user:add')")
     public User saveUser(@RequestBody UserDTO user) {
-        User u = userService.findUserByName(user.getUsername());
-        if (u != null) {
-            throw new IllegalArgumentException(user.getUsername() + "已存在");
-        }
-
-        return userService.insert(user, user.getRoleId());
+        return Objects.isNull(user.getId()) ? userService.insert(user, user.getRoleId()) : userService.update(user);
     }
 
     @LogAnnotation
@@ -64,14 +61,6 @@ public class UserController {
     public void changePassword(@PathVariable Long id, String oldPassword, String newPassword) {
         userService.updatePassword(id, oldPassword, newPassword);
     }
-//
-//    @GetMapping
-//    @ApiOperation(value = "用户列表")
-//    @PreAuthorize("hasAuthority('sys:user:query')")
-//    public PageTableResponse listUsers(PageTableRequest request) {
-//        return new PageTableHandler(countRequest -> userService.count(countRequest.getParams()),
-//                listRequest -> userService.list(listRequest.getParams(), listRequest.getOffset(), listRequest.getLimit())).handle(request);
-//    }
 
     @GetMapping
     @ApiOperation(value = "用户列表")

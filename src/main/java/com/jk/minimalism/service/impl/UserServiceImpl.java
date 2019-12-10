@@ -28,6 +28,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -79,6 +80,9 @@ public class UserServiceImpl implements UserService {
         user.setId(IdUtils.nextId());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         BeanFillUtils.setCreateAttr(user);
+        if (StringUtils.isEmpty(user.getNickname())) {
+            user.setNickname(IdUtils.generateShortUuid());
+        }
         userMapper.insertSelective(user);
         UserRole userRole = new UserRole();
         userRole.setUserId(user.getId());
@@ -158,7 +162,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-        userMapper.deleteUser(id);
+        this.updateStates(Collections.singletonList(id), User.Status.DISABLED);
     }
 
     @Override

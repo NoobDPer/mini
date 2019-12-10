@@ -27,7 +27,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     List<UserListResponseDTO> list(@Param("params") UserListRequestDTO params);
 
-    void deleteUser(@Param("userId") Long userId);
+//    void deleteUser(@Param("userId") Long userId);
     /**
      * 批量更新状态
      *

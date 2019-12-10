@@ -35,7 +35,7 @@
     </resultMap>
 
     <select id="findByUsername" resultMap="BaseResultMap">
-        SELECT * FROM sys_user WHERE BINARY USERNAME = #{username}
+        SELECT * FROM sys_user WHERE BINARY USERNAME = #{username} OR PHONE = #{username} LIMIT 1
     </select>
 
     <select id="findRoleByUserId" resultType="java.lang.Integer">
@@ -78,11 +78,11 @@
         ORDER BY t.CREATE_TIME ASC
     </select>
 
-    <delete id="deleteUser">
-        DELETE T1, T2 FROM sys_user T1
-        INNER JOIN sys_role_user T2 ON T1.id = T2.userId
-        WHERE T1.id = #{userId}
-    </delete>
+    <!--<delete id="deleteUser">-->
+        <!--DELETE T1, T2 FROM sys_user T1-->
+        <!--INNER JOIN sys_role_user T2 ON T1.id = T2.userId-->
+        <!--WHERE T1.id = #{userId}-->
+    <!--</delete>-->
 
     <update id="updatePassword">
         UPDATE sys_user

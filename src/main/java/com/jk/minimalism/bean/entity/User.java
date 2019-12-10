@@ -1,5 +1,6 @@
 package com.jk.minimalism.bean.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jk.minimalism.bean.common.UserAndTimeAttrAdapter;
 import lombok.Data;
 
@@ -28,6 +29,7 @@ public class User implements UserAndTimeAttrAdapter {
      * 密码
      */
     @Column(name = "PASSWORD")
+    @JsonIgnore
     private String password;
 
     /**
