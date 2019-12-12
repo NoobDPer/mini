@@ -13,7 +13,23 @@
     <meta property="og:description" content="在这里你可以领略现代文艺复兴的各种超现实主义艺术，本着开心为主、儒雅随和的原则，只希望从艺术的角度带大家笑口常开，远离抑郁，拯救不开心。" />
 
     <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="../../css/soup.css" />
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui-v2.5.4/css/layui.css"  media="all">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/art.css" />
+    <link rel="stylesheet" href="../../css/mini.css" />
+    <style type="text/css">
+        #layer-id-save-art .btn-save-art button {
+            height: 28px;
+            line-height: 28px;
+            padding: 0 15px;
+        }
+
+        #layer-id-save-art .btn-save-art button.btn0 {
+            border-color: #333;
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
 <div class="top-wrap" style="position: absolute; top: 1vh;width: 100%;z-index: 999">
@@ -21,8 +37,8 @@
         <div class="row" style="margin-top: 30px;">
             <div class="col">
                 <img src="../../img/logo/art_logo.png" width="150px">
-                <div class="float-right" style="padding-top: 0px;">
-                    <span class="btn btn-primary btn-filled btn-xs">todo</span>
+                <div class="float-right" style="padding-top: 0px;" id="div-add-sentence">
+                    <button class="layui-btn btn btn-primary btn-filled btn-xs" data-method="add" id="btn-add-art">我来艺术</button>
                 </div>
             </div>
         </div>
@@ -52,7 +68,29 @@
         <!--<img src="img/applet.jpg" alt="微信小程序">-->
     <!--</div>-->
 </div>
-<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<div class="mini-hide mini-padding-10"  id="layer-save-art">
+    <form class="layui-form" lay-filter="form-filter-save-art">
+        <!--<div><span class="layui-form-label">投毒</span></div>-->
+        <!--<hr/>-->
+        <div class="layui-form-item layui-form-text" style="margin-left: 20px">
+            <textarea placeholder="展现你抽象艺术的时候到了..." class="layui-textarea" id="biz-content" lay-verify="required" name="contentCn"></textarea>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">QQ</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" autocomplete="off" placeholder="QQ/E-mail (选填)" name="commitQq"
+                       class="layui-input" id="biz-commit-user">
+            </div>
+        </div>
+        <div class="layui-row mini-text-align-right mini-layer-btn-group btn-save-art">
+            <button class="layui-btn btn0" type="button" lay-submit lay-filter="submit-filter-save-art">保存
+            </button>
+            <button class="layui-btn layui-btn-primary btn1" type="button">取消</button>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.layuicdn.com/layui-v2.5.4/layui.js"></script>
 <script src="../../js/my/open/art.js"></script>
 </body>
 </html>
