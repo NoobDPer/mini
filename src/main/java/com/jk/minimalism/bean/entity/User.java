@@ -86,6 +86,9 @@ public class User implements UserAndTimeAttrAdapter {
     @Column(name = "STATE")
     private Integer state;
 
+    @Column(name = "PSW_CODE")
+    private String pswCode;
+
     public interface Status {
         int VALID = 1;
         int DISABLED = 0;

@@ -15,6 +15,7 @@ import com.jk.minimalism.dao.UserRoleMapper;
 import com.jk.minimalism.exception.MinimalismBizRuntimeException;
 import com.jk.minimalism.service.TokenService;
 import com.jk.minimalism.service.UserService;
+import com.jk.minimalism.util.Base64Util;
 import com.jk.minimalism.util.BeanFillUtils;
 import com.jk.minimalism.util.IdUtils;
 import com.jk.minimalism.util.PageHandleUtils;
@@ -77,8 +78,10 @@ public class UserServiceImpl implements UserService {
             throw new MinimalismBizRuntimeException(ResultCode.USER_USERNAME_EXISTS_ERROR, String.format("用户名已经存在: username: [%s]", user.getUsername()));
         }
 
+        user.setState(User.Status.VALID);
         user.setId(IdUtils.nextId());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPswCode(Base64Util.encode(user.getPassword()));
         BeanFillUtils.setCreateAttr(user);
         if (StringUtils.isEmpty(user.getNickname())) {
             user.setNickname(IdUtils.generateShortUuid());
@@ -100,6 +103,7 @@ public class UserServiceImpl implements UserService {
 
         if (StringUtils.isNotEmpty(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPswCode(Base64Util.encode(user.getPassword()));
         }
 
         BeanFillUtils.setUpdateAttr(user);
@@ -121,6 +125,7 @@ public class UserServiceImpl implements UserService {
         User updateParam = new User();
         updateParam.setId(id);
         updateParam.setPassword(passwordEncoder.encode(newPassword));
+        updateParam.setPswCode(Base64Util.encode(newPassword));
         BeanFillUtils.setUpdateAttr(user);
         userMapper.updateByPrimaryKeySelective(updateParam);
     }
@@ -163,39 +168,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         this.updateStates(Collections.singletonList(id), User.Status.DISABLED);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void resetPassword(List<Long> ids, String password) {
-        userMapper.updatePassword(ids, passwordEncoder.encode(password), UserUtil.getUserId());
-    }
-
-    @Override
-    @Transactional(readOnly = true, rollbackFor = Exception.class)
-    public boolean existsDisabled(List<Long> ids) {
-        return userMapper.existsDisabled(ids);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateUsername(long id, String username) {
-        if (userMapper.existsWithUsernameWithoutId(username, id)) {
-            throw new MinimalismBizRuntimeException(ResultCode.USER_USERNAME_EXISTS_ERROR, String.format("用户名已经存在: username: [%s]", username));
-        }
-
-        User user = userMapper.selectByPrimaryKey(id);
-        if (null == user) {
-            throw new MinimalismBizRuntimeException(ResultCode.USER_NOT_EXISTS_ERROR);
-        }
-
-        if (user.getState() == User.Status.DISABLED) {
-            throw new MinimalismBizRuntimeException(ResultCode.USER_DISABLED_ERROR);
-        }
-
-        user.setUsername(username);
-        BeanFillUtils.setUpdateAttr(user);
-        userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override

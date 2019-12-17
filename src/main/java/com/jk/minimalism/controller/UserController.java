@@ -4,6 +4,7 @@ import com.jk.minimalism.bean.common.AjaxResult;
 import com.jk.minimalism.bean.common.Pager;
 import com.jk.minimalism.bean.dto.UserDTO;
 import com.jk.minimalism.bean.dto.UserListRequestDTO;
+import com.jk.minimalism.bean.dto.UserSaveReqDTO;
 import com.jk.minimalism.bean.entity.User;
 import com.jk.minimalism.bean.page.PageTableHandler;
 import com.jk.minimalism.bean.page.PageTableRequest;
@@ -14,6 +15,7 @@ import com.jk.minimalism.util.UserUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +48,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @LogAnnotation
     @PostMapping
     @ApiOperation(value = "保存用户")
     @PreAuthorize("hasAuthority('sys:user:add')")
-    public User saveUser(@RequestBody UserDTO user) {
-        return Objects.isNull(user.getId()) ? userService.insert(user, user.getRoleId()) : userService.update(user);
+    public User saveUser(@RequestBody UserSaveReqDTO userSaveReqDTO) {
+        User user = modelMapper.map(userSaveReqDTO, User.class);
+        return Objects.isNull(user.getId()) ? userService.insert(user, userSaveReqDTO.getRoleId()) : userService.update(user);
     }
 
     @LogAnnotation

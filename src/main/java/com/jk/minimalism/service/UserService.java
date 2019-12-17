@@ -75,30 +75,6 @@ public interface UserService {
     void deleteUser(Long id);
 
     /**
-     * 重置密码
-     *
-     * @param ids      需要重置密码的用户id
-     * @param password 重置后的密码
-     */
-    void resetPassword(List<Long> ids, String password);
-
-    /**
-     * 是否存在停用的
-     *
-     * @param ids 用户ids
-     * @return true: 存在停用的 false: 不存在
-     */
-    boolean existsDisabled(List<Long> ids);
-
-    /**
-     * 修改用户名
-     *
-     * @param id       用户id
-     * @param username 手机号
-     */
-    void updateUsername(long id, String username);
-
-    /**
      * 更新登录时间
      *
      * @param id 用户ID
