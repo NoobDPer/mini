@@ -104,6 +104,8 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isNotEmpty(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setPswCode(Base64Util.encode(user.getPassword()));
+        } else {
+            user.setPassword(null);
         }
 
         BeanFillUtils.setUpdateAttr(user);
