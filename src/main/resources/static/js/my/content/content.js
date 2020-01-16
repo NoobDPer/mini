@@ -6,7 +6,7 @@ layui.config({
     dropdown: 'dropdown',
 });
 
-layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
+layui.use(['layer', 'table', 'form', 'laydate', 'dropdown'], function () {
     var This = this;
     var table = layui.table;
     var adminTab = parent.adminTab || top.adminTab;
@@ -29,9 +29,11 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
             {field: 'contentCn', title: '中文内容', minWidth: 300},
             {field: 'contentEn', title: '英文内容', width: 185, minWidth: 185},
             {field: 'commitQq', title: '提交人', width: 75, minWidth: 75},
-            {field: 'showQqState', title: '同意展示', width: 100, minWidth: 100, templet: '#laytpl-table-show-state-icon'
-                    },
-            {field: 'source', title: '来源', width: 80, minWidth: 80, templet: function (d) {
+            {
+                field: 'showQqState', title: '同意展示', width: 100, minWidth: 100, templet: '#laytpl-table-show-state-icon'
+            },
+            {
+                field: 'source', title: '来源', width: 80, minWidth: 80, templet: function (d) {
                     switch (d.source) {
                         case '0' :
                             return "后台";
@@ -45,7 +47,13 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
                 }
             },
             {field: 'confirmUsername', title: '审核人', width: 75, minWidth: 75},
-            {field: 'confirmState', title: '审核状态', width: 100, minWidth: 100, templet: '#laytpl-table-confirm-state-icon'},
+            {
+                field: 'confirmState',
+                title: '审核状态',
+                width: 100,
+                minWidth: 100,
+                templet: '#laytpl-table-confirm-state-icon'
+            },
             {
                 title: '审核时间', width: 165, minWidth: 165, templet: function (d) {
                     if (d.confirmTime) {
@@ -61,7 +69,7 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
                     return dayjs(d.createTime).format('YYYY-MM-DD HH:mm:ss')
                 }, width: 165, minWidth: 165
             },
-            {title: '操作', width: 90, minWidth: 90, templet: '#laytpl-table-ops', fixed: 'right'}
+            {title: '操作', width: 110, minWidth: 110, templet: '#laytpl-table-ops', fixed: 'right'}
         ]]
     }));
 
@@ -174,6 +182,110 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
         });
     });
 
+    var $tableDetailAdd = $('#table-batch-add');
+    var layerIndex;
+
+    function initBatchAddRow($tableDetailAdd, id) {
+        $tableDetailAdd.find('tbody').empty();
+        $('#content-id-hidden').val(id);
+
+        loadingMonitor(function () {
+            return $.ajax({
+                type: 'get',
+                url: '/contents/' + id + "/detail",
+                async: false
+            });
+        })().done(function (data) {
+            if (data.code == 0) {
+                for (i = 0; i < data.result.length; i++) {
+                    var $tpl = $($('#laytpl-table-tr').html());
+                    $tpl.find('[name="content"]').val(data.result[i].content);
+                    $tableDetailAdd.find('tbody').append($tpl);
+                }
+            } else {
+                layer.msg("Sth. must be wrong!")
+            }
+        });
+
+    }
+
+    $body.on('click', '.table-btn-content-detail', function () {
+        var id = $(this).data('id');
+        $tableDetailAdd.find('tbody').empty();
+        var $tpl = $($('#laytpl-table-tr').html());
+        initBatchAddRow($tableDetailAdd, id);
+        $tableDetailAdd.find('tbody').append($tpl);
+        layerIndex = layer.open({
+            id: 'layer-id-batch-add',
+            type: 1,
+            title: '内容编辑',
+            content: $('#layer-save-detail'),
+            area: '1000px',
+            resize: false
+        })
+    });
+
+    // 监听批量新增表单提交
+    form.on('submit(submit-filter-save-detail)', function (data) {
+        var $form = $(data.form);
+        var formData = $.map($form.find('tbody tr'), function (tr) {
+            var rowData = {};
+            $(tr).find('[name!=""]').each(function (i1, input) {
+                var $input = $(input);
+                var name = $input.prop('name');
+                if (name) {
+                    rowData[name] = $input.val();
+                }
+            });
+
+            return rowData;
+        });
+        var id = $('#content-id-hidden').val();
+
+        loadingMonitor(function () {
+            return $.ajax({
+                url: "/contents/" + id + "/detail",
+                contentType: 'application/json',
+                type: "POST",
+                data: JSON.stringify(formData),
+                dataType: 'JSON'
+            })
+        })().done(function () {
+            reloadTable();
+            layer.msg("明细保存成功");
+            if (layerIndex) {
+                layer.close(layerIndex);
+            }
+        });
+        return false;
+    });
+
+
+    // 批量新增取消按钮单击事件
+    $('#layer-save-detail').find('.btn1').on('click', function () {
+        layer.close(layerIndex);
+    });
+
+    $tableDetailAdd.on('mouseover', 'tr', function () {
+        var $this = $(this);
+        $this.find('.ops > a.a-ops-add').show();
+        if ($this.parent().find('tr').length > 1) {
+            $this.find('.ops > a.a-ops-del').show();
+        }
+    });
+    $tableDetailAdd.on('mouseout', 'tr', function () {
+        var $this = $(this);
+        $this.find('.ops > a').hide();
+    });
+    $tableDetailAdd.on('click', 'a.a-ops-add', function () {
+        var $tpl = $($('#laytpl-table-tr').html());
+        $(this).parentsUntil('tr').parent().after($tpl);
+        form.render(null, 'form-filter-save-detail');
+    });
+    $tableDetailAdd.on('click', 'a.a-ops-del', function () {
+        $(this).parentsUntil('tr').parent().remove();
+    });
+
 
     // 批量通过
     $('#btn-batch-confirm-content').on('click', function () {
@@ -190,9 +302,15 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
 
         var alertMsg;
         switch (state) {
-            case 99 : alertMsg = "打回";break;
-            case 1 : alertMsg = "待定";break;
-            case 2 : alertMsg = "通过";break;
+            case 99 :
+                alertMsg = "打回";
+                break;
+            case 1 :
+                alertMsg = "待定";
+                break;
+            case 2 :
+                alertMsg = "通过";
+                break;
             default:
         }
         var checkStatus = table.checkStatus(tableId);
@@ -246,6 +364,7 @@ layui.use(['layer', 'table', 'form', 'laydate','dropdown'], function () {
         });
         $ele.data('selectFns', fns);
     }
+
     // 提供给外部的公共方法
     window.publicMethods = {
         // 切换到当前标签

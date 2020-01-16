@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>毒鸡汤</title>
+    <title>内容列表</title>
     <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
     <link rel="stylesheet" href="../../layui/css/modules/dropdown/dropdown.css" media="all"/>
     <link rel="stylesheet" type="text/css" media="screen" href="../../css/mini.css">
@@ -149,7 +149,50 @@
                 data-id="{{ d.id }}" title="打回">
             <i class="fa fa-times-circle-o" style="font-size: 15px; color: #c82333; "></i>
         </button>
+        {{# if (d.contentType=="2" || d.contentType=="3") { }}
+        <button type="button" class="layui-btn layui-btn-primary layui-btn-xs table-btn-content-detail"
+                data-id="{{ d.id }}" title="对话详情">
+            <i class="fa fa-pencil-square-o" style="font-size: 15px; color: #a3bce4; "></i>
+        </button>
+        {{# } }}
     </div>
+</script>
+
+<div class="mini-hide mini-padding-10"  id="layer-save-detail">
+    <form class="layui-form" lay-filter="form-filter-save-detail">
+        <table class="layui-table" id="table-batch-add">
+            <thead>
+            <tr>
+                <th style="width: 150px">明细内容</th>
+                <th class="mini-hide"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <input type="hidden" name="id" id="content-id-hidden"/>
+        <div class="layui-row mini-text-align-right mini-layer-btn-group btn-save-detail">
+            <button class="layui-btn btn0" type="button" lay-submit lay-filter="submit-filter-save-detail">保存
+            </button>
+            <button class="layui-btn layui-btn-primary btn1" type="button">取消</button>
+        </div>
+    </form>
+</div>
+
+<script id="laytpl-table-tr" type="text/html">
+    <tr>
+        <td>
+            <input name="content" type="text"
+                   lay-verify="required|regex" required
+                   data-mini-verify-regex="^\S{0,50}$"
+                   data-mini-verify-msg="明细内容不能过长">
+        </td>
+        <td class="ops">
+            <a href="javascript:void(0)" class="mini-hide a-ops-add"><i class="layui-icon">&#xe654;</i></a>
+            <a href="javascript:void(0)" class="mini-hide a-ops-del"><i class="layui-icon">&#xe640;</i></a>
+        </td>
+    </tr>
 </script>
 
 </body>

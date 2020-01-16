@@ -3,6 +3,7 @@ package com.jk.minimalism.dao;
 import com.jk.minimalism.base.mapper.BaseMapper;
 import com.jk.minimalism.bean.entity.BizContent;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
 /**
  * @author auto-generate
  */
+@Repository
 public interface BizContentMapper extends BaseMapper<BizContent> {
 
     BizContent getById(@Param("id") Long id);

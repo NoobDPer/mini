@@ -5,6 +5,9 @@ import java.util.Map;
 
 import com.jk.minimalism.bean.common.AjaxResult;
 import com.jk.minimalism.bean.dto.BizContentDTO;
+import com.jk.minimalism.bean.dto.BizContentDetailDTO;
+import com.jk.minimalism.bean.dto.DetailSaveReqDTO;
+import com.jk.minimalism.service.BizContentDetailService;
 import com.jk.minimalism.util.MapperColumnUtil;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,9 @@ public class BizContentController {
 
     @Autowired
     private BizContentService bizContentService;
+
+    @Autowired
+    private BizContentDetailService detailService;
 
     @PostMapping
     @ApiOperation(value = "保存")
@@ -89,5 +95,20 @@ public class BizContentController {
                                         @PathVariable(value = "state") @ApiParam("审核状态") String state) {
         bizContentService.confirmBizContent(id, state);
         return new AjaxResult().success();
+    }
+
+    @PostMapping("/{id}/detail")
+    @ApiOperation(value = "保存明细数据")
+    public AjaxResult batchSaveDetail(@PathVariable(value = "id") @ApiParam("ID") Long id,
+                                      @RequestBody List<BizContentDetailDTO> list) {
+        DetailSaveReqDTO reqDTO = DetailSaveReqDTO.builder().id(id).list(list).build();
+        detailService.batchSaveDetails(reqDTO);
+        return new AjaxResult().success();
+    }
+
+    @GetMapping("/{id}/detail")
+    @ApiOperation(value = "获取明细数据")
+    public AjaxResult<List<BizContentDetailDTO>> getDetailByContentId(@PathVariable(value = "id") @ApiParam("ID") Long id) {
+        return new AjaxResult<>(detailService.getDetailsById(id)).success();
     }
 }

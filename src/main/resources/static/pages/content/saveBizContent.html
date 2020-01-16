@@ -11,8 +11,54 @@
             background-color: #1E9FFF;
             color: #fff;
         }
+
         .content-label-width {
             width: 80px;
+        }
+
+        #layer-id-batch-add td {
+            padding: 0;
+        }
+
+        #layer-id-batch-add td input {
+            border: 0;
+        }
+
+        #layer-id-batch-add td > input[type=text] {
+            box-sizing: border-box;
+            padding: 9px 15px;
+            width: 100%;
+            height: 100%;
+        }
+
+        #layer-id-batch-add td.ops {
+            width: 60px;
+            border: 0;
+            padding-left: 10px;
+            background-color: white;
+        }
+
+        #layer-id-batch-add .btn-batch-add {
+            padding: 10px 10px 0 10px;
+        }
+
+        #layer-id-batch-add .btn-batch-add button {
+            height: 28px;
+            line-height: 28px;
+            padding: 0 15px;
+        }
+
+        #layer-id-batch-add .btn-batch-add button.btn0 {
+            border-color: #1E9FFF;
+            background-color: #1E9FFF;
+            color: #fff;
+        }
+
+        /* 表格中错误红色边框 */
+        #layer-id-batch-add td .layui-form-danger + .layui-form-select .layui-input,
+        #layer-id-batch-add td .layui-form-danger:focus {
+            border-width: 1px;
+            border-style: solid;
         }
     </style>
 </head>
@@ -34,11 +80,26 @@
                 </div>
             </div>
 
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label mini-required content-label-width">排版类型</label>
+                    <div class="layui-input-inline">
+                        <select name="contentType" lay-filter="select-filter-content-content-type"
+                                lay-verify="required">
+                            <option value="">请选择</option>
+                            <option value="1">单行排版</option>
+                            <option value="2">对话排版</option>
+                            <option value="3">多行排版</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label mini-required content-label-width">中文内容</label>
                 <div class="layui-input-block">
                     <textarea name="contentCn" class="layui-textarea" placeholder="请输入内容"
-                           required lay-verify="required"
+                              required lay-verify="required"
                               data-mini-verify-msg="内容不能为空"></textarea>
                 </div>
             </div>
@@ -52,33 +113,51 @@
 
 
             <!--<div class="layui-form-item">-->
-                <!--<div class="layui-inline">-->
-                    <!--<label class="layui-form-label mini-required content-label-width">审核状态</label>-->
-                    <!--<div class="layui-input-inline">-->
-                        <!--<select name="confirmState" lay-filter="select-filter-confirm-state"-->
-                                <!--lay-verify="required">-->
-                            <!--<option value="">请选择</option>-->
-                        <!--</select>-->
-                    <!--</div>-->
-                <!--</div>-->
+            <!--<div class="layui-inline">-->
+            <!--<label class="layui-form-label mini-required content-label-width">审核状态</label>-->
+            <!--<div class="layui-input-inline">-->
+            <!--<select name="confirmState" lay-filter="select-filter-confirm-state"-->
+            <!--lay-verify="required">-->
+            <!--<option value="">请选择</option>-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</div>-->
 
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label mini-required content-label-width">审核状态</label>
                     <div class="layui-input-inline">
-                        <input type="checkbox" lay-skin='primary' name='confirmState' lay-filter='checkbox-filter-confirm-state' title="不通过" value="99"/>
+                        <input type="checkbox" lay-skin='primary' name='confirmState'
+                               lay-filter='checkbox-filter-confirm-state' title="不通过" value="99"/>
                     </div>
                     <div class="layui-input-inline">
-                        <input type="checkbox" lay-skin='primary' name='confirmState' lay-filter='checkbox-filter-confirm-state' title="未审核" value="0"/>
+                        <input type="checkbox" lay-skin='primary' name='confirmState'
+                               lay-filter='checkbox-filter-confirm-state' title="未审核" value="0"/>
                     </div>
                     <div class="layui-input-inline">
-                        <input type="checkbox" lay-skin='primary' name='confirmState' lay-filter='checkbox-filter-confirm-state' title="待定" value="1"/>
+                        <input type="checkbox" lay-skin='primary' name='confirmState'
+                               lay-filter='checkbox-filter-confirm-state' title="待定" value="1"/>
                     </div>
                     <div class="layui-input-inline">
-                        <input type="checkbox" lay-skin='primary' name='confirmState' lay-filter='checkbox-filter-confirm-state' title="通过" value="2" checked/>
+                        <input type="checkbox" lay-skin='primary' name='confirmState'
+                               lay-filter='checkbox-filter-confirm-state' title="通过" value="2" checked/>
                     </div>
                 </div>
+            </div>
+
+            <div class="mini-hide mini-padding-10" id="layer-save-detail">
+                <table class="layui-table" id="table-batch-add">
+                    <thead>
+                    <tr>
+                        <th style="width: 80%">明细内容</th>
+                        <th class="mini-hide"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
 
             <div class="layui-form-item">
@@ -91,6 +170,21 @@
         </form>
     </div>
 </div>
+
+<script id="laytpl-table-tr" type="text/html">
+    <tr>
+        <td>
+            <input name="content" type="text"
+                   lay-verify="required|regex" required
+                   data-mini-verify-regex="^\S{0,50}$"
+                   data-mini-verify-msg="明细内容不能过长" style="width: 90%;height: 30px">
+        </td>
+        <td class="ops">
+            <a href="javascript:void(0)" class="mini-hide a-ops-add"><i class="layui-icon">&#xe654;</i></a>
+            <a href="javascript:void(0)" class="mini-hide a-ops-del"><i class="layui-icon">&#xe640;</i></a>
+        </td>
+    </tr>
+</script>
 
 <script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../../js/libs/dayjs.min.js"></script>

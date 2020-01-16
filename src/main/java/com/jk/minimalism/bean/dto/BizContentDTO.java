@@ -6,7 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 /**
  * @author auto-generate
@@ -29,6 +29,9 @@ public class BizContentDTO implements Serializable {
     @ApiModelProperty(value = "英文内容")
     private String contentEn;
 
+    @ApiModelProperty(value = "内容类型 1-单行 2-对话 3-多行")
+    private String contentType;
+
     @ApiModelProperty(value = "提交人QQ")
     private String commitQq;
 
@@ -44,5 +47,7 @@ public class BizContentDTO implements Serializable {
     @NotNull
     @VStringIn(in = {"99", "0", "1", "2"})
     private String confirmState;
+
+    private List<BizContentDetailDTO> list;
 
 }

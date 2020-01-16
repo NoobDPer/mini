@@ -42,6 +42,12 @@ public class BizContent implements UserAndTimeAttrAdapter, Serializable {
     private String contentEn;
 
     /**
+     * 内容类型
+     */
+    @Column(name = "CONTENT_TYPE")
+    private String contentType;
+
+    /**
      * 提交人QQ
      */
     @Column(name = "COMMIT_QQ")
@@ -121,6 +127,21 @@ public class BizContent implements UserAndTimeAttrAdapter, Serializable {
          * 2-通过
          */
         String PASSED = "2";
+    }
+
+    public interface CONTENT_TYPES {
+        /**
+         * 单行
+         */
+        String SINGLE_LINE = "1";
+        /**
+         * 对话
+         */
+        String DIALOG_LINE = "2";
+        /**
+         * 多行
+         */
+        String MULITY_LINE = "3";
     }
 
 }

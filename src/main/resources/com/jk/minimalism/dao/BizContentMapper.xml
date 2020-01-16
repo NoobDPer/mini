@@ -8,6 +8,7 @@
         <result column="TYPE" property="type"/>
         <result column="CONTENT_CN" property="contentCn"/>
         <result column="CONTENT_EN" property="contentEn"/>
+        <result column="CONTENT_TYPE" property="contentType"/>
         <result column="COMMIT_QQ" property="commitQq"/>
         <result column="SHOW_QQ_STATE" property="showQqState"/>
         <result column="SOURCE" property="source"/>
@@ -108,6 +109,9 @@
             </if>
             <if test="contentEn != null">
                 CONTENT_EN = #{contentEn},
+            </if>
+            <if test="contentType != null">
+                CONTENT_TYPE = #{contentType},
             </if>
             <if test="commitQq != null">
                 COMMIT_QQ = #{commitQq},

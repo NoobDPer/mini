@@ -1,14 +1,18 @@
 package com.jk.minimalism.service.impl;
 
 import com.jk.minimalism.bean.dto.BizContentDTO;
+import com.jk.minimalism.bean.dto.BizContentDetailDTO;
 import com.jk.minimalism.bean.dto.BizContentOpenRequestDTO;
 import com.jk.minimalism.bean.dto.BizContentResponseDTO;
+import com.jk.minimalism.bean.dto.DetailSaveReqDTO;
 import com.jk.minimalism.bean.entity.BizConfirmLog;
+import com.jk.minimalism.bean.entity.BizContentDetail;
 import com.jk.minimalism.bean.entity.User;
 import com.jk.minimalism.bean.enums.ConfirmStatus;
 import com.jk.minimalism.bean.enums.ContentSource;
 import com.jk.minimalism.bean.enums.ResultCode;
 import com.jk.minimalism.dao.BizConfirmLogMapper;
+import com.jk.minimalism.dao.BizContentDetailMapper;
 import com.jk.minimalism.dao.UserMapper;
 import com.jk.minimalism.exception.MinimalismBizRuntimeException;
 import com.jk.minimalism.util.BeanFillUtils;
@@ -17,12 +21,12 @@ import com.jk.minimalism.dao.BizContentMapper;
 import com.jk.minimalism.bean.entity.BizContent;
 import com.jk.minimalism.service.BizContentService;
 import com.jk.minimalism.util.UserUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +35,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.jk.minimalism.bean.entity.BizContent.CONTENT_TYPES.DIALOG_LINE;
+import static com.jk.minimalism.bean.entity.BizContent.CONTENT_TYPES.MULITY_LINE;
 
 /**
  * @author auto-generate
@@ -45,16 +52,20 @@ public class BizContentServiceImpl implements BizContentService {
 
     private final BizConfirmLogMapper bizConfirmLogMapper;
 
+    private final BizContentDetailMapper bizContentDetailMapper;
+
     private final UserMapper userMapper;
 
     @Autowired
     public BizContentServiceImpl(BizContentMapper bizContentMapper,
                                  BizConfirmLogMapper bizConfirmLogMapper,
                                  @Lazy ModelMapper modelMapper,
+                                 BizContentDetailMapper bizContentDetailMapper,
                                  UserMapper userMapper) {
         this.bizContentMapper = bizContentMapper;
         this.bizConfirmLogMapper = bizConfirmLogMapper;
         this.modelMapper = modelMapper;
+        this.bizContentDetailMapper = bizContentDetailMapper;
         this.userMapper = userMapper;
     }
 
@@ -66,6 +77,11 @@ public class BizContentServiceImpl implements BizContentService {
         bizContent.setConfirmUser(userId);
         bizContent.setConfirmTime(now);
         String originState;
+        if (DIALOG_LINE.equals(bizContentDTO.getContentType()) || MULITY_LINE.equals(bizContentDTO.getContentType())) {
+            if (CollectionUtils.isNotEmpty(bizContentDTO.getList())) {
+                bizContent.setContentCn(bizContentDTO.getList().stream().map(BizContentDetailDTO::getContent).collect(Collectors.joining("/")));
+            }
+        }
         if (Objects.nonNull(bizContent.getId())) {
             // 更新
             BeanFillUtils.setUpdateAttr(bizContent, userId);
@@ -79,6 +95,21 @@ public class BizContentServiceImpl implements BizContentService {
             BeanFillUtils.setCreateAttr(bizContent, userId);
             originState = ConfirmStatus.NOT_CONFIRMED.getCode();
             bizContentMapper.insertSelective(bizContent);
+        }
+
+        if (DIALOG_LINE.equals(bizContentDTO.getContentType()) || MULITY_LINE.equals(bizContentDTO.getContentType())) {
+            // 处理多行的情况
+            if (CollectionUtils.isNotEmpty(bizContentDTO.getList())) {
+                List<BizContentDetail> list = bizContentDTO.getList().stream().map(d -> modelMapper.map(d, BizContentDetail.class)).collect(Collectors.toList());
+                for (int i = 0; i < list.size(); i++) {
+                    list.get(i).setId(IdUtils.nextId());
+                    list.get(i).setContentId(bizContent.getId());
+                    list.get(i).setOrder(i + 1);
+
+                }
+                bizContentDetailMapper.deleteByContentId(bizContent.getId());
+                bizContentDetailMapper.batchSave(list);
+            }
         }
 
         // 保存审核记录日志

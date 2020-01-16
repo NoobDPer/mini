@@ -1,5 +1,3 @@
-var id = getUrlParam("id");
-
 layui.use(['layer', 'table', 'laytpl', 'form', 'laydate'], function () {
     var This = this;
     var layer = layui.layer;
@@ -13,18 +11,6 @@ layui.use(['layer', 'table', 'laytpl', 'form', 'laydate'], function () {
     // 加载自定义验证规则
     var layuiTools = new LayuiTools(This);
     layuiTools.loadRules(form);
-
-    // 新增企业
-    $('#btn-add-content').click(function () {
-        adminTab.del('tab-id-add-content');
-        adminTab.add({
-            layId: 'tab-id-add-content',
-            title: '新增企业',
-            url: 'pages/content/saveBizContent.html',
-            icon: 'fa-flask'
-        });
-    });
-
     /**
      * 设置id, 由新增且为编辑
      * @param id 企业id
@@ -56,20 +42,20 @@ layui.use(['layer', 'table', 'laytpl', 'form', 'laydate'], function () {
         renderForm();
     }
 
-    /**
-     * 加载保存内容信息表单
-     * @param id 企业id
-     */
-    function loadsaveContentForm(id) {
-        return $.ajax({
-            url: '/contents/' + id,
-            type: 'GET',
-            dataType: 'json'
-        }).done(function (data) {
-            content = data;
-            setsaveContentForm(data);
-        });
-    }
+    // /**
+    //  * 加载保存内容信息表单
+    //  * @param id 企业id
+    //  */
+    // function loadsaveContentForm(id) {
+    //     return $.ajax({
+    //         url: '/contents/' + id,
+    //         type: 'GET',
+    //         dataType: 'json'
+    //     }).done(function (data) {
+    //         content = data;
+    //         setsaveContentForm(data);
+    //     });
+    // }
 
     // 初始化内容信息中的select
     $.when(
@@ -83,32 +69,28 @@ layui.use(['layer', 'table', 'laytpl', 'form', 'laydate'], function () {
             fn: miniReq.getContentTypes,
             $ele: $saveForm.find('select[name=type]')
         })).done(function () {
-        if (!id) {
-            return;
-        }
-        loadsaveContentForm(id);
     });
 
 
-    /**
-     * 监听layui select事件
-     */
-    function onSelect($ele, fn) {
-        var filter = $ele.attr('lay-filter');
-        if (!filter) {
-            return;
-        }
-        var fns = $ele.data('selectFns') || [];
-        fns.push(fn);
-        form.on('select(' + filter + ')', function () {
-            var args = arguments;
-            var This = this;
-            $.each(fns, function (i, rowFn) {
-                rowFn.apply(This, args);
-            })
-        });
-        $ele.data('selectFns', fns);
-    }
+    // /**
+    //  * 监听layui select事件
+    //  */
+    // function onSelect($ele, fn) {
+    //     var filter = $ele.attr('lay-filter');
+    //     if (!filter) {
+    //         return;
+    //     }
+    //     var fns = $ele.data('selectFns') || [];
+    //     fns.push(fn);
+    //     form.on('select(' + filter + ')', function () {
+    //         var args = arguments;
+    //         var This = this;
+    //         $.each(fns, function (i, rowFn) {
+    //             rowFn.apply(This, args);
+    //         })
+    //     });
+    //     $ele.data('selectFns', fns);
+    // }
 
     function saveContent(cd) {
         return loadingMonitor(function () {
@@ -135,19 +117,77 @@ layui.use(['layer', 'table', 'laytpl', 'form', 'laydate'], function () {
     });
     form.render('checkbox');
 
+    var $tableDetailAdd = $('#table-batch-add');
+
+    form.on('select(select-filter-content-content-type)', function (data) {
+        var selectedVal = data.value;
+        if (selectedVal == "2" || selectedVal == "3") {
+            console.log("jinlaile23 "+ selectedVal);
+            $('#layer-save-detail').removeClass("mini-hide");
+            $tableDetailAdd.find('tbody').empty();
+            var $tpl = $($('#laytpl-table-tr').html());
+            $tableDetailAdd.find('tbody').append($tpl);
+        } else {
+            console.log("jinlaile1 "+ selectedVal);
+            $('#layer-save-detail').addClass("mini-hide");
+            $tableDetailAdd.find('tbody').empty();
+        }
+    });
+
     // 监听保存内容表单提交
     form.on('submit(btn-filter-save-content)', function (data) {
-        saveContent(data.field);
+
+        var $form = $(data.form);
+        var formData = $.map($form.find('tbody tr'), function (tr) {
+            var rowData = {};
+            $(tr).find('[name!=""]').each(function (i1, input) {
+                var $input = $(input);
+                var name = $input.prop('name');
+                if (name) {
+                    rowData[name] = $input.val();
+                }
+            });
+
+            return rowData;
+        });
+        var reqData = data.field;
+        reqData["list"] = formData;
+
+        saveContent(reqData);
         return false;
     });
 
-    // 提供给外部的公共方法
-    window.publicMethods = {
-        refresh: function (contentId) {
-            if (!id || contentId !== id) {
-                return;
-            }
-            loadsaveContentForm(id);
+
+
+
+
+    $tableDetailAdd.on('mouseover', 'tr', function () {
+        var $this = $(this);
+        $this.find('.ops > a.a-ops-add').show();
+        if ($this.parent().find('tr').length > 1) {
+            $this.find('.ops > a.a-ops-del').show();
         }
-    }
+    });
+    $tableDetailAdd.on('mouseout', 'tr', function () {
+        var $this = $(this);
+        $this.find('.ops > a').hide();
+    });
+    $tableDetailAdd.on('click', 'a.a-ops-add', function () {
+        var $tpl = $($('#laytpl-table-tr').html());
+        $(this).parentsUntil('tr').parent().after($tpl);
+    });
+    $tableDetailAdd.on('click', 'a.a-ops-del', function () {
+        $(this).parentsUntil('tr').parent().remove();
+    });
+
+
+    // // 提供给外部的公共方法
+    // window.publicMethods = {
+    //     refresh: function (contentId) {
+    //         if (!id || contentId !== id) {
+    //             return;
+    //         }
+    //         loadsaveContentForm(id);
+    //     }
+    // }
 });

@@ -25,6 +25,9 @@ public class BizContentResponseDTO implements Serializable {
     @ApiModelProperty(value = "英文内容")
     private String contentEn;
 
+    @ApiModelProperty(value = "内容类型 1-单行 2-对话 3-多行")
+    private String contentType;
+
     @ApiModelProperty(value = "提交人QQ")
     private String commitQq;
 
