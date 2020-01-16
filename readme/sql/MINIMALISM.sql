@@ -1450,3 +1450,27 @@ ADD COLUMN `PHONE` varchar(15) NULL COMMENT '手机号' AFTER `NICKNAME`;
 
 
 UPDATE `MINIMALISM`.`sys_permission` SET `HREF` = 'pages/sys-user/systemUserList.html' WHERE `ID` = 4010;
+
+
+
+ALTER TABLE `minimalism`.`biz_content` ADD COLUMN `CONTENT_TYPE` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 1 COMMENT '内容类型 1-一句话 2-对话 3-多行' AFTER `CONTENT_EN`;
+
+CREATE TABLE `minimalism`.`biz_content_detail`  (
+  `ID` bigint(20) NOT NULL COMMENT 'ID',
+  `CONTENT_ID` bigint(20) NOT NULL COMMENT '内容ID',
+  `CONTENT` varchar(500) NULL COMMENT '明细ID',
+  `ORDER` int(5) NULL COMMENT '顺序',
+  PRIMARY KEY (`ID`),
+  INDEX `content_id_index`(`CONTENT_ID`)
+) COMMENT = '多行内容明细表'
+
+
+DELETE FROM `minimalism`.`sys_permission` WHERE `ID` = 2020;
+DELETE FROM `minimalism`.`sys_permission` WHERE `ID` = 2030;
+DELETE FROM `minimalism`.`sys_permission` WHERE `ID` = 2040;
+DELETE FROM `minimalism`.`sys_permission` WHERE `ID` = 2050;
+DELETE FROM `minimalism`.`sys_role_permission` WHERE `ROLE_ID` = -1 AND `PERMISSION_ID` = 2020;
+DELETE FROM `minimalism`.`sys_role_permission` WHERE `ROLE_ID` = -1 AND `PERMISSION_ID` = 2030;
+DELETE FROM `minimalism`.`sys_role_permission` WHERE `ROLE_ID` = -1 AND `PERMISSION_ID` = 2040;
+DELETE FROM `minimalism`.`sys_role_permission` WHERE `ROLE_ID` = -1 AND `PERMISSION_ID` = 2050;
+UPDATE `minimalism`.`sys_permission` SET `NAME` = '内容列表' WHERE `ID` = 2010;
