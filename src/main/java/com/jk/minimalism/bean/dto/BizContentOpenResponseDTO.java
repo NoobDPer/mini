@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Created by admin on 2019/12/2.
  */
@@ -17,5 +19,8 @@ public class BizContentOpenResponseDTO {
 
     @ApiModelProperty(value = "提交人QQ")
     private String commitQq;
+
+    @ApiModelProperty(value = "对话内容")
+    private List<String> contentList;
 
 }

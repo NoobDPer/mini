@@ -153,9 +153,9 @@ chat-header {
     background-color: #F5F5F5;
 }
 
-chat-header .chat-fa-icon {
+chat-header .chat-icon {
     color: #6F7378;
-    vertical-align: middle;
+    font-size: 28px;
 }
 
 .chat-header-left {

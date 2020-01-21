@@ -2,6 +2,7 @@ package com.jk.minimalism.service;
 
 import com.jk.minimalism.bean.dto.BizContentDTO;
 import com.jk.minimalism.bean.dto.BizContentOpenRequestDTO;
+import com.jk.minimalism.bean.dto.BizContentOpenResponseDTO;
 import com.jk.minimalism.bean.dto.BizContentResponseDTO;
 import com.jk.minimalism.bean.entity.BizContent;
 
@@ -52,6 +53,6 @@ public interface BizContentService {
      * 根据类型随机一条内容数据
      * @param type 内容类型 com.jk.minimalism.bean.enums.BizContentType
      */
-    BizContent randomOneBizContent(String type);
+    BizContentOpenResponseDTO randomOneBizContent(String type);
 
 }

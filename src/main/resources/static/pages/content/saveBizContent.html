@@ -67,7 +67,7 @@
     <div class="layui-card-header">内容基本信息</div>
     <div class="layui-card-body">
         <form class="layui-form" id="form-save-content" lay-filter="form-filter-save-content">
-            <input type="hidden" name="id">
+            <!--<input type="hidden" name="id">-->
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label mini-required content-label-width">类型</label>
@@ -176,7 +176,7 @@
         <td>
             <input name="content" type="text"
                    lay-verify="required|regex" required
-                   data-mini-verify-regex="^\S{0,50}$"
+                   data-mini-verify-regex="^[\s\S]{0,500}$"
                    data-mini-verify-msg="明细内容不能过长" style="width: 90%;height: 30px">
         </td>
         <td class="ops">
@@ -186,7 +186,7 @@
     </tr>
 </script>
 
-<script type="text/javascript" src="../../js/libs/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="../../js/libs/dayjs.min.js"></script>
 <script type="text/javascript" src="../../layui/layui.js"></script>
 <script type="text/javascript" src="../../js/jq.js"></script>

@@ -96,13 +96,12 @@ layui.use(['layer', 'table', 'laytpl', 'form', 'laydate'], function () {
         return loadingMonitor(function () {
             return $.ajax({
                 url: '/contents',
-                type: cd.id ? 'PUT' : 'POST',
+                type: 'POST',
                 contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify(cd)
             }).done(function (data) {
                 content = data;
-                setId(data.id);
                 setsaveContentForm(data);
             });
         })().done(function () {
@@ -122,13 +121,11 @@ layui.use(['layer', 'table', 'laytpl', 'form', 'laydate'], function () {
     form.on('select(select-filter-content-content-type)', function (data) {
         var selectedVal = data.value;
         if (selectedVal == "2" || selectedVal == "3") {
-            console.log("jinlaile23 "+ selectedVal);
             $('#layer-save-detail').removeClass("mini-hide");
             $tableDetailAdd.find('tbody').empty();
             var $tpl = $($('#laytpl-table-tr').html());
             $tableDetailAdd.find('tbody').append($tpl);
         } else {
-            console.log("jinlaile1 "+ selectedVal);
             $('#layer-save-detail').addClass("mini-hide");
             $tableDetailAdd.find('tbody').empty();
         }

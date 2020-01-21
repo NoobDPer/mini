@@ -36,12 +36,7 @@ public class NoAuthController {
     @GetMapping("/content/type/{type}/random")
     @ApiOperation(value = "随机一条内容")
     public AjaxResult<BizContentOpenResponseDTO> randomOneContent(@PathVariable("type") String type) {
-        BizContent bizContent = bizContentService.randomOneBizContent(type);
-        BizContentOpenResponseDTO result = modelMapper.map(bizContent, BizContentOpenResponseDTO.class);
-        if ("0".equals(bizContent.getShowQqState())) {
-            result.setCommitQq("");
-        }
-        return new AjaxResult<>(result).success();
+        return new AjaxResult<>(bizContentService.randomOneBizContent(type)).success();
     }
 
 }

@@ -3,6 +3,7 @@ package com.jk.minimalism.service.impl;
 import com.jk.minimalism.bean.dto.BizContentDTO;
 import com.jk.minimalism.bean.dto.BizContentDetailDTO;
 import com.jk.minimalism.bean.dto.BizContentOpenRequestDTO;
+import com.jk.minimalism.bean.dto.BizContentOpenResponseDTO;
 import com.jk.minimalism.bean.dto.BizContentResponseDTO;
 import com.jk.minimalism.bean.dto.DetailSaveReqDTO;
 import com.jk.minimalism.bean.entity.BizConfirmLog;
@@ -217,13 +218,19 @@ public class BizContentServiceImpl implements BizContentService {
     }
 
     @Override
-    public BizContent randomOneBizContent(String type) {
+    public BizContentOpenResponseDTO randomOneBizContent(String type) {
         int totalCount = bizContentMapper.countByType(type);
         if (totalCount < 1) {
             throw new MinimalismBizRuntimeException(ResultCode.NO_DATA_TO_SHOW_ERROR);
         }
         int offset = (int) (Math.random() * (totalCount));
-        return bizContentMapper.getByTypeAndLimit(type, offset);
+        BizContent bizContent = bizContentMapper.getByTypeAndLimit(type, offset);
+        BizContentOpenResponseDTO result = modelMapper.map(bizContent, BizContentOpenResponseDTO.class);
+        if (BizContent.CONTENT_TYPES.DIALOG_LINE.equals(bizContent.getContentType()) || BizContent.CONTENT_TYPES.MULITY_LINE.equals(bizContent.getContentType()))  {
+            List<BizContentDetail> bizContentDetails = bizContentDetailMapper.selectByContentId(bizContent.getId());
+            result.setContentList(bizContentDetails.stream().map(BizContentDetail::getContent).collect(Collectors.toList()));
+        }
+        return result;
         // TODO record hits
     }
 }
