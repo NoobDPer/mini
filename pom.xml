@@ -43,7 +43,7 @@
 		<weixin-java-mp.version>3.5.4.B</weixin-java-mp.version>
 
 		<!-- plugin -->
-		<plugin-mysql-connector-java.version>5.1.29</plugin-mysql-connector-java.version>
+		<plugin-mysql-connector-java.version>8.0.16</plugin-mysql-connector-java.version>
 		<plugin-mapper.version>4.0.0</plugin-mapper.version>
 		<!-- plugin -->
 	</properties>
